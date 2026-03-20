@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -308,157 +307,157 @@ bP:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path d="M22.5 9
 };
 
 var game=new Chess(),moves=[],results=[],curIdx=0,flipped=false,depth=14,selSq=null,legalSqs=[],lastSqs=[],bestArrow=null,evalChartObj=null,curGameId=null,renamingId=null,analyzing=false;
-var QEMOJI={brilliant:’!!’,best:’!’,good:’’,inaccuracy:’?!’,mistake:’?’,blunder:’??’};
-var QCLS={brilliant:‘a-br’,best:‘a-be’,good:‘a-go’,inaccuracy:‘a-in’,mistake:‘a-mi’,blunder:‘a-bl’};
+var QEMOJI={brilliant:'!!',best:'!',good:'',inaccuracy:'?!',mistake:'?',blunder:'??'};
+var QCLS={brilliant:'a-br',best:'a-be',good:'a-go',inaccuracy:'a-in',mistake:'a-mi',blunder:'a-bl'};
 
-function getBoardSize(){var w=window.innerWidth||screen.width||400;return Math.floor(Math.min(w-16,520)/8)*8;}
+function getBoardSize(){var w=document.documentElement.clientWidth||window.innerWidth||400;if(w<100)w=400;return Math.floor(Math.min(w-16,520)/8)*8;}
 function getSqSize(){return getBoardSize()/8;}
 
 function renderBoard(){
-var board=document.getElementById(‘chessboard’);
-var size=getBoardSize(),sq=getSqSize();
-board.style.width=size+‘px’;board.style.height=size+‘px’;board.innerHTML=’’;
-var fl=document.getElementById(‘fileLabels’);fl.style.width=size+‘px’;
-var FILES=[‘a’,‘b’,‘c’,‘d’,‘e’,‘f’,‘g’,‘h’];
-var cols=flipped?[‘h’,‘g’,‘f’,‘e’,‘d’,‘c’,‘b’,‘a’]:[‘a’,‘b’,‘c’,‘d’,‘e’,‘f’,‘g’,‘h’];
-var ranks=flipped?[1,2,3,4,5,6,7,8]:[8,7,6,5,4,3,2,1];
-fl.innerHTML=cols.map(function(f){return’<span>’+f+’</span>’;}).join(’’);
-for(var ri=0;ri<8;ri++){
-for(var ci=0;ci<8;ci++){
-var file=cols[ci],rank=ranks[ri],sqId=file+rank;
-var fi=FILES.indexOf(file),isLight=(fi+rank)%2===1;
-var div=document.createElement(‘div’);
-div.className=‘sq ‘+(isLight?‘light’:‘dark’);
-div.style.width=sq+‘px’;div.style.height=sq+‘px’;div.dataset.sq=sqId;
-if(lastSqs.indexOf(sqId)>=0)div.classList.add(isLight?‘lastm-l’:‘lastm-d’);
-if(selSq===sqId)div.classList.add(‘sel’);
-if(bestArrow&&sqId===bestArrow.from)div.classList.add(‘bestfrom’);
-if(bestArrow&&sqId===bestArrow.to)div.classList.add(‘bestto’);
-if(legalSqs.indexOf(sqId)>=0){var hp=game.get(sqId);div.classList.add(hp?‘legal-cap’:‘legal’);}
-var p=game.get(sqId);
-if(p){
-var key=p.color+p.type.toUpperCase();
-var pd=document.createElement(‘div’);
-pd.style.cssText=‘width:88%;height:88%;pointer-events:none;display:flex;align-items:center;justify-content:center;’;
-pd.innerHTML=PIECE_SVG[key]||’’;
-var se=pd.querySelector(‘svg’);if(se){se.style.width=‘100%’;se.style.height=‘100%’;}
-div.appendChild(pd);
-}
-div.addEventListener(‘click’,makeSqHandler(sqId));
-div.addEventListener(‘touchend’,makeTouchHandler(sqId));
-board.appendChild(div);
-}
-}
-updateArrow();
-document.getElementById(‘turnLabel’).textContent=moves.length===0?(game.turn()===‘w’?‘White to move’:‘Black to move’):’Move ‘+curIdx+’ of ’+moves.length;
+  var board=document.getElementById('chessboard');
+  var size=getBoardSize(),sq=getSqSize();
+  board.style.width=size+'px';board.style.height=size+'px';board.innerHTML='';
+  var fl=document.getElementById('fileLabels');fl.style.width=size+'px';
+  var FILES=['a','b','c','d','e','f','g','h'];
+  var cols=flipped?['h','g','f','e','d','c','b','a']:['a','b','c','d','e','f','g','h'];
+  var ranks=flipped?[1,2,3,4,5,6,7,8]:[8,7,6,5,4,3,2,1];
+  fl.innerHTML=cols.map(function(f){return'<span>'+f+'</span>';}).join('');
+  for(var ri=0;ri<8;ri++){
+    for(var ci=0;ci<8;ci++){
+      var file=cols[ci],rank=ranks[ri],sqId=file+rank;
+      var fi=FILES.indexOf(file),isLight=(fi+rank)%2===1;
+      var div=document.createElement('div');
+      div.className='sq '+(isLight?'light':'dark');
+      div.style.width=sq+'px';div.style.height=sq+'px';div.dataset.sq=sqId;
+      if(lastSqs.indexOf(sqId)>=0)div.classList.add(isLight?'lastm-l':'lastm-d');
+      if(selSq===sqId)div.classList.add('sel');
+      if(bestArrow&&sqId===bestArrow.from)div.classList.add('bestfrom');
+      if(bestArrow&&sqId===bestArrow.to)div.classList.add('bestto');
+      if(legalSqs.indexOf(sqId)>=0){var hp=game.get(sqId);div.classList.add(hp?'legal-cap':'legal');}
+      var p=game.get(sqId);
+      if(p){
+        var key=p.color+p.type.toUpperCase();
+        var pd=document.createElement('div');
+        pd.style.cssText='width:88%;height:88%;pointer-events:none;display:flex;align-items:center;justify-content:center;';
+        pd.innerHTML=PIECE_SVG[key]||'';
+        var se=pd.querySelector('svg');if(se){se.style.width='100%';se.style.height='100%';}
+        div.appendChild(pd);
+      }
+      div.addEventListener('click',makeSqHandler(sqId));
+      div.addEventListener('touchend',makeTouchHandler(sqId));
+      board.appendChild(div);
+    }
+  }
+  updateArrow();
+  document.getElementById('turnLabel').textContent=moves.length===0?(game.turn()==='w'?'White to move':'Black to move'):'Move '+curIdx+' of '+moves.length;
 }
 
 function makeSqHandler(s){return function(){handleSqTap(s);};}
 function makeTouchHandler(s){return function(e){e.preventDefault();handleSqTap(s);};}
 
 function handleSqTap(sqId){
-if(analyzing)return;
-var p=game.get(sqId);
-if(selSq===sqId){selSq=null;legalSqs=[];renderBoard();return;}
-if(selSq){
-if(legalSqs.indexOf(sqId)>=0){
-var mv=game.move({from:selSq,to:sqId,promotion:‘q’});
-if(mv){lastSqs=[selSq,sqId];selSq=null;legalSqs=[];bestArrow=null;renderBoard();updateEval();return;}
-}
-if(p&&(moves.length===0||game.turn()===p.color)){
-selSq=sqId;legalSqs=game.moves({square:sqId,verbose:true}).map(function(m){return m.to;});renderBoard();return;
-}
-selSq=null;legalSqs=[];renderBoard();return;
-}
-if(p&&(moves.length===0||game.turn()===p.color)){
-selSq=sqId;legalSqs=game.moves({square:sqId,verbose:true}).map(function(m){return m.to;});
-}
-renderBoard();
+  if(analyzing)return;
+  var p=game.get(sqId);
+  if(selSq===sqId){selSq=null;legalSqs=[];renderBoard();return;}
+  if(selSq){
+    if(legalSqs.indexOf(sqId)>=0){
+      var mv=game.move({from:selSq,to:sqId,promotion:'q'});
+      if(mv){lastSqs=[selSq,sqId];selSq=null;legalSqs=[];bestArrow=null;renderBoard();updateEval();return;}
+    }
+    if(p&&(moves.length===0||game.turn()===p.color)){
+      selSq=sqId;legalSqs=game.moves({square:sqId,verbose:true}).map(function(m){return m.to;});renderBoard();return;
+    }
+    selSq=null;legalSqs=[];renderBoard();return;
+  }
+  if(p&&(moves.length===0||game.turn()===p.color)){
+    selSq=sqId;legalSqs=game.moves({square:sqId,verbose:true}).map(function(m){return m.to;});
+  }
+  renderBoard();
 }
 
 function updateArrow(){
-var svg=document.getElementById(‘arrowLayer’),line=document.getElementById(‘arrowLine’);
-var size=getBoardSize(),sq=getSqSize();
-svg.setAttribute(‘width’,size);svg.setAttribute(‘height’,size);
-if(!bestArrow){line.setAttribute(‘stroke-width’,‘0’);return;}
-var f=sqCenter(bestArrow.from,sq),t=sqCenter(bestArrow.to,sq);
-var dx=t.x-f.x,dy=t.y-f.y,len=Math.sqrt(dx*dx+dy*dy);
-line.setAttribute(‘x1’,f.x+(dx/len)*(sq*0.4));line.setAttribute(‘y1’,f.y+(dy/len)*(sq*0.4));
-line.setAttribute(‘x2’,t.x-(dx/len)*(sq*0.3));line.setAttribute(‘y2’,t.y-(dy/len)*(sq*0.3));
-line.setAttribute(‘stroke-width’,Math.round(sq*0.2));
+  var svg=document.getElementById('arrowLayer'),line=document.getElementById('arrowLine');
+  var size=getBoardSize(),sq=getSqSize();
+  svg.setAttribute('width',size);svg.setAttribute('height',size);
+  if(!bestArrow){line.setAttribute('stroke-width','0');return;}
+  var f=sqCenter(bestArrow.from,sq),t=sqCenter(bestArrow.to,sq);
+  var dx=t.x-f.x,dy=t.y-f.y,len=Math.sqrt(dx*dx+dy*dy);
+  line.setAttribute('x1',f.x+(dx/len)*(sq*0.4));line.setAttribute('y1',f.y+(dy/len)*(sq*0.4));
+  line.setAttribute('x2',t.x-(dx/len)*(sq*0.3));line.setAttribute('y2',t.y-(dy/len)*(sq*0.3));
+  line.setAttribute('stroke-width',Math.round(sq*0.2));
 }
 
 function sqCenter(sq,sqSize){
-var FILES=[‘a’,‘b’,‘c’,‘d’,‘e’,‘f’,‘g’,‘h’];
-var fi=FILES.indexOf(sq[0]),rank=parseInt(sq[1]);
-return{x:(flipped?7-fi:fi)*sqSize+sqSize/2,y:(flipped?rank-1:8-rank)*sqSize+sqSize/2};
+  var FILES=['a','b','c','d','e','f','g','h'];
+  var fi=FILES.indexOf(sq[0]),rank=parseInt(sq[1]);
+  return{x:(flipped?7-fi:fi)*sqSize+sqSize/2,y:(flipped?rank-1:8-rank)*sqSize+sqSize/2};
 }
 
 function flipBoard(){flipped=!flipped;renderBoard();}
 
 function goTo(idx){
-var g=new Chess();for(var i=0;i<idx;i++)g.move(moves[i]);
-game=g;curIdx=idx;
-lastSqs=idx>0?[moves[idx-1].from,moves[idx-1].to]:[];
-bestArrow=null;
-var r=results[idx];
-if(r&&r.bestMove&&r.bestMove.length>=4)bestArrow={from:r.bestMove.substring(0,2),to:r.bestMove.substring(2,4)};
-selSq=null;legalSqs=[];
-renderBoard();updateEval();updActMove();renderEngineLines();
-document.getElementById(‘mcount’).textContent=idx+’ / ’+moves.length;
+  var g=new Chess();for(var i=0;i<idx;i++)g.move(moves[i]);
+  game=g;curIdx=idx;
+  lastSqs=idx>0?[moves[idx-1].from,moves[idx-1].to]:[];
+  bestArrow=null;
+  var r=results[idx];
+  if(r&&r.bestMove&&r.bestMove.length>=4)bestArrow={from:r.bestMove.substring(0,2),to:r.bestMove.substring(2,4)};
+  selSq=null;legalSqs=[];
+  renderBoard();updateEval();updActMove();renderEngineLines();
+  document.getElementById('mcount').textContent=idx+' / '+moves.length;
 }
 function g2s(){goTo(0);}function g2e(){goTo(moves.length);}
 function g2b(){if(curIdx>0)goTo(curIdx-1);}function g2f(){if(curIdx<moves.length)goTo(curIdx+1);}
 
 function updateEval(){
-var r=results[curIdx];
-if(!r){document.getElementById(‘evalnum’).textContent=‘0.00’;document.getElementById(‘evallbl’).textContent=‘Equal’;document.getElementById(‘evalbar’).style.height=‘50%’;document.getElementById(‘bestmv’).textContent=’—’;return;}
-var cp=r.evalCP||0,ev=cp/100,abs=Math.abs(ev);
-document.getElementById(‘evalnum’).textContent=Math.abs(cp)>=9000?(cp>0?‘M+’:‘M-’):(ev>=0?’+’:’’)+ev.toFixed(2);
-document.getElementById(‘evallbl’).textContent=abs<0.3?‘Equal’:abs<1?(ev>0?‘Slight ♔ edge’:‘Slight ♚ edge’):abs<2.5?(ev>0?‘♔ is better’:‘♚ is better’):abs<5?(ev>0?‘♔ is winning’:‘♚ is winning’):(ev>0?‘♔ decisive’:‘♚ decisive’);
-document.getElementById(‘evalbar’).style.height=((Math.max(-10,Math.min(10,ev))+10)/20*100)+’%’;
-document.getElementById(‘bestmv’).textContent=(r.bestMove&&r.bestMove.length>=4)?r.bestMove.substring(0,2)+’-’+r.bestMove.substring(2,4):’—’;
+  var r=results[curIdx];
+  if(!r){document.getElementById('evalnum').textContent='0.00';document.getElementById('evallbl').textContent='Equal';document.getElementById('evalbar').style.height='50%';document.getElementById('bestmv').textContent='—';return;}
+  var cp=r.evalCP||0,ev=cp/100,abs=Math.abs(ev);
+  document.getElementById('evalnum').textContent=Math.abs(cp)>=9000?(cp>0?'M+':'M-'):(ev>=0?'+':'')+ev.toFixed(2);
+  document.getElementById('evallbl').textContent=abs<0.3?'Equal':abs<1?(ev>0?'Slight ♔ edge':'Slight ♚ edge'):abs<2.5?(ev>0?'♔ is better':'♚ is better'):abs<5?(ev>0?'♔ is winning':'♚ is winning'):(ev>0?'♔ decisive':'♚ decisive');
+  document.getElementById('evalbar').style.height=((Math.max(-10,Math.min(10,ev))+10)/20*100)+'%';
+  document.getElementById('bestmv').textContent=(r.bestMove&&r.bestMove.length>=4)?r.bestMove.substring(0,2)+'-'+r.bestMove.substring(2,4):'—';
 }
 
 var sf=null,sfReady=false,sfCallbacks={},sfJobId=0;
 function startStockfish(){
-try{
-sf=new Worker(‘https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfish.js’);
-sf.onerror=function(){sf=null;sfReady=false;};
-sf.onmessage=handleSFMsg;
-sf.postMessage(‘uci’);sf.postMessage(‘isready’);
-}catch(e){sf=null;}
+  try{
+    sf=new Worker('https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfish.js');
+    sf.onerror=function(){sf=null;sfReady=false;};
+    sf.onmessage=handleSFMsg;
+    sf.postMessage('uci');sf.postMessage('isready');
+  }catch(e){sf=null;}
 }
 function handleSFMsg(e){
-var msg=e.data||’’;
-if(msg===‘readyok’){sfReady=true;return;}
-Object.keys(sfCallbacks).forEach(function(id){
-var job=sfCallbacks[id];if(!job)return;
-if(msg.indexOf(‘info’)===0&&msg.indexOf(‘score’)>0&&msg.indexOf(‘pv’)>0){
-var cpM=msg.match(/score cp (-?\d+)/),mateM=msg.match(/score mate (-?\d+)/);
-var pvM=msg.match(/ pv ([a-h][1-8][a-h][1-8][qrbn]?)/),mpvM=msg.match(/multipv (\d+)/),dM=msg.match(/depth (\d+)/);
-if(!dM||parseInt(dM[1])<3)return;
-var cp=cpM?parseInt(cpM[1]):(mateM?(parseInt(mateM[1])>0?9000:-9000):0);
-var mpv=mpvM?parseInt(mpvM[1]):1;
-if(!job.lines)job.lines={};
-job.lines[mpv]={cp:cp,pv:pvM?pvM[1]:’’};
-}
-if(msg.indexOf(‘bestmove’)===0){
-var bm=msg.split(’ ‘)[1]||’’;
-if(!job.lines)job.lines={};
-if(!job.lines[1])job.lines[1]={cp:0,pv:bm};
-var cb=job.cb;delete sfCallbacks[id];
-if(cb)cb({bestMove:bm,cp:job.lines[1].cp,lines:[1,2,3].map(function(n){return job.lines[n]||null;}).filter(Boolean)});
-}
-});
+  var msg=e.data||'';
+  if(msg==='readyok'){sfReady=true;return;}
+  Object.keys(sfCallbacks).forEach(function(id){
+    var job=sfCallbacks[id];if(!job)return;
+    if(msg.indexOf('info')===0&&msg.indexOf('score')>0&&msg.indexOf('pv')>0){
+      var cpM=msg.match(/score cp (-?\d+)/),mateM=msg.match(/score mate (-?\d+)/);
+      var pvM=msg.match(/ pv ([a-h][1-8][a-h][1-8][qrbn]?)/),mpvM=msg.match(/multipv (\d+)/),dM=msg.match(/depth (\d+)/);
+      if(!dM||parseInt(dM[1])<3)return;
+      var cp=cpM?parseInt(cpM[1]):(mateM?(parseInt(mateM[1])>0?9000:-9000):0);
+      var mpv=mpvM?parseInt(mpvM[1]):1;
+      if(!job.lines)job.lines={};
+      job.lines[mpv]={cp:cp,pv:pvM?pvM[1]:''};
+    }
+    if(msg.indexOf('bestmove')===0){
+      var bm=msg.split(' ')[1]||'';
+      if(!job.lines)job.lines={};
+      if(!job.lines[1])job.lines[1]={cp:0,pv:bm};
+      var cb=job.cb;delete sfCallbacks[id];
+      if(cb)cb({bestMove:bm,cp:job.lines[1].cp,lines:[1,2,3].map(function(n){return job.lines[n]||null;}).filter(Boolean)});
+    }
+  });
 }
 function sfAnalyze(fen,d,cb){
-if(!sf||!sfReady){cb(null);return;}
-var id=++sfJobId;sfCallbacks[id]={cb:cb,lines:{}};
-sf.postMessage(‘setoption name MultiPV value 3’);
-sf.postMessage(‘ucinewgame’);
-sf.postMessage(’position fen ’+fen);
-sf.postMessage(’go depth ’+d);
+  if(!sf||!sfReady){cb(null);return;}
+  var id=++sfJobId;sfCallbacks[id]={cb:cb,lines:{}};
+  sf.postMessage('setoption name MultiPV value 3');
+  sf.postMessage('ucinewgame');
+  sf.postMessage('position fen '+fen);
+  sf.postMessage('go depth '+d);
 }
 
 var PV={p:100,n:300,b:300,r:500,q:900,k:0};
@@ -472,227 +471,224 @@ k:[-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-
 };
 
 function evalBoard(fen){
-var g=new Chess(fen);
-if(g.in_checkmate())return g.turn()===‘w’?-9000:9000;
-if(g.in_stalemate()||g.in_draw())return 0;
-var board=g.board(),score=0;
-for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=board[r][c];if(!p)continue;var idx=p.color===‘w’?r*8+c:(7-r)*8+c;score+=p.color===‘w’?(PV[p.type]+(PST[p.type]?PST[p.type][idx]:0)):-(PV[p.type]+(PST[p.type]?PST[p.type][idx]:0));}
-return score;
+  var g=new Chess(fen);
+  if(g.in_checkmate())return g.turn()==='w'?-9000:9000;
+  if(g.in_stalemate()||g.in_draw())return 0;
+  var board=g.board(),score=0;
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=board[r][c];if(!p)continue;var idx=p.color==='w'?r*8+c:(7-r)*8+c;score+=p.color==='w'?(PV[p.type]+(PST[p.type]?PST[p.type][idx]:0)):-(PV[p.type]+(PST[p.type]?PST[p.type][idx]:0));}
+  return score;
 }
 function localBestMove(fen){
-var g=new Chess(fen),isW=g.turn()===‘w’,mvs=g.moves({verbose:true});
-if(!mvs.length)return{uci:’’,cp:evalBoard(fen)};
-var best=mvs[0],bestScore=isW?-Infinity:Infinity;
-for(var i=0;i<mvs.length;i++){
-g.move(mvs[i]);
-var g2=new Chess(g.fen()),opp=g2.moves({verbose:true}),sc;
-if(!opp.length){sc=evalBoard(g.fen());}
-else{sc=isW?Infinity:-Infinity;for(var j=0;j<opp.length;j++){g2.move(opp[j]);var s2=evalBoard(g2.fen());if(isW&&s2<sc)sc=s2;if(!isW&&s2>sc)sc=s2;g2.undo();}}
-if(isW&&sc>bestScore){bestScore=sc;best=mvs[i];}
-if(!isW&&sc<bestScore){bestScore=sc;best=mvs[i];}
-g.undo();
-}
-return{uci:best.from+best.to+(best.promotion||’’),cp:bestScore,san:best.san};
+  var g=new Chess(fen),isW=g.turn()==='w',mvs=g.moves({verbose:true});
+  if(!mvs.length)return{uci:'',cp:evalBoard(fen)};
+  var best=mvs[0],bestScore=isW?-Infinity:Infinity;
+  for(var i=0;i<mvs.length;i++){
+    g.move(mvs[i]);
+    var g2=new Chess(g.fen()),opp=g2.moves({verbose:true}),sc;
+    if(!opp.length){sc=evalBoard(g.fen());}
+    else{sc=isW?Infinity:-Infinity;for(var j=0;j<opp.length;j++){g2.move(opp[j]);var s2=evalBoard(g2.fen());if(isW&&s2<sc)sc=s2;if(!isW&&s2>sc)sc=s2;g2.undo();}}
+    if(isW&&sc>bestScore){bestScore=sc;best=mvs[i];}
+    if(!isW&&sc<bestScore){bestScore=sc;best=mvs[i];}
+    g.undo();
+  }
+  return{uci:best.from+best.to+(best.promotion||''),cp:bestScore,san:best.san};
 }
 function ownMaterial(fen,color){var g=new Chess(fen),b=g.board(),t=0;for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.color===color)t+=PV[p.type];}return t;}
-function cpToQuality(loss,sac){if(sac&&loss<=80)return’brilliant’;if(loss<=15)return’best’;if(loss<=60)return’good’;if(loss<=150)return’inaccuracy’;if(loss<=350)return’mistake’;return’blunder’;}
+function cpToQuality(loss,sac){if(sac&&loss<=80)return'brilliant';if(loss<=15)return'best';if(loss<=60)return'good';if(loss<=150)return'inaccuracy';if(loss<=350)return'mistake';return'blunder';}
 function calcAccuracy(qs){var wp={brilliant:100,best:100,good:85,inaccuracy:60,mistake:30,blunder:5};if(!qs.length)return 100;var s=0;qs.forEach(function(q){s+=(wp[q]||85);});return(s/qs.length).toFixed(1);}
 
 async function analyze(){
-var pgn=document.getElementById(‘pgninput’).value.trim();
-if(!pgn){toast(‘Paste a PGN first’,‘err’);return;}
-var tg=new Chess();if(!tg.load_pgn(pgn)){toast(‘Invalid PGN’,‘err’);return;}
-var th=new Chess();th.load_pgn(pgn);
-var hist=th.history({verbose:true});if(!hist.length){toast(‘No moves found’,‘err’);return;}
-moves=hist;results=new Array(hist.length+1).fill(null);
-curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();analyzing=true;curGameId=null;
-var fens=[],tg3=new Chess();fens.push(tg3.fen());
-hist.forEach(function(m){tg3.move(m);fens.push(tg3.fen());});
-document.getElementById(‘emptystate’).style.display=‘none’;
-var sdot=document.getElementById(‘sdot’),stxt=document.getElementById(‘stxt’),po=document.getElementById(‘prog-out’),pi=document.getElementById(‘prog-in’);
-sdot.className=‘sdot spin-mode’;po.style.display=‘block’;
-showPage(‘analysis’);renderBoard();
-document.getElementById(‘mcount’).textContent=‘0 / ‘+hist.length;
-var usingSF=sf&&sfReady;
-for(var i=0;i<fens.length;i++){
-await new Promise(function(res){setTimeout(res,0);});
-pi.style.width=Math.round(i/fens.length*100)+’%’;
-stxt.innerHTML=’<span class="spin"></span><strong>’+(usingSF?‘Stockfish’:‘Local engine’)+’</strong> — move ‘+i+’ / ‘+(fens.length-1);
-var r;
-if(usingSF){
-r=await new Promise(function(resolve){
-sfAnalyze(fens[i],depth,function(res){
-if(!res){var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);resolve({evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||’’}]});return;}
-resolve({evalCP:res.cp,eval:res.cp/100,bestMove:res.bestMove,bestEval:res.cp,lines:res.lines.map(function(l){return{eval:l.cp/100,moves:l.pv||’’};})});
-});
-});
-}else{
-var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);
-r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||’’}]};
-}
-results[i]=r;
-if(i>0&&results[i-1]){
-var color=hist[i-1].color,sign=color===‘w’?1:-1;
-var cpLoss=Math.round(results[i-1].bestEval*sign-results[i].evalCP*sign);
-var sac=(ownMaterial(fens[i-1],color)-ownMaterial(fens[i],color))>=150;
-r.cpLoss=Math.max(0,cpLoss);r.quality=cpToQuality(cpLoss,sac);r.loss=cpLoss/100;
-}else{r.cpLoss=0;r.quality=‘good’;r.loss=0;}
-}
-pi.style.width=‘100%’;sdot.className=‘sdot done’;
-stxt.innerHTML=’<strong>Done!</strong> ‘+hist.length+’ moves analyzed.’;
-po.style.display=‘none’;analyzing=false;
-renderMoveList();renderSummary();renderGraph();updateEval();
-saveGame();toast(‘Analysis complete ✓’,‘ok’);sPTab(‘moves’);
+  var pgn=document.getElementById('pgninput').value.trim();
+  if(!pgn){toast('Paste a PGN first','err');return;}
+  var tg=new Chess();if(!tg.load_pgn(pgn)){toast('Invalid PGN','err');return;}
+  var th=new Chess();th.load_pgn(pgn);
+  var hist=th.history({verbose:true});if(!hist.length){toast('No moves found','err');return;}
+  moves=hist;results=new Array(hist.length+1).fill(null);
+  curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();analyzing=true;curGameId=null;
+  var fens=[],tg3=new Chess();fens.push(tg3.fen());
+  hist.forEach(function(m){tg3.move(m);fens.push(tg3.fen());});
+  document.getElementById('emptystate').style.display='none';
+  var sdot=document.getElementById('sdot'),stxt=document.getElementById('stxt'),po=document.getElementById('prog-out'),pi=document.getElementById('prog-in');
+  sdot.className='sdot spin-mode';po.style.display='block';
+  showPage('analysis');renderBoard();
+  document.getElementById('mcount').textContent='0 / '+hist.length;
+  var usingSF=sf&&sfReady;
+  for(var i=0;i<fens.length;i++){
+    await new Promise(function(res){setTimeout(res,0);});
+    pi.style.width=Math.round(i/fens.length*100)+'%';
+    stxt.innerHTML='<span class="spin"></span><strong>'+(usingSF?'Stockfish':'Local engine')+'</strong> — move '+i+' / '+(fens.length-1);
+    var r;
+    if(usingSF){
+      r=await new Promise(function(resolve){
+        sfAnalyze(fens[i],depth,function(res){
+          if(!res){var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);resolve({evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]});return;}
+          resolve({evalCP:res.cp,eval:res.cp/100,bestMove:res.bestMove,bestEval:res.cp,lines:res.lines.map(function(l){return{eval:l.cp/100,moves:l.pv||''};})});
+        });
+      });
+    }else{
+      var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);
+      r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]};
+    }
+    results[i]=r;
+    if(i>0&&results[i-1]){
+      var color=hist[i-1].color,sign=color==='w'?1:-1;
+      var cpLoss=Math.round(results[i-1].bestEval*sign-results[i].evalCP*sign);
+      var sac=(ownMaterial(fens[i-1],color)-ownMaterial(fens[i],color))>=150;
+      r.cpLoss=Math.max(0,cpLoss);r.quality=cpToQuality(cpLoss,sac);r.loss=cpLoss/100;
+    }else{r.cpLoss=0;r.quality='good';r.loss=0;}
+  }
+  pi.style.width='100%';sdot.className='sdot done';
+  stxt.innerHTML='<strong>Done!</strong> '+hist.length+' moves analyzed.';
+  po.style.display='none';analyzing=false;
+  renderMoveList();renderSummary();renderGraph();updateEval();
+  saveGame();toast('Analysis complete ✓','ok');sPTab('moves');
 }
 
 function renderMoveList(){
-var h=’<div class="move-grid">’;
-for(var i=0;i<moves.length;i+=2){
-var n=Math.floor(i/2)+1;
-h+=’<div class="mrow"><div class="mnum">’+n+’.</div>’;
-var wi=i+1,wr=results[wi],wq=(wr&&wr.quality)||‘good’;
-h+=’<div class="mcell '+(curIdx===wi?'active':'')+'" id="mc-'+wi+'" onclick="goTo('+wi+');showPage(\'board\')">’+’<span class="msan">’+moves[i].san+’</span>’+’<span class="mann '+QCLS[wq]+'">’+(QEMOJI[wq]!==undefined?QEMOJI[wq]:wq)+(wr&&wr.cpLoss>0?’ (’+wr.cpLoss+‘cp)’:’’)+’</span></div>’;
-if(i+1<moves.length){var bi=i+2,br=results[bi],bq=(br&&br.quality)||‘good’;h+=’<div class="mcell '+(curIdx===bi?'active':'')+'" id="mc-'+bi+'" onclick="goTo('+bi+');showPage(\'board\')">’+’<span class="msan">’+moves[i+1].san+’</span>’+’<span class="mann '+QCLS[bq]+'">’+(QEMOJI[bq]!==undefined?QEMOJI[bq]:bq)+(br&&br.cpLoss>0?’ (’+br.cpLoss+‘cp)’:’’)+’</span></div>’;}
-else h+=’<div class="mcell" style="opacity:.1;cursor:default"></div>’;
-h+=’</div>’;
-}
-document.getElementById(‘movelist-wrap’).innerHTML=h+’</div>’;
+  var h='<div class="move-grid">';
+  for(var i=0;i<moves.length;i+=2){
+    var n=Math.floor(i/2)+1;
+    h+='<div class="mrow"><div class="mnum">'+n+'.</div>';
+    var wi=i+1,wr=results[wi],wq=(wr&&wr.quality)||'good';
+    h+='<div class="mcell '+(curIdx===wi?'active':'')+'" id="mc-'+wi+'" onclick="goTo('+wi+');showPage(\'board\')">'+'<span class="msan">'+moves[i].san+'</span>'+'<span class="mann '+QCLS[wq]+'">'+(QEMOJI[wq]!==undefined?QEMOJI[wq]:wq)+(wr&&wr.cpLoss>0?' ('+wr.cpLoss+'cp)':'')+'</span></div>';
+    if(i+1<moves.length){var bi=i+2,br=results[bi],bq=(br&&br.quality)||'good';h+='<div class="mcell '+(curIdx===bi?'active':'')+'" id="mc-'+bi+'" onclick="goTo('+bi+');showPage(\'board\')">'+'<span class="msan">'+moves[i+1].san+'</span>'+'<span class="mann '+QCLS[bq]+'">'+(QEMOJI[bq]!==undefined?QEMOJI[bq]:bq)+(br&&br.cpLoss>0?' ('+br.cpLoss+'cp)':'')+'</span></div>';}
+    else h+='<div class="mcell" style="opacity:.1;cursor:default"></div>';
+    h+='</div>';
+  }
+  document.getElementById('movelist-wrap').innerHTML=h+'</div>';
 }
 
 function updActMove(){
-document.querySelectorAll(’.mcell’).forEach(function(c){c.classList.remove(‘active’);});
-var el=document.getElementById(‘mc-’+curIdx);
-if(el){el.classList.add(‘active’);el.scrollIntoView({block:‘nearest’,behavior:‘smooth’});}
+  document.querySelectorAll('.mcell').forEach(function(c){c.classList.remove('active');});
+  var el=document.getElementById('mc-'+curIdx);
+  if(el){el.classList.add('active');el.scrollIntoView({block:'nearest',behavior:'smooth'});}
 }
 
 function renderSummary(){
-var s={w:{br:0,be:0,go:0,in:0,mi:0,bl:0,tot:0},b:{br:0,be:0,go:0,in:0,mi:0,bl:0,tot:0}};
-var map={brilliant:‘br’,best:‘be’,good:‘go’,inaccuracy:‘in’,mistake:‘mi’,blunder:‘bl’};
-moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||‘good’;s[m.color][map[q]]=(s[m.color][map[q]]||0)+1;s[m.color].tot++;});
-function acc(st){return st.tot>0?Math.max(0,100-(st.bl*3+st.mi*2+st.in)/st.tot*40).toFixed(1):‘100.0’;}
-var wa=acc(s.w),ba=acc(s.b);
-function col(v){return parseFloat(v)>=80?‘var(–green)’:parseFloat(v)>=60?‘var(–yellow)’:‘var(–red)’;}
-document.getElementById(‘summary-wrap’).innerHTML=`<div class="sum-grid"><div class="scard"><div class="scard-title"><div class="cdot" style="background:#eee"></div>White</div><div class="acc-big" style="color:${col(wa)}">${wa}%</div><div class="acc-bar"><div class="acc-fill" style="width:${wa}%"></div></div><div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">${s.w.br}</span></div><div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">${s.w.be}</span></div><div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">${s.w.go}</span></div><div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">${s.w.in}</span></div><div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">${s.w.mi}</span></div><div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">${s.w.bl}</span></div></div><div class="scard"><div class="scard-title"><div class="cdot" style="background:#444"></div>Black</div><div class="acc-big" style="color:${col(ba)}">${ba}%</div><div class="acc-bar"><div class="acc-fill" style="width:${ba}%"></div></div><div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">${s.b.br}</span></div><div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">${s.b.be}</span></div><div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">${s.b.go}</span></div><div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">${s.b.in}</span></div><div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">${s.b.mi}</span></div><div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">${s.b.bl}</span></div></div></div><div class="scard"><div class="scard-title">Game Info</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px"><span style="color:var(--text2)">Total Moves</span><span style="font-family:'IBM Plex Mono',monospace">${moves.length}</span><span style="color:var(--text2)">White Blunders</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--red)">${s.w.bl}</span><span style="color:var(--text2)">Black Blunders</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--red)">${s.b.bl}</span><span style="color:var(--text2)">Depth</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent)">${depth}</span></div></div>`;
+  var s={w:{br:0,be:0,go:0,in:0,mi:0,bl:0,tot:0},b:{br:0,be:0,go:0,in:0,mi:0,bl:0,tot:0}};
+  var map={brilliant:'br',best:'be',good:'go',inaccuracy:'in',mistake:'mi',blunder:'bl'};
+  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';s[m.color][map[q]]=(s[m.color][map[q]]||0)+1;s[m.color].tot++;});
+  function acc(st){return st.tot>0?Math.max(0,100-(st.bl*3+st.mi*2+st.in)/st.tot*40).toFixed(1):'100.0';}
+  var wa=acc(s.w),ba=acc(s.b);
+  function col(v){return parseFloat(v)>=80?'var(--green)':parseFloat(v)>=60?'var(--yellow)':'var(--red)';}
+  document.getElementById('summary-wrap').innerHTML=`<div class="sum-grid"><div class="scard"><div class="scard-title"><div class="cdot" style="background:#eee"></div>White</div><div class="acc-big" style="color:${col(wa)}">${wa}%</div><div class="acc-bar"><div class="acc-fill" style="width:${wa}%"></div></div><div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">${s.w.br}</span></div><div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">${s.w.be}</span></div><div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">${s.w.go}</span></div><div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">${s.w.in}</span></div><div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">${s.w.mi}</span></div><div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">${s.w.bl}</span></div></div><div class="scard"><div class="scard-title"><div class="cdot" style="background:#444"></div>Black</div><div class="acc-big" style="color:${col(ba)}">${ba}%</div><div class="acc-bar"><div class="acc-fill" style="width:${ba}%"></div></div><div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">${s.b.br}</span></div><div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">${s.b.be}</span></div><div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">${s.b.go}</span></div><div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">${s.b.in}</span></div><div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">${s.b.mi}</span></div><div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">${s.b.bl}</span></div></div></div><div class="scard"><div class="scard-title">Game Info</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px"><span style="color:var(--text2)">Total Moves</span><span style="font-family:'IBM Plex Mono',monospace">${moves.length}</span><span style="color:var(--text2)">White Blunders</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--red)">${s.w.bl}</span><span style="color:var(--text2)">Black Blunders</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--red)">${s.b.bl}</span><span style="color:var(--text2)">Depth</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent)">${depth}</span></div></div>`;
 }
 
 function renderGraph(){
-var labels=[‘Start’],data=[0],pts=[‘rgba(124,111,255,.8)’];
-var qc={brilliant:‘rgba(124,111,255,.9)’,best:‘rgba(79,255,176,.9)’,good:‘rgba(72,219,251,.8)’,inaccuracy:‘rgba(255,224,102,.9)’,mistake:‘rgba(255,154,60,.9)’,blunder:‘rgba(255,71,87,.9)’};
-moves.forEach(function(m,i){labels.push((Math.floor(i/2)+1)+(m.color===‘w’?’’:’.. ‘)+m.san);data.push(Math.max(-10,Math.min(10,(results[i+1]&&results[i+1].eval)||0)));pts.push(qc[(results[i+1]&&results[i+1].quality)||‘good’]);});
-var ctx=document.getElementById(‘evalChart’).getContext(‘2d’);
-if(evalChartObj)evalChartObj.destroy();
-evalChartObj=new Chart(ctx,{type:‘line’,data:{labels:labels,datasets:[{data:data,borderColor:‘rgba(124,111,255,.6)’,borderWidth:2,pointBackgroundColor:pts,pointRadius:4,pointHoverRadius:6,fill:{target:‘origin’,above:‘rgba(124,111,255,.05)’,below:‘rgba(255,107,53,.05)’},tension:.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return(c.raw>=0?’+’:’’)+Number(c.raw).toFixed(2);}}}},scales:{x:{ticks:{color:’#555’,maxTicksLimit:8,font:{size:9}},grid:{color:‘rgba(255,255,255,.03)’}},y:{min:-10,max:10,ticks:{color:’#555’,callback:function(v){return v>0?’+’+v:v;},font:{size:10}},grid:{color:‘rgba(255,255,255,.05)’}}},onClick:function(e,els){if(els.length){goTo(els[0].index);showPage(‘board’);}}}});
+  var labels=['Start'],data=[0],pts=['rgba(124,111,255,.8)'];
+  var qc={brilliant:'rgba(124,111,255,.9)',best:'rgba(79,255,176,.9)',good:'rgba(72,219,251,.8)',inaccuracy:'rgba(255,224,102,.9)',mistake:'rgba(255,154,60,.9)',blunder:'rgba(255,71,87,.9)'};
+  moves.forEach(function(m,i){labels.push((Math.floor(i/2)+1)+(m.color==='w'?'':'.. ')+m.san);data.push(Math.max(-10,Math.min(10,(results[i+1]&&results[i+1].eval)||0)));pts.push(qc[(results[i+1]&&results[i+1].quality)||'good']);});
+  var ctx=document.getElementById('evalChart').getContext('2d');
+  if(evalChartObj)evalChartObj.destroy();
+  evalChartObj=new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{data:data,borderColor:'rgba(124,111,255,.6)',borderWidth:2,pointBackgroundColor:pts,pointRadius:4,pointHoverRadius:6,fill:{target:'origin',above:'rgba(124,111,255,.05)',below:'rgba(255,107,53,.05)'},tension:.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return(c.raw>=0?'+':'')+Number(c.raw).toFixed(2);}}}},scales:{x:{ticks:{color:'#555',maxTicksLimit:8,font:{size:9}},grid:{color:'rgba(255,255,255,.03)'}},y:{min:-10,max:10,ticks:{color:'#555',callback:function(v){return v>0?'+'+v:v;},font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}}},onClick:function(e,els){if(els.length){goTo(els[0].index);showPage('board');}}}});
 }
 
 function renderEngineLines(){
-var r=results[curIdx];
-if(!r||!r.lines){document.getElementById(‘engine-wrap’).innerHTML=’<div class="empty"><div class="empty-ico">🤖</div><h3>Engine Lines</h3><p>Tap a move to see engine lines.</p></div>’;return;}
-var h=’<div class="elines"><div class="sec-title" style="margin-bottom:8px">Top Lines — Move ‘+curIdx+’</div>’;
-r.lines.forEach(function(l,i){if(!l)return;var ev=l.eval,evs=Math.abs(ev)>=99?(ev>0?‘Mate’:’-Mate’):(ev>=0?’+’:’’)+Number(ev).toFixed(2);h+=’<div class="eline"><span class="erank">’+(i+1)+’.</span><span class="eeval '+(ev>0.1?'pos':ev<-0.1?'neg':'eq')+'">’+evs+’</span><span class="emoves">’+(l.moves||’—’)+’</span></div>’;});
-h+=’</div><div class="statusbar"><span class="mann '+QCLS[r.quality||'good']+'" style="font-size:14px;padding:4px 10px">’+(QEMOJI[r.quality||‘good’]||’’)+’ ‘+(r.quality||‘good’).toUpperCase()+’</span><span style="font-size:12px;color:var(--text2);margin-left:10px">CP loss: <strong style="color:var(--text)">’+(r.cpLoss||0)+’</strong></span></div>’;
-document.getElementById(‘engine-wrap’).innerHTML=h;
+  var r=results[curIdx];
+  if(!r||!r.lines){document.getElementById('engine-wrap').innerHTML='<div class="empty"><div class="empty-ico">🤖</div><h3>Engine Lines</h3><p>Tap a move to see engine lines.</p></div>';return;}
+  var h='<div class="elines"><div class="sec-title" style="margin-bottom:8px">Top Lines — Move '+curIdx+'</div>';
+  r.lines.forEach(function(l,i){if(!l)return;var ev=l.eval,evs=Math.abs(ev)>=99?(ev>0?'Mate':'-Mate'):(ev>=0?'+':'')+Number(ev).toFixed(2);h+='<div class="eline"><span class="erank">'+(i+1)+'.</span><span class="eeval '+(ev>0.1?'pos':ev<-0.1?'neg':'eq')+'">'+evs+'</span><span class="emoves">'+(l.moves||'—')+'</span></div>';});
+  h+='</div><div class="statusbar"><span class="mann '+QCLS[r.quality||'good']+'" style="font-size:14px;padding:4px 10px">'+(QEMOJI[r.quality||'good']||'')+' '+(r.quality||'good').toUpperCase()+'</span><span style="font-size:12px;color:var(--text2);margin-left:10px">CP loss: <strong style="color:var(--text)">'+(r.cpLoss||0)+'</strong></span></div>';
+  document.getElementById('engine-wrap').innerHTML=h;
 }
 
-function getGames(){try{return JSON.parse(localStorage.getItem(‘ciq5’)||’[]’);}catch(e){return[];}}
-function setGames(g){localStorage.setItem(‘ciq5’,JSON.stringify(g));}
+function getGames(){try{return JSON.parse(localStorage.getItem('ciq5')||'[]');}catch(e){return[];}}
+function setGames(g){localStorage.setItem('ciq5',JSON.stringify(g));}
 
 function saveGame(){
-if(!moves.length)return;
-var id=curGameId||Date.now().toString();curGameId=id;
-var g={id:id,name:‘Game ‘+new Date().toLocaleDateString(),pgn:document.getElementById(‘pgninput’).value.trim(),opening:detectOpening(),date:new Date().toISOString(),stats:computeStats(),results:results,moveCount:moves.length};
-var gs=getGames(),ei=gs.findIndex(function(x){return x.id===id;});
-if(ei>=0)gs[ei]=g;else gs.unshift(g);
-setGames(gs);renderLibrary();
+  if(!moves.length)return;
+  var id=curGameId||Date.now().toString();curGameId=id;
+  var g={id:id,name:'Game '+new Date().toLocaleDateString(),pgn:document.getElementById('pgninput').value.trim(),opening:detectOpening(),date:new Date().toISOString(),stats:computeStats(),results:results,moveCount:moves.length};
+  var gs=getGames(),ei=gs.findIndex(function(x){return x.id===id;});
+  if(ei>=0)gs[ei]=g;else gs.unshift(g);
+  setGames(gs);renderLibrary();
 }
 function computeStats(){
-var s={w:{bl:0,mi:0,in:0,tot:0},b:{bl:0,mi:0,in:0,tot:0}};
-moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||‘good’;if(q===‘blunder’)s[m.color].bl++;else if(q===‘mistake’)s[m.color].mi++;else if(q===‘inaccuracy’)s[m.color].in++;s[m.color].tot++;});
-function acc(color){var qs=[];moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.quality)qs.push(r.quality);});return calcAccuracy(qs);}
-return{wBl:s.w.bl,wMi:s.w.mi,wIn:s.w.in,bBl:s.b.bl,bMi:s.b.mi,bIn:s.b.in,wAcc:acc(‘w’),bAcc:acc(‘b’)};
+  var s={w:{bl:0,mi:0,in:0,tot:0},b:{bl:0,mi:0,in:0,tot:0}};
+  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';if(q==='blunder')s[m.color].bl++;else if(q==='mistake')s[m.color].mi++;else if(q==='inaccuracy')s[m.color].in++;s[m.color].tot++;});
+  function acc(color){var qs=[];moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.quality)qs.push(r.quality);});return calcAccuracy(qs);}
+  return{wBl:s.w.bl,wMi:s.w.mi,wIn:s.w.in,bBl:s.b.bl,bMi:s.b.mi,bIn:s.b.in,wAcc:acc('w'),bAcc:acc('b')};
 }
 function detectOpening(){
-if(!moves.length)return’Unknown Opening’;
-var line=moves.slice(0,6).map(function(m){return m.san;}).join(’ ‘);
-var ops=[[‘e4 e5 Nf3 Nc6 Bb5’,‘Ruy Lopez’],[‘e4 e5 Nf3 Nc6 Bc4’,‘Italian Game’],[‘e4 e5 Nf3’,“King’s Knight”],[‘e4 c5’,‘Sicilian Defense’],[‘e4 e6’,‘French Defense’],[‘e4 c6’,‘Caro-Kann’],[‘d4 d5 c4’,“Queen’s Gambit”],[‘d4 Nf6’,“King’s Indian”],[‘e4 e5’,“King’s Pawn”],[‘d4’,“Queen’s Pawn”],[‘c4’,‘English Opening’]];
-for(var i=0;i<ops.length;i++){if(line.indexOf(ops[i][0])===0)return ops[i][1];}
-return’Unknown Opening’;
+  if(!moves.length)return'Unknown Opening';
+  var line=moves.slice(0,6).map(function(m){return m.san;}).join(' ');
+  var ops=[['e4 e5 Nf3 Nc6 Bb5','Ruy Lopez'],['e4 e5 Nf3 Nc6 Bc4','Italian Game'],['e4 e5 Nf3',"King's Knight"],['e4 c5','Sicilian Defense'],['e4 e6','French Defense'],['e4 c6','Caro-Kann'],['d4 d5 c4',"Queen's Gambit"],['d4 Nf6',"King's Indian"],['e4 e5',"King's Pawn"],['d4',"Queen's Pawn"],['c4','English Opening']];
+  for(var i=0;i<ops.length;i++){if(line.indexOf(ops[i][0])===0)return ops[i][1];}
+  return'Unknown Opening';
 }
 function renderLibrary(){
-var gs=getGames();document.getElementById(‘gcnt’).textContent=gs.length;
-if(!gs.length){document.getElementById(‘glist’).innerHTML=’<div class="lib-empty">📂<br>No saved games yet</div>’;return;}
-document.getElementById(‘glist’).innerHTML=gs.map(function(g){return’<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">’+’<div class="gc-top"><span class="gc-name">’+g.name+’</span><div class="gc-btns"><button class="gc-btn" onclick="event.stopPropagation();openRename(\''+g.id+'\')">✏️</button><button class="gc-btn gc-del" onclick="event.stopPropagation();delGame(\''+g.id+'\')">✕</button></div></div>’+’<div class="gc-opening">’+g.opening+’</div>’+’<div class="gc-pills"><span class="pill p-r">??’+((g.stats&&g.stats.wBl)||0)+’+’+((g.stats&&g.stats.bBl)||0)+’</span><span class="pill p-o">?’+((g.stats&&g.stats.wMi)||0)+’+’+((g.stats&&g.stats.bMi)||0)+’</span><span class="pill p-g">W:’+((g.stats&&g.stats.wAcc)||’?’)+’% B:’+((g.stats&&g.stats.bAcc)||’?’)+’%</span></div>’+’<div class="gc-date">’+new Date(g.date).toLocaleDateString()+’ · ‘+g.moveCount+‘mv</div></div>’;}).join(’’);
+  var gs=getGames();document.getElementById('gcnt').textContent=gs.length;
+  if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">📂<br>No saved games yet</div>';return;}
+  document.getElementById('glist').innerHTML=gs.map(function(g){return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'+'<div class="gc-top"><span class="gc-name">'+g.name+'</span><div class="gc-btns"><button class="gc-btn" onclick="event.stopPropagation();openRename(\''+g.id+'\')">✏️</button><button class="gc-btn gc-del" onclick="event.stopPropagation();delGame(\''+g.id+'\')">✕</button></div></div>'+'<div class="gc-opening">'+g.opening+'</div>'+'<div class="gc-pills"><span class="pill p-r">??'+((g.stats&&g.stats.wBl)||0)+'+'+((g.stats&&g.stats.bBl)||0)+'</span><span class="pill p-o">?'+((g.stats&&g.stats.wMi)||0)+'+'+((g.stats&&g.stats.bMi)||0)+'</span><span class="pill p-g">W:'+((g.stats&&g.stats.wAcc)||'?')+'% B:'+((g.stats&&g.stats.bAcc)||'?')+'%</span></div>'+'<div class="gc-date">'+new Date(g.date).toLocaleDateString()+' · '+g.moveCount+'mv</div></div>';}).join('');
 }
 function loadGame(id){
-var g=getGames().find(function(x){return x.id===id;});if(!g)return;
-document.getElementById(‘pgninput’).value=g.pgn;
-var th=new Chess();th.load_pgn(g.pgn);
-moves=th.history({verbose:true});results=g.results||[];curGameId=g.id;curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();
-renderBoard();document.getElementById(‘mcount’).textContent=‘0/’+moves.length;
-renderMoveList();renderSummary();renderGraph();updateEval();renderLibrary();
-document.getElementById(‘sdot’).className=‘sdot done’;
-document.getElementById(‘stxt’).innerHTML=’<strong>Loaded.</strong> ‘+moves.length+’ moves.’;
-document.getElementById(‘emptystate’).style.display=‘none’;
-showPage(‘analysis’);sPTab(‘moves’);toast(‘Game loaded ♟’,‘info’);
+  var g=getGames().find(function(x){return x.id===id;});if(!g)return;
+  document.getElementById('pgninput').value=g.pgn;
+  var th=new Chess();th.load_pgn(g.pgn);
+  moves=th.history({verbose:true});results=g.results||[];curGameId=g.id;curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();
+  renderBoard();document.getElementById('mcount').textContent='0/'+moves.length;
+  renderMoveList();renderSummary();renderGraph();updateEval();renderLibrary();
+  document.getElementById('sdot').className='sdot done';
+  document.getElementById('stxt').innerHTML='<strong>Loaded.</strong> '+moves.length+' moves.';
+  document.getElementById('emptystate').style.display='none';
+  showPage('analysis');sPTab('moves');toast('Game loaded ♟','info');
 }
-function delGame(id){if(!confirm(‘Delete this game?’))return;var gs=getGames().filter(function(g){return g.id!==id;});setGames(gs);if(curGameId===id)curGameId=null;renderLibrary();toast(‘Deleted’,‘info’);}
-function filterGames(q){var gs=getGames().filter(function(g){return g.name.toLowerCase().includes(q.toLowerCase())||g.opening.toLowerCase().includes(q.toLowerCase());});if(!gs.length){document.getElementById(‘glist’).innerHTML=’<div class="lib-empty">🔍<br>No results</div>’;return;}document.getElementById(‘glist’).innerHTML=gs.map(function(g){return’<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">’+’<div class="gc-top"><span class="gc-name">’+g.name+’</span></div><div class="gc-opening">’+g.opening+’</div></div>’;}).join(’’);}
-function openRename(id){renamingId=id;var g=getGames().find(function(x){return x.id===id;});document.getElementById(‘renameInp’).value=(g&&g.name)||’’;document.getElementById(‘renameModal’).style.display=‘flex’;setTimeout(function(){document.getElementById(‘renameInp’).focus();},100);}
-function closeRename(){document.getElementById(‘renameModal’).style.display=‘none’;renamingId=null;}
-function doRename(){var n=document.getElementById(‘renameInp’).value.trim();if(!n||!renamingId)return closeRename();var gs=getGames();var i=gs.findIndex(function(g){return g.id===renamingId;});if(i>=0){gs[i].name=n;setGames(gs);renderLibrary();toast(‘Renamed ✓’,‘ok’);}closeRename();}
+function delGame(id){if(!confirm('Delete this game?'))return;var gs=getGames().filter(function(g){return g.id!==id;});setGames(gs);if(curGameId===id)curGameId=null;renderLibrary();toast('Deleted','info');}
+function filterGames(q){var gs=getGames().filter(function(g){return g.name.toLowerCase().includes(q.toLowerCase())||g.opening.toLowerCase().includes(q.toLowerCase());});if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">🔍<br>No results</div>';return;}document.getElementById('glist').innerHTML=gs.map(function(g){return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'+'<div class="gc-top"><span class="gc-name">'+g.name+'</span></div><div class="gc-opening">'+g.opening+'</div></div>';}).join('');}
+function openRename(id){renamingId=id;var g=getGames().find(function(x){return x.id===id;});document.getElementById('renameInp').value=(g&&g.name)||'';document.getElementById('renameModal').style.display='flex';setTimeout(function(){document.getElementById('renameInp').focus();},100);}
+function closeRename(){document.getElementById('renameModal').style.display='none';renamingId=null;}
+function doRename(){var n=document.getElementById('renameInp').value.trim();if(!n||!renamingId)return closeRename();var gs=getGames();var i=gs.findIndex(function(g){return g.id===renamingId;});if(i>=0){gs[i].name=n;setGames(gs);renderLibrary();toast('Renamed ✓','ok');}closeRename();}
 
 function exportJSON(){
-if(!moves.length){toast(‘No game loaded’,‘err’);return;}
-var d={pgn:document.getElementById(‘pgninput’).value,opening:detectOpening(),moves:moves.map(function(m,i){return{n:Math.floor(i/2)+1,color:m.color===‘w’?‘White’:‘Black’,san:m.san,quality:(results[i+1]&&results[i+1].quality)||‘good’,eval:results[i+1]&&results[i+1].eval,bestMove:results[i+1]&&results[i+1].bestMove};}),stats:computeStats(),date:new Date().toISOString(),depth:depth};
-var b=new Blob([JSON.stringify(d,null,2)],{type:‘application/json’});
-var a=document.createElement(‘a’);a.href=URL.createObjectURL(b);a.download=‘chessiq-’+Date.now()+’.json’;a.click();toast(‘JSON exported ✓’,‘ok’);
+  if(!moves.length){toast('No game loaded','err');return;}
+  var d={pgn:document.getElementById('pgninput').value,opening:detectOpening(),moves:moves.map(function(m,i){return{n:Math.floor(i/2)+1,color:m.color==='w'?'White':'Black',san:m.san,quality:(results[i+1]&&results[i+1].quality)||'good',eval:results[i+1]&&results[i+1].eval,bestMove:results[i+1]&&results[i+1].bestMove};}),stats:computeStats(),date:new Date().toISOString(),depth:depth};
+  var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chessiq-'+Date.now()+'.json';a.click();toast('JSON exported ✓','ok');
 }
 function exportPDF(){
-if(!moves.length){toast(‘No game loaded’,‘err’);return;}
-var st=computeStats(),op=detectOpening();
-var w=window.open(’’,’_blank’);
-w.document.write(’<html><head><title>ChessIQ</title><style>body{font-family:Arial,sans-serif;margin:30px}table{border-collapse:collapse;width:100%;margin-top:20px}th,td{border:1px solid #ddd;padding:6px 9px;font-size:12px}th{background:#f5f5f5}.bl{background:#fff0f0}.mi{background:#fff8f0}.be{background:#f0fff0}</style></head><body><h1>♟ ChessIQ Analysis</h1><p><b>Opening:</b> ‘+op+’ | <b>Moves:</b> ‘+moves.length+’ | <b>Depth:</b> ‘+depth+’</p><p>White: <b>’+st.wAcc+’%</b> (’+st.wBl+’ blunders) | Black: <b>’+st.bAcc+’%</b> (’+st.bBl+’ blunders)</p><table><tr><th>#</th><th>Color</th><th>Move</th><th>Quality</th><th>Eval</th><th>Best</th></tr>’+moves.map(function(m,i){var r=results[i+1];var q=(r&&r.quality)||‘good’;return’<tr class="'+(q==='blunder'?'bl':q==='mistake'?'mi':q==='best'||q==='brilliant'?'be':'')+'"><td>’+(Math.floor(i/2)+1)+’</td><td>’+(m.color===‘w’?‘W’:‘B’)+’</td><td><b>’+m.san+’</b></td><td>’+q+’ ‘+(QEMOJI[q]||’’)+’</td><td>’+(r&&r.eval!=null?(r.eval>=0?’+’:’’)+Number(r.eval).toFixed(2):’—’)+’</td><td>’+(r&&r.bestMove||’—’)+’</td></tr>’;}).join(’’)+’</table></body></html>’);
-w.document.close();w.print();toast(‘PDF ready ✓’,‘ok’);
+  if(!moves.length){toast('No game loaded','err');return;}
+  var st=computeStats(),op=detectOpening();
+  var w=window.open('','_blank');
+  w.document.write('<html><head><title>ChessIQ</title><style>body{font-family:Arial,sans-serif;margin:30px}table{border-collapse:collapse;width:100%;margin-top:20px}th,td{border:1px solid #ddd;padding:6px 9px;font-size:12px}th{background:#f5f5f5}.bl{background:#fff0f0}.mi{background:#fff8f0}.be{background:#f0fff0}</style></head><body><h1>♟ ChessIQ Analysis</h1><p><b>Opening:</b> '+op+' | <b>Moves:</b> '+moves.length+' | <b>Depth:</b> '+depth+'</p><p>White: <b>'+st.wAcc+'%</b> ('+st.wBl+' blunders) | Black: <b>'+st.bAcc+'%</b> ('+st.bBl+' blunders)</p><table><tr><th>#</th><th>Color</th><th>Move</th><th>Quality</th><th>Eval</th><th>Best</th></tr>'+moves.map(function(m,i){var r=results[i+1];var q=(r&&r.quality)||'good';return'<tr class="'+(q==='blunder'?'bl':q==='mistake'?'mi':q==='best'||q==='brilliant'?'be':'')+'"><td>'+(Math.floor(i/2)+1)+'</td><td>'+(m.color==='w'?'W':'B')+'</td><td><b>'+m.san+'</b></td><td>'+q+' '+(QEMOJI[q]||'')+'</td><td>'+(r&&r.eval!=null?(r.eval>=0?'+':'')+Number(r.eval).toFixed(2):'—')+'</td><td>'+(r&&r.bestMove||'—')+'</td></tr>';}).join('')+'</table></body></html>');
+  w.document.close();w.print();toast('PDF ready ✓','ok');
 }
 
 function showPage(p){
-var pages=[‘board’,‘analysis’,‘library’];
-document.querySelectorAll(’.page’).forEach(function(el){el.classList.remove(‘active’);});
-document.querySelectorAll(’.tnav’).forEach(function(el,i){el.classList.toggle(‘active’,pages[i]===p);});
-document.getElementById(‘page-’+p).classList.add(‘active’);
-if(p===‘library’)renderLibrary();
-if(p===‘board’)renderBoard();
+  var pages=['board','analysis','library'];
+  document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
+  document.querySelectorAll('.tnav').forEach(function(el,i){el.classList.toggle('active',pages[i]===p);});
+  document.getElementById('page-'+p).classList.add('active');
+  if(p==='library')renderLibrary();
+  if(p==='board')renderBoard();
 }
 function sPTab(t){
-var tabs=[‘input’,‘moves’,‘summary’,‘graph’,‘engine’];
-document.querySelectorAll(’.ptab’).forEach(function(el,i){el.classList.toggle(‘active’,tabs[i]===t);});
-document.querySelectorAll(’.pview’).forEach(function(v){v.classList.remove(‘active’);});
-document.getElementById(‘pt-’+t).classList.add(‘active’);
-if(t===‘engine’)renderEngineLines();
+  var tabs=['input','moves','summary','graph','engine'];
+  document.querySelectorAll('.ptab').forEach(function(el,i){el.classList.toggle('active',tabs[i]===t);});
+  document.querySelectorAll('.pview').forEach(function(v){v.classList.remove('active');});
+  document.getElementById('pt-'+t).classList.add('active');
+  if(t==='engine')renderEngineLines();
 }
-function setDepth(v){depth=parseInt(v);document.getElementById(‘dval’).textContent=v;}
+function setDepth(v){depth=parseInt(v);document.getElementById('dval').textContent=v;}
 function newGame(){
-curGameId=null;moves=[];results=[];game=new Chess();curIdx=0;lastSqs=[];selSq=null;legalSqs=[];bestArrow=null;
-document.getElementById(‘pgninput’).value=’’;
-document.getElementById(‘sdot’).className=‘sdot’;
-document.getElementById(‘stxt’).textContent=‘Ready. Paste a PGN and tap Analyze.’;
-document.getElementById(‘emptystate’).style.display=’’;
-document.getElementById(‘evalnum’).textContent=‘0.00’;
-document.getElementById(‘bestmv’).textContent=’—’;
-document.getElementById(‘mcount’).textContent=‘0 / 0’;
-document.getElementById(‘movelist-wrap’).innerHTML=’<div class="empty"><div class="empty-ico">📋</div><h3>No moves yet</h3></div>’;
-document.getElementById(‘summary-wrap’).innerHTML=’<div class="empty"><div class="empty-ico">📊</div><h3>No summary yet</h3></div>’;
-if(evalChartObj){evalChartObj.destroy();evalChartObj=null;}
-renderBoard();renderLibrary();showPage(‘analysis’);sPTab(‘input’);
+  curGameId=null;moves=[];results=[];game=new Chess();curIdx=0;lastSqs=[];selSq=null;legalSqs=[];bestArrow=null;
+  document.getElementById('pgninput').value='';
+  document.getElementById('sdot').className='sdot';
+  document.getElementById('stxt').textContent='Ready. Paste a PGN and tap Analyze.';
+  document.getElementById('emptystate').style.display='';
+  document.getElementById('evalnum').textContent='0.00';
+  document.getElementById('bestmv').textContent='—';
+  document.getElementById('mcount').textContent='0 / 0';
+  document.getElementById('movelist-wrap').innerHTML='<div class="empty"><div class="empty-ico">📋</div><h3>No moves yet</h3></div>';
+  document.getElementById('summary-wrap').innerHTML='<div class="empty"><div class="empty-ico">📊</div><h3>No summary yet</h3></div>';
+  if(evalChartObj){evalChartObj.destroy();evalChartObj=null;}
+  renderBoard();renderLibrary();showPage('analysis');sPTab('input');
 }
-function loadSample(){document.getElementById(‘pgninput’).value=‘1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. c4 c6 12. cxb5 axb5 13. Nc3 Bb7 14. Bg5 b4 15. Nb1 h6 16. Bh4 c5 17. dxe5 Nxe4 18. Bxe7 Qxe7 19. exd6 Qf6 20. Nbd2 Nxd6 1-0’;toast(‘Sample loaded’,‘info’);}
-function toast(msg,type){var n=document.getElementById(‘notif’);n.textContent=msg;n.className=’notif show ’+(type===‘ok’?‘ok’:type===‘err’?‘err’:‘info’);setTimeout(function(){n.classList.remove(‘show’);},2800);}
+function loadSample(){document.getElementById('pgninput').value='1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. c4 c6 12. cxb5 axb5 13. Nc3 Bb7 14. Bg5 b4 15. Nb1 h6 16. Bh4 c5 17. dxe5 Nxe4 18. Bxe7 Qxe7 19. exd6 Qf6 20. Nbd2 Nxd6 1-0';toast('Sample loaded','info');}
+function toast(msg,type){var n=document.getElementById('notif');n.textContent=msg;n.className='notif show '+(type==='ok'?'ok':type==='err'?'err':'info');setTimeout(function(){n.classList.remove('show');},2800);}
 
-document.addEventListener(‘keydown’,function(e){if(e.target.tagName===‘INPUT’||e.target.tagName===‘TEXTAREA’)return;if(e.key===‘ArrowLeft’)g2b();if(e.key===‘ArrowRight’)g2f();});
-window.addEventListener(‘resize’,renderBoard);
-startStockfish();
-renderBoard();
-renderLibrary();
+document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='ArrowLeft')g2b();if(e.key==='ArrowRight')g2f();});
+window.addEventListener('resize',renderBoard);
+window.addEventListener("load",function(){startStockfish();setTimeout(function(){renderBoard();renderLibrary();},200);});
 </script>
-
 </body>
 </html>
