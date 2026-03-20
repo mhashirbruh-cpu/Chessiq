@@ -311,7 +311,7 @@ var game=new Chess(),moves=[],results=[],curIdx=0,flipped=false,depth=14,selSq=n
 var QEMOJI={brilliant:’!!’,best:’!’,good:’’,inaccuracy:’?!’,mistake:’?’,blunder:’??’};
 var QCLS={brilliant:‘a-br’,best:‘a-be’,good:‘a-go’,inaccuracy:‘a-in’,mistake:‘a-mi’,blunder:‘a-bl’};
 
-function getBoardSize(){return Math.floor(Math.min(window.innerWidth-16,520)/8)*8;}
+function getBoardSize(){var w=window.innerWidth||screen.width||400;return Math.floor(Math.min(w-16,520)/8)*8;}
 function getSqSize(){return getBoardSize()/8;}
 
 function renderBoard(){
