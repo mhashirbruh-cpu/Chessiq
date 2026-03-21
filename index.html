@@ -487,6 +487,58 @@ function calcAccuracy(qs){
 }
 
 // ── ANALYZE ───────────────────────────────────────────────
+// ── STOCKFISH ──────────────────────────────────────────
+var sf=null, sfReady=false, sfCurrent=null, sfLines={};
+
+function startStockfish(){
+  try {
+    sf = new Worker('stockfish.js');
+    sf.onerror = function(){ sf=null; sfReady=false; console.log('SF failed, using local engine'); };
+    sf.onmessage = function(e){
+      var msg = e.data||'';
+      if(msg==='readyok'){ sfReady=true; console.log('Stockfish READY'); return; }
+      if(!sfCurrent) return;
+      if(msg.indexOf('info')===0 && msg.indexOf('score')>0 && msg.indexOf(' pv ')>0){
+        var cpM=msg.match(/score cp (-?\d+)/);
+        var mateM=msg.match(/score mate (-?\d+)/);
+        var pvM=msg.match(/ pv ([a-h][1-8][a-h][1-8][qrbn]?(?:\s[a-h][1-8][a-h][1-8][qrbn]?)*)/);
+        var mpvM=msg.match(/multipv (\d+)/);
+        var dM=msg.match(/\bdepth (\d+)\b/);
+        if(!dM||parseInt(dM[1])<6) return;
+        var cp=cpM?parseInt(cpM[1]):(mateM?(parseInt(mateM[1])>0?9000:-9000):0);
+        var mpv=mpvM?parseInt(mpvM[1]):1;
+        var pv=pvM?pvM[1].split(' ').slice(0,5).join(' '):'';
+        sfLines[mpv]={cp:cp,pv:pv};
+      }
+      if(msg.indexOf('bestmove')===0){
+        var bm=msg.split(' ')[1]||'';
+        if(!sfLines[1]) sfLines[1]={cp:0,pv:bm};
+        var cur=sfCurrent; sfCurrent=null;
+        if(cur) cur({
+          bestMove:bm,
+          cp:sfLines[1].cp,
+          lines:[1,2,3].map(function(n){return sfLines[n]||null;}).filter(Boolean)
+        });
+      }
+    };
+    sf.postMessage('uci');
+    sf.postMessage('isready');
+    console.log('Stockfish worker started');
+  } catch(e){ sf=null; console.log('No Stockfish, using local engine'); }
+}
+
+function sfAnalyzePos(fen, d){
+  return new Promise(function(resolve){
+    if(!sf||!sfReady){ resolve(null); return; }
+    sfLines={};
+    sfCurrent=resolve;
+    sf.postMessage('setoption name MultiPV value 3');
+    sf.postMessage('ucinewgame');
+    sf.postMessage('position fen '+fen);
+    sf.postMessage('go depth '+d);
+  });
+}
+
 async function analyze(){
   var pgn=document.getElementById('pgninput').value.trim();
   if(!pgn){toast('Paste a PGN first','err');return;}
@@ -508,10 +560,18 @@ async function analyze(){
   for(var i=0;i<fens.length;i++){
     await new Promise(function(res){setTimeout(res,0);});
     pi.style.width=Math.round(i/fens.length*100)+'%';
-    stxt.innerHTML='<span class="spin"></span><strong>Analyzing...</strong> move '+i+' / '+(fens.length-1);
-    var loc=localBestMove(fens[i]);
-    var ev=evalBoard(fens[i]);
-    var r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]};
+    stxt.innerHTML='<span class="spin"></span><strong>'+(sf&&sfReady?'Stockfish':'Local engine')+'</strong> - move '+i+' / '+(fens.length-1);
+    // Try Stockfish first, fall back to local engine
+    var r;
+    var sfResult = await sfAnalyzePos(fens[i], depth);
+    if(sfResult){
+      r={evalCP:sfResult.cp, eval:sfResult.cp/100, bestMove:sfResult.bestMove, bestEval:sfResult.cp,
+         lines:sfResult.lines.map(function(l){return{eval:l.cp/100,moves:l.pv||''};})}; 
+    } else {
+      var loc=localBestMove(fens[i]);
+      var ev=evalBoard(fens[i]);
+      r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]};
+    }
     results[i]=r;
     if(i>0&&results[i-1]){
       var color=hist[i-1].color,sign=color==='w'?1:-1;
@@ -723,6 +783,7 @@ function toast(msg,type){var n=document.getElementById('notif');n.textContent=ms
 
 document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='ArrowLeft')g2b();if(e.key==='ArrowRight')g2f();});
 window.addEventListener('resize',renderBoard);
+startStockfish();
 renderBoard();
 renderLibrary();
 </script>
