@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -545,31 +545,46 @@ function updateCompanion(r){
     comp.classList.remove('pop');void comp.offsetWidth;comp.classList.add('pop');
     return;
   }
+  // Figure out WHY the move is good or bad
+  var ev=r.evalCP||0;
+  var absEv=Math.abs(ev);
+  var whyGood='It keeps the position solid and maintains balance.';
+  var whyBad='';
+  if(best){
+    if(loss>200) whyBad='<b>'+best+'</b> was winning — this move lets the opponent back in the game.';
+    else if(loss>100) whyBad='<b>'+best+'</b> was much stronger, keeping the pressure on.';
+    else if(loss>50) whyBad='<b>'+best+'</b> was more precise here.';
+    else whyBad='<b>'+best+'</b> was slightly more accurate.';
+  }
+  if(absEv>500) whyGood='It gives a decisive advantage — the position is nearly won.';
+  else if(absEv>200) whyGood='It keeps a clear winning advantage on the board.';
+  else if(absEv>50) whyGood='It maintains a comfortable edge and controls the position.';
+  else whyGood='It keeps the position balanced and solid.';
+
   var messages={
     brilliant:[
-      '✨ Brilliant move! <b>'+san+'</b> is a sacrifice that pays off. '+who+' found something special here.',
-      '💡 Outstanding! <b>'+san+'</b> — this is the kind of move engines love. Excellent calculation!'
+      '✨ <b>'+san+'</b> is brilliant! '+who+' found a powerful move. '+whyGood,
+      '💡 Outstanding! <b>'+san+'</b> is the kind of move engines love. '+whyGood
     ],
     best:[
-      '👑 Best move! <b>'+san+'</b> is the top engine choice. Perfect play.',
-      '✅ Spot on! <b>'+san+'</b> is exactly what the engine recommends here.'
+      '👑 <b>'+san+'</b> is the best move! '+whyGood,
+      '✅ Perfect! <b>'+san+'</b> is exactly what the engine recommends. '+whyGood
     ],
     good:[
-      '👍 Good move. <b>'+san+'</b> keeps the position solid.',
-      '🙂 <b>'+san+'</b> is a fine choice. Nothing wrong here.',
-      '👌 Decent play with <b>'+san+'</b>. Position remains balanced.'
+      '👍 <b>'+san+'</b> is a good move. '+whyGood,
+      '🙂 Solid choice with <b>'+san+'</b>. '+whyGood
     ],
     inaccuracy:[
-      '🤔 Inaccuracy. <b>'+san+'</b> isn\'t terrible, but '+(best?'<b>'+best+'</b> was sharper.':'there was a better option.'),
-      '😐 Slight slip with <b>'+san+'</b>. You lost about <b>'+loss+' cp</b> here.'+(best?' Try <b>'+best+'</b> next time.':'')
+      '🤔 <b>'+san+'</b> is a slight inaccuracy — '+whyBad,
+      '😐 Not the best with <b>'+san+'</b>. '+whyBad
     ],
     mistake:[
-      '😬 Mistake! <b>'+san+'</b> gives away <b>'+loss+' cp</b>.'+(best?' The better move was <b>'+best+'</b>.':''),
-      '⚠️ <b>'+san+'</b> is a mistake. '+(best?'<b>'+best+'</b> was much stronger here.':'This lets the opponent take the advantage.')
+      '😬 <b>'+san+'</b> is a mistake. '+whyBad,
+      '⚠️ <b>'+san+'</b> costs <b>'+loss+' cp</b>. '+whyBad
     ],
     blunder:[
-      '💥 Blunder!! <b>'+san+'</b> drops <b>'+loss+' cp</b>.'+(best?' You had to play <b>'+best+'</b>.':''),
-      '🚨 Big blunder with <b>'+san+'</b>! This could cost the game.'+(best?' <b>'+best+'</b> was the right call.':'')
+      '💥 <b>'+san+'</b> is a blunder! This could cost the game. '+whyBad,
+      '🚨 Big blunder with <b>'+san+'</b> — drops <b>'+loss+' cp</b>. '+whyBad
     ]
   };
 
