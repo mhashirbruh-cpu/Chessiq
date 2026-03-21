@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -365,24 +365,16 @@ bP:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path stroke="#0
 
 
 // ── CHESS MOVE SOUND ─────────────────────────────────────────
-var _ctx=null,_buf=null;
-// Step 1: fetch the raw bytes immediately on page load
-var _fetchedBuffer=null;
-fetch('move.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){_fetchedBuffer=ab;});
-// Step 2: on first touch, create AudioContext (user gesture = iOS unlocked) then decode
+var _ctx=null,_buf=null,_fetched=null;
+fetch('move.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){_fetched=ab;});
 document.addEventListener('touchstart',function(){
   if(_ctx)return;
   try{
     _ctx=new(window.AudioContext||window.webkitAudioContext)();
-    if(_fetchedBuffer){
-      _ctx.decodeAudioData(_fetchedBuffer,function(buf){_buf=buf;});
-    } else {
-      // Fetch didn't finish yet, try again
-      fetch('move.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){
-        _ctx.decodeAudioData(ab,function(buf){_buf=buf;});
-      });
-    }
-  }catch(e){console.log('audio init err',e);}
+    function decode(ab){_ctx.decodeAudioData(ab,function(buf){_buf=buf;});}
+    if(_fetched)decode(_fetched);
+    else fetch('move.mp3').then(function(r){return r.arrayBuffer();}).then(decode);
+  }catch(e){}
 });
 function playMoveSound(){
   try{
@@ -391,9 +383,10 @@ function playMoveSound(){
     var src=_ctx.createBufferSource();
     src.buffer=_buf;
     src.connect(_ctx.destination);
-    src.start(0);
+    src.start(0,0.2);
   }catch(e){}
 }
+
 
 var game=new Chess(),moves=[],results=[],curIdx=0,flipped=false,depth=8,moveTime=1500,selSq=null,legalSqs=[],lastSqs=[],bestArrow=null,evalChartObj=null,curGameId=null,renamingId=null,analyzing=false;
 var QEMOJI={brilliant:'!!',best:'!',good:'',inaccuracy:'?!',mistake:'?',blunder:'??',book:''};
@@ -489,13 +482,14 @@ function flipBoard(){flipped=!flipped;renderBoard();}
 
 function goTo(idx){
   var g=new Chess();for(var i=0;i<idx;i++)g.move(moves[i]);
+  // Play sound BEFORE updating curIdx
+  if(idx!==curIdx)playMoveSound();
   game=g;curIdx=idx;
   lastSqs=idx>0?[moves[idx-1].from,moves[idx-1].to]:[];
   bestArrow=null;
   var r=results[idx];
   if(r&&r.bestMove&&r.bestMove.length>=4)bestArrow={from:r.bestMove.substring(0,2),to:r.bestMove.substring(2,4)};
   selSq=null;legalSqs=[];
-  if(idx!==curIdx)playMoveSound();
   renderBoard();updateEval();updActMove();renderEngineLines();
   document.getElementById('mcount').textContent=idx+' / '+moves.length;
 }
