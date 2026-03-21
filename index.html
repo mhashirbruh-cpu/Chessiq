@@ -7,11 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#080810;--s1:#0e0e1a;--s2:#151524;--s3:#1c1c2e;--border:#252538;
-  --accent:#7c6fff;--green:#4fffb0;--yellow:#ffe066;--orange:#ff9a3c;--red:#ff4757;--blue:#48dbfb;
-  --text:#e2e2f0;--text2:#6b6b8a;--text3:#9898b8;
-}
+:root{--bg:#080810;--s1:#0e0e1a;--s2:#151524;--s3:#1c1c2e;--border:#252538;--accent:#7c6fff;--green:#4fffb0;--yellow:#ffe066;--orange:#ff9a3c;--red:#ff4757;--blue:#48dbfb;--text:#e2e2f0;--text2:#6b6b8a;--text3:#9898b8;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;touch-action:manipulation}
 body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;display:flex;flex-direction:column}
@@ -33,7 +29,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:8px
 .board-topbar{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:520px}
 .flip-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--s2);color:var(--text3);cursor:pointer;font-size:11px;font-family:'Outfit',sans-serif;font-weight:600}
 #chessboard{display:grid;grid-template-columns:repeat(8,1fr);border:3px solid #2a2a3f;border-radius:4px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.7),0 0 0 1px rgba(124,111,255,.2);user-select:none;-webkit-user-select:none;touch-action:none;}
-.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .sq.light{background:#f0d9b5}.sq.dark{background:#b58863}
 .sq.sel{background:#7c6fff !important}
 .sq.lastm-l{background:#cdd26a !important}.sq.lastm-d{background:#aaa23a !important}
@@ -106,8 +102,7 @@ textarea::placeholder{color:var(--text2)}
 .acc-bar{height:4px;border-radius:3px;background:var(--s3);overflow:hidden;margin-bottom:7px}
 .acc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));transition:width .8s}
 .qrow{display:flex;justify-content:space-between;font-size:11px;padding:2px 0}
-.qlbl{color:var(--text2)}
-.qval{font-family:'IBM Plex Mono',monospace;font-weight:700}
+.qlbl{color:var(--text2)}.qval{font-family:'IBM Plex Mono',monospace;font-weight:700}
 .graph-card{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:14px;margin-bottom:12px}
 .graph-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:12px}
 .elines{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:13px;margin-bottom:10px}
@@ -133,7 +128,7 @@ textarea::placeholder{color:var(--text2)}
 .gc-btns{display:flex;gap:6px}
 .gc-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px;padding:0 4px}
 .gc-btn:active{color:var(--accent)}
-.gc-del:active{color:var(--red) !important}
+.gc-del:active{color:var(--red)!important}
 .gc-opening{font-size:11px;color:var(--accent);margin-bottom:6px;font-weight:600}
 .gc-pills{display:flex;gap:5px;flex-wrap:wrap}
 .pill{font-size:10px;font-family:'IBM Plex Mono',monospace;padding:2px 7px;border-radius:3px;font-weight:700}
@@ -161,23 +156,23 @@ textarea::placeholder{color:var(--text2)}
 <body>
 <div class="app">
 <header>
-  <div class="logo">♟ Chess<em>IQ</em></div>
+  <div class="logo">&#9822; Chess<em>IQ</em></div>
   <div class="hbtns">
-    <button class="btn btn-ghost" onclick="exportJSON()">↓ JSON</button>
-    <button class="btn btn-ghost" onclick="exportPDF()">↓ PDF</button>
+    <button class="btn btn-ghost" onclick="exportJSON()">&#8595; JSON</button>
+    <button class="btn btn-ghost" onclick="exportPDF()">&#8595; PDF</button>
     <button class="btn btn-primary" onclick="newGame()">+ New</button>
   </div>
 </header>
 <div class="topnav">
-  <button class="tnav active" onclick="showPage('board')">♟ Board</button>
-  <button class="tnav" onclick="showPage('analysis')">🔍 Analysis</button>
-  <button class="tnav" onclick="showPage('library')">📁 Library</button>
+  <button class="tnav active" onclick="showPage('board')">&#9822; Board</button>
+  <button class="tnav" onclick="showPage('analysis')">&#128269; Analysis</button>
+  <button class="tnav" onclick="showPage('library')">&#128193; Library</button>
 </div>
 <div class="page active" id="page-board">
   <div class="board-page">
     <div class="board-topbar">
       <span style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:1px" id="turnLabel">White to move</span>
-      <button class="flip-btn" onclick="flipBoard()">⇅ Flip</button>
+      <button class="flip-btn" onclick="flipBoard()">&#8645; Flip</button>
     </div>
     <div id="boardWrap" style="position:relative;display:inline-block">
       <div id="chessboard"></div>
@@ -194,11 +189,11 @@ textarea::placeholder{color:var(--text2)}
       <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
     </div>
     <div class="bcontrols">
-      <button class="nbtn" onclick="g2s()">⏮</button>
-      <button class="nbtn" onclick="g2b()">◀️</button>
+      <button class="nbtn" onclick="g2s()">&#9198;</button>
+      <button class="nbtn" onclick="g2b()">&#9664;</button>
       <span class="mctr" id="mcount">0 / 0</span>
-      <button class="nbtn" onclick="g2f()">▶️</button>
-      <button class="nbtn" onclick="g2e()">⏭</button>
+      <button class="nbtn" onclick="g2f()">&#9654;</button>
+      <button class="nbtn" onclick="g2e()">&#9197;</button>
     </div>
     <div class="depth-row">
       <span class="dlbl">Depth</span>
@@ -213,7 +208,7 @@ textarea::placeholder{color:var(--text2)}
       </div>
       <div class="bm-box">
         <div class="bm-lbl">Best Move</div>
-        <div class="bm-val" id="bestmv">—</div>
+        <div class="bm-val" id="bestmv">&#8212;</div>
       </div>
     </div>
   </div>
@@ -231,9 +226,9 @@ textarea::placeholder{color:var(--text2)}
       <div class="pview active" id="pt-input">
         <div class="card">
           <div class="sec-title">Paste PGN</div>
-          <textarea id="pgninput" placeholder="Paste your PGN here…&#10;&#10;e.g.  1. e4 e5 2. Nf3 Nc6 3. Bb5" rows="5"></textarea>
+          <textarea id="pgninput" placeholder="Paste your PGN here..." rows="5"></textarea>
           <div class="pgn-btns">
-            <button class="btn btn-primary" onclick="analyze()">▶️ Analyze</button>
+            <button class="btn btn-primary" onclick="analyze()">&#9654; Analyze</button>
             <button class="btn btn-ghost" onclick="loadSample()">Sample Game</button>
             <button class="btn btn-ghost" onclick="document.getElementById('pgninput').value=''">Clear</button>
           </div>
@@ -244,16 +239,16 @@ textarea::placeholder{color:var(--text2)}
           <div class="prog-out" id="prog-out" style="display:none"><div class="prog-in" id="prog-in"></div></div>
         </div>
         <div class="empty" id="emptystate">
-          <div class="empty-ico">♟</div>
+          <div class="empty-ico">&#9822;</div>
           <h3>No Game Loaded</h3>
           <p>Paste a PGN and tap Analyze. The engine will evaluate every move.</p>
         </div>
       </div>
       <div class="pview" id="pt-moves">
-        <div id="movelist-wrap"><div class="empty"><div class="empty-ico">📋</div><h3>No moves yet</h3><p>Analyze a game first.</p></div></div>
+        <div id="movelist-wrap"><div class="empty"><div class="empty-ico">&#128203;</div><h3>No moves yet</h3><p>Analyze a game first.</p></div></div>
       </div>
       <div class="pview" id="pt-summary">
-        <div id="summary-wrap"><div class="empty"><div class="empty-ico">📊</div><h3>No summary yet</h3><p>Analyze a game first.</p></div></div>
+        <div id="summary-wrap"><div class="empty"><div class="empty-ico">&#128202;</div><h3>No summary yet</h3><p>Analyze a game first.</p></div></div>
       </div>
       <div class="pview" id="pt-graph">
         <div class="graph-card">
@@ -262,7 +257,7 @@ textarea::placeholder{color:var(--text2)}
         </div>
       </div>
       <div class="pview" id="pt-engine">
-        <div id="engine-wrap"><div class="empty"><div class="empty-ico">🤖</div><h3>Engine Lines</h3><p>Tap any move to see engine lines.</p></div></div>
+        <div id="engine-wrap"><div class="empty"><div class="empty-ico">&#129302;</div><h3>Engine Lines</h3><p>Tap any move to see engine lines.</p></div></div>
       </div>
     </div>
   </div>
@@ -273,15 +268,15 @@ textarea::placeholder{color:var(--text2)}
       <span class="lib-title">Saved Games</span>
       <span class="lib-cnt" id="gcnt">0</span>
     </div>
-    <div class="lib-search"><input placeholder="Search games…" oninput="filterGames(this.value)"></div>
-    <div class="lib-list" id="glist"><div class="lib-empty">📂<br>No saved games yet</div></div>
+    <div class="lib-search"><input placeholder="Search games..." oninput="filterGames(this.value)"></div>
+    <div class="lib-list" id="glist"><div class="lib-empty">&#128193;<br>No saved games yet</div></div>
   </div>
 </div>
 </div>
 <div class="modal-bg" id="renameModal" style="display:none">
   <div class="modal">
     <h3>Rename Game</h3>
-    <input type="text" id="renameInp" placeholder="Game name…">
+    <input type="text" id="renameInp" placeholder="Game name...">
     <div class="modal-acts">
       <button class="btn btn-ghost" onclick="closeRename()">Cancel</button>
       <button class="btn btn-primary" onclick="doRename()">Save</button>
@@ -291,26 +286,26 @@ textarea::placeholder{color:var(--text2)}
 <div class="notif" id="notif"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-const PIECE_SVG={
-wK:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke-linejoin="miter"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#fff" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M12.5 37c5.5 3.5 14.5 3.5 20 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V17s-5.5-4-12.5 1c-5 4-3 12.5 3 16z" fill="#fff"/><path d="M12.5 30c5.5-3 14.5-3 20 0M12.5 33.5c5.5-3 14.5-3 20 0M12.5 37c5.5-3 14.5-3 20 0"/></g></svg>`,
-wQ:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 26c8.5-1.5 21-1.5 27 0l2.5-12.5L31 25l-.3-14.1-5.2 13.6-3-14.5-3 14.5-5.2-13.6L14 25 6.5 13.5z"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0M12 33.5c4-1.5 17-1.5 21 0" stroke-linejoin="miter"/><circle cx="6" cy="12" r="2"/><circle cx="14" cy="9" r="2"/><circle cx="22.5" cy="8" r="2"/><circle cx="31" cy="9" r="2"/><circle cx="39" cy="12" r="2"/></g></svg>`,
-wR:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zM12 36v-4h21v4H12zM11 14V9h4v2h5V9h5v2h5V9h4v5" stroke-linecap="butt"/><path d="M34 14l-3 3H14l-3-3"/><path d="M31 17v12.5H14V17" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M31 29.5l1.5 2.5h-20l1.5-2.5"/><path d="M11 14h23" fill="none" stroke-linejoin="miter"/></g></svg>`,
-wB:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#fff" stroke-linecap="butt"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></g><path d="M17.5 26h10M15 30h15" stroke-linejoin="miter"/></g></svg>`,
-wN:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="36" width="27" height="3" rx="2" fill="#fff" stroke="#000"/><path d="M14 36c0-6 2-10 6-13s6-6 6-10c0-3-1-5-3-6 4 0 7 3 8 8 2 4 1 9-2 13-2 3-3 5-3 8H14z" fill="#fff" stroke="#000" stroke-linejoin="round"/><path d="M11 36c0-4 1-7 4-10 2-2 4-5 4-8" fill="none" stroke="#000"/><circle cx="20" cy="12" r="1.5" fill="#000" stroke="none"/></g></svg>`,
-wP:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#fff" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-bK:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6" stroke-linejoin="miter"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#000" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M12.5 37c5.5 3.5 14.5 3.5 20 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V17s-5.5-4-12.5 1c-5 4-3 12.5 3 16z" fill="#000"/><path d="M20 8h5" stroke-linejoin="miter"/><path d="M32 29.5s8.5-4 6.03-9.65C34.15 14 25 18 22.5 24.5l.01 2.1-.01-2.1C20 18 9.906 14 6.997 19.85c-2.497 5.65 4.853 9 4.853 9" stroke="#fff"/><path d="M12.5 30c5.5-3 14.5-3 20 0M12.5 33.5c5.5-3 14.5-3 20 0M12.5 37c5.5-3 14.5-3 20 0" stroke="#fff"/></g></svg>`,
-bQ:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#000" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g stroke="none"><circle cx="6" cy="12" r="2.75"/><circle cx="14" cy="9" r="2.75"/><circle cx="22.5" cy="8" r="2.75"/><circle cx="31" cy="9" r="2.75"/><circle cx="39" cy="12" r="2.75"/></g><path d="M9 26c8.5-1.5 21-1.5 27 0l2.5-12.5L31 25l-.3-14.1-5.2 13.6-3-14.5-3 14.5-5.2-13.6L14 25 6.5 13.5z" stroke-linecap="butt"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0M12 33.5c4-1.5 17-1.5 21 0" stroke="#fff" fill="none" stroke-linejoin="miter"/></g></svg>`,
-bR:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#000" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zM12.5 32l1.5-2.5h17l1.5 2.5h-20zM12 36v-4h21v4H12z" stroke-linecap="butt"/><path d="M14 29.5v-13h17v13H14z" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M11 14V9h4v2h5V9h5v2h5V9h4v5H11z" stroke-linecap="butt"/><path d="M34 14l-3 3H14l-3-3"/><path d="M31 17v12.5H14V17" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M11 14h23" fill="none" stroke="#fff" stroke-linejoin="miter"/><path d="M13 16.5h19M13.5 29.5h18" fill="none" stroke="#fff" stroke-linejoin="miter"/></g></svg>`,
-bB:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#000" stroke-linecap="butt"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></g><path d="M17.5 26h10M15 30h15" stroke="#fff" stroke-linejoin="miter"/></g></svg>`,
-bN:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="36" width="27" height="3" rx="2" fill="#1a1a2e" stroke="#000"/><path d="M14 36c0-6 2-10 6-13s6-6 6-10c0-3-1-5-3-6 4 0 7 3 8 8 2 4 1 9-2 13-2 3-3 5-3 8H14z" fill="#1a1a2e" stroke="#000" stroke-linejoin="round"/><path d="M11 36c0-4 1-7 4-10 2-2 4-5 4-8" fill="none" stroke="#aaa"/><circle cx="20" cy="12" r="1.5" fill="#fff" stroke="none"/></g></svg>`,
-bP:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#000" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg>`
+var PIECE_SVG={
+wK:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6M20 8h5" stroke-linejoin="miter"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#fff" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M12.5 37c5.5 3.5 14.5 3.5 20 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V17s-5.5-4-12.5 1c-5 4-3 12.5 3 16z" fill="#fff"/><path d="M12.5 30c5.5-3 14.5-3 20 0M12.5 33.5c5.5-3 14.5-3 20 0M12.5 37c5.5-3 14.5-3 20 0"/></g></svg>',
+wQ:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 26c8.5-1.5 21-1.5 27 0l2.5-12.5L31 25l-.3-14.1-5.2 13.6-3-14.5-3 14.5-5.2-13.6L14 25 6.5 13.5z"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0M12 33.5c4-1.5 17-1.5 21 0" stroke-linejoin="miter"/><circle cx="6" cy="12" r="2"/><circle cx="14" cy="9" r="2"/><circle cx="22.5" cy="8" r="2"/><circle cx="31" cy="9" r="2"/><circle cx="39" cy="12" r="2"/></g></svg>',
+wR:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zM12 36v-4h21v4H12zM11 14V9h4v2h5V9h5v2h5V9h4v5" stroke-linecap="butt"/><path d="M34 14l-3 3H14l-3-3"/><path d="M31 17v12.5H14V17" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M31 29.5l1.5 2.5h-20l1.5-2.5"/><path d="M11 14h23" fill="none" stroke-linejoin="miter"/></g></svg>',
+wB:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#fff" stroke-linecap="butt"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></g><path d="M17.5 26h10M15 30h15" stroke-linejoin="miter"/></g></svg>',
+wN:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="36" width="27" height="3" rx="2" fill="#fff" stroke="#000"/><path d="M14 36c0-6 2-10 6-13s6-6 6-10c0-3-1-5-3-6 4 0 7 3 8 8 2 4 1 9-2 13-2 3-3 5-3 8H14z" fill="#fff" stroke="#000" stroke-linejoin="round"/><path d="M11 36c0-4 1-7 4-10 2-2 4-5 4-8" fill="none" stroke="#000"/><circle cx="20" cy="12" r="1.5" fill="#000" stroke="none"/></g></svg>',
+wP:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#fff" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg>',
+bK:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 11.63V6" stroke-linejoin="miter"/><path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#000" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M12.5 37c5.5 3.5 14.5 3.5 20 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V17s-5.5-4-12.5 1c-5 4-3 12.5 3 16z" fill="#000"/><path d="M20 8h5" stroke-linejoin="miter"/><path d="M32 29.5s8.5-4 6.03-9.65C34.15 14 25 18 22.5 24.5l.01 2.1-.01-2.1C20 18 9.906 14 6.997 19.85c-2.497 5.65 4.853 9 4.853 9" stroke="#fff"/><path d="M12.5 30c5.5-3 14.5-3 20 0M12.5 33.5c5.5-3 14.5-3 20 0M12.5 37c5.5-3 14.5-3 20 0" stroke="#fff"/></g></svg>',
+bQ:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#000" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g stroke="none"><circle cx="6" cy="12" r="2.75"/><circle cx="14" cy="9" r="2.75"/><circle cx="22.5" cy="8" r="2.75"/><circle cx="31" cy="9" r="2.75"/><circle cx="39" cy="12" r="2.75"/></g><path d="M9 26c8.5-1.5 21-1.5 27 0l2.5-12.5L31 25l-.3-14.1-5.2 13.6-3-14.5-3 14.5-5.2-13.6L14 25 6.5 13.5z" stroke-linecap="butt"/><path d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path d="M11.5 30c3.5-1 18.5-1 22 0M12 33.5c4-1.5 17-1.5 21 0" stroke="#fff" fill="none" stroke-linejoin="miter"/></g></svg>',
+bR:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#000" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 39h27v-3H9v3zM12.5 32l1.5-2.5h17l1.5 2.5h-20zM12 36v-4h21v4H12z" stroke-linecap="butt"/><path d="M14 29.5v-13h17v13H14z" stroke-linecap="butt" stroke-linejoin="miter"/><path d="M11 14V9h4v2h5V9h5v2h5V9h4v5H11z" stroke-linecap="butt"/><path d="M34 14l-3 3H14l-3-3"/><path d="M11 14h23" fill="none" stroke="#fff" stroke-linejoin="miter"/><path d="M13 16.5h19M13.5 29.5h18" fill="none" stroke="#fff" stroke-linejoin="miter"/></g></svg>',
+bB:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g fill="#000" stroke-linecap="butt"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.354.49-2.323.47-3-.5 1.354-1.94 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></g><path d="M17.5 26h10M15 30h15" stroke="#fff" stroke-linejoin="miter"/></g></svg>',
+bN:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="36" width="27" height="3" rx="2" fill="#1a1a2e" stroke="#000"/><path d="M14 36c0-6 2-10 6-13s6-6 6-10c0-3-1-5-3-6 4 0 7 3 8 8 2 4 1 9-2 13-2 3-3 5-3 8H14z" fill="#1a1a2e" stroke="#000" stroke-linejoin="round"/><path d="M11 36c0-4 1-7 4-10 2-2 4-5 4-8" fill="none" stroke="#aaa"/><circle cx="20" cy="12" r="1.5" fill="#fff" stroke="none"/></g></svg>',
+bP:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z" fill="#000" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg>'
 };
 
 var game=new Chess(),moves=[],results=[],curIdx=0,flipped=false,depth=14,selSq=null,legalSqs=[],lastSqs=[],bestArrow=null,evalChartObj=null,curGameId=null,renamingId=null,analyzing=false;
 var QEMOJI={brilliant:'!!',best:'!',good:'',inaccuracy:'?!',mistake:'?',blunder:'??'};
 var QCLS={brilliant:'a-br',best:'a-be',good:'a-go',inaccuracy:'a-in',mistake:'a-mi',blunder:'a-bl'};
 
-function getBoardSize(){var w=document.documentElement.clientWidth||window.innerWidth||400;if(w<100)w=400;return Math.floor(Math.min(w-16,520)/8)*8;}
+function getBoardSize(){var w=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);return Math.floor(Math.min(w-16,520)/8)*8;}
 function getSqSize(){return getBoardSize()/8;}
 
 function renderBoard(){
@@ -343,8 +338,8 @@ function renderBoard(){
         var se=pd.querySelector('svg');if(se){se.style.width='100%';se.style.height='100%';}
         div.appendChild(pd);
       }
-      div.addEventListener('click',makeSqHandler(sqId));
-      div.addEventListener('touchend',makeTouchHandler(sqId));
+      div.addEventListener('click',makeSqH(sqId));
+      div.addEventListener('touchend',makeTouchH(sqId));
       board.appendChild(div);
     }
   }
@@ -352,8 +347,8 @@ function renderBoard(){
   document.getElementById('turnLabel').textContent=moves.length===0?(game.turn()==='w'?'White to move':'Black to move'):'Move '+curIdx+' of '+moves.length;
 }
 
-function makeSqHandler(s){return function(){handleSqTap(s);};}
-function makeTouchHandler(s){return function(e){e.preventDefault();handleSqTap(s);};}
+function makeSqH(s){return function(e){e.preventDefault();handleSqTap(s);};}
+function makeTouchH(s){return function(e){e.preventDefault();handleSqTap(s);};}
 
 function handleSqTap(sqId){
   if(analyzing)return;
@@ -380,14 +375,17 @@ function updateArrow(){
   var size=getBoardSize(),sq=getSqSize();
   svg.setAttribute('width',size);svg.setAttribute('height',size);
   if(!bestArrow){line.setAttribute('stroke-width','0');return;}
-  var f=sqCenter(bestArrow.from,sq),t=sqCenter(bestArrow.to,sq);
+  var f=sqCtr(bestArrow.from,sq),t=sqCtr(bestArrow.to,sq);
   var dx=t.x-f.x,dy=t.y-f.y,len=Math.sqrt(dx*dx+dy*dy);
-  line.setAttribute('x1',f.x+(dx/len)*(sq*0.4));line.setAttribute('y1',f.y+(dy/len)*(sq*0.4));
-  line.setAttribute('x2',t.x-(dx/len)*(sq*0.3));line.setAttribute('y2',t.y-(dy/len)*(sq*0.3));
+  if(len===0)return;
+  line.setAttribute('x1',f.x+(dx/len)*(sq*0.4));
+  line.setAttribute('y1',f.y+(dy/len)*(sq*0.4));
+  line.setAttribute('x2',t.x-(dx/len)*(sq*0.3));
+  line.setAttribute('y2',t.y-(dy/len)*(sq*0.3));
   line.setAttribute('stroke-width',Math.round(sq*0.2));
 }
 
-function sqCenter(sq,sqSize){
+function sqCtr(sq,sqSize){
   var FILES=['a','b','c','d','e','f','g','h'];
   var fi=FILES.indexOf(sq[0]),rank=parseInt(sq[1]);
   return{x:(flipped?7-fi:fi)*sqSize+sqSize/2,y:(flipped?rank-1:8-rank)*sqSize+sqSize/2};
@@ -411,63 +409,23 @@ function g2b(){if(curIdx>0)goTo(curIdx-1);}function g2f(){if(curIdx<moves.length
 
 function updateEval(){
   var r=results[curIdx];
-  if(!r){document.getElementById('evalnum').textContent='0.00';document.getElementById('evallbl').textContent='Equal';document.getElementById('evalbar').style.height='50%';document.getElementById('bestmv').textContent='—';return;}
+  if(!r){document.getElementById('evalnum').textContent='0.00';document.getElementById('evallbl').textContent='Equal';document.getElementById('evalbar').style.height='50%';document.getElementById('bestmv').textContent='--';return;}
   var cp=r.evalCP||0,ev=cp/100,abs=Math.abs(ev);
   document.getElementById('evalnum').textContent=Math.abs(cp)>=9000?(cp>0?'M+':'M-'):(ev>=0?'+':'')+ev.toFixed(2);
-  document.getElementById('evallbl').textContent=abs<0.3?'Equal':abs<1?(ev>0?'Slight ♔ edge':'Slight ♚ edge'):abs<2.5?(ev>0?'♔ is better':'♚ is better'):abs<5?(ev>0?'♔ is winning':'♚ is winning'):(ev>0?'♔ decisive':'♚ decisive');
+  document.getElementById('evallbl').textContent=abs<0.3?'Equal':abs<1?(ev>0?'Slight W edge':'Slight B edge'):abs<2.5?(ev>0?'White better':'Black better'):abs<5?(ev>0?'White winning':'Black winning'):(ev>0?'White decisive':'Black decisive');
   document.getElementById('evalbar').style.height=((Math.max(-10,Math.min(10,ev))+10)/20*100)+'%';
-  document.getElementById('bestmv').textContent=(r.bestMove&&r.bestMove.length>=4)?r.bestMove.substring(0,2)+'-'+r.bestMove.substring(2,4):'—';
+  document.getElementById('bestmv').textContent=(r.bestMove&&r.bestMove.length>=4)?r.bestMove.substring(0,2)+'-'+r.bestMove.substring(2,4):'--';
 }
 
-var sf=null,sfReady=false,sfCallbacks={},sfJobId=0;
-function startStockfish(){
-  try{
-    sf=new Worker('https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfish.js');
-    sf.onerror=function(){sf=null;sfReady=false;};
-    sf.onmessage=handleSFMsg;
-    sf.postMessage('uci');sf.postMessage('isready');
-  }catch(e){sf=null;}
-}
-function handleSFMsg(e){
-  var msg=e.data||'';
-  if(msg==='readyok'){sfReady=true;return;}
-  Object.keys(sfCallbacks).forEach(function(id){
-    var job=sfCallbacks[id];if(!job)return;
-    if(msg.indexOf('info')===0&&msg.indexOf('score')>0&&msg.indexOf('pv')>0){
-      var cpM=msg.match(/score cp (-?\d+)/),mateM=msg.match(/score mate (-?\d+)/);
-      var pvM=msg.match(/ pv ([a-h][1-8][a-h][1-8][qrbn]?)/),mpvM=msg.match(/multipv (\d+)/),dM=msg.match(/depth (\d+)/);
-      if(!dM||parseInt(dM[1])<3)return;
-      var cp=cpM?parseInt(cpM[1]):(mateM?(parseInt(mateM[1])>0?9000:-9000):0);
-      var mpv=mpvM?parseInt(mpvM[1]):1;
-      if(!job.lines)job.lines={};
-      job.lines[mpv]={cp:cp,pv:pvM?pvM[1]:''};
-    }
-    if(msg.indexOf('bestmove')===0){
-      var bm=msg.split(' ')[1]||'';
-      if(!job.lines)job.lines={};
-      if(!job.lines[1])job.lines[1]={cp:0,pv:bm};
-      var cb=job.cb;delete sfCallbacks[id];
-      if(cb)cb({bestMove:bm,cp:job.lines[1].cp,lines:[1,2,3].map(function(n){return job.lines[n]||null;}).filter(Boolean)});
-    }
-  });
-}
-function sfAnalyze(fen,d,cb){
-  if(!sf||!sfReady){cb(null);return;}
-  var id=++sfJobId;sfCallbacks[id]={cb:cb,lines:{}};
-  sf.postMessage('setoption name MultiPV value 3');
-  sf.postMessage('ucinewgame');
-  sf.postMessage('position fen '+fen);
-  sf.postMessage('go depth '+d);
-}
-
+// ── PIECE VALUES ──────────────────────────────────────────
 var PV={p:100,n:300,b:300,r:500,q:900,k:0};
 var PST={
-p:[0,0,0,0,0,0,0,0,50,50,50,50,50,50,50,50,10,10,20,30,30,20,10,10,5,5,10,25,25,10,5,5,0,0,0,20,20,0,0,0,5,-5,-10,0,0,-10,-5,5,5,10,10,-20,-20,10,10,5,0,0,0,0,0,0,0,0],
-n:[-50,-40,-30,-30,-30,-30,-40,-50,-40,-20,0,0,0,0,-20,-40,-30,0,10,15,15,10,0,-30,-30,5,15,20,20,15,5,-30,-30,0,15,20,20,15,0,-30,-30,5,10,15,15,10,5,-30,-40,-20,0,5,5,0,-20,-40,-50,-40,-30,-30,-30,-30,-40,-50],
-b:[-20,-10,-10,-10,-10,-10,-10,-20,-10,0,0,0,0,0,0,-10,-10,0,5,10,10,5,0,-10,-10,5,5,10,10,5,5,-10,-10,0,10,10,10,10,0,-10,-10,10,10,10,10,10,10,-10,-10,5,0,0,0,0,5,-10,-20,-10,-10,-10,-10,-10,-10,-20],
-r:[0,0,0,0,0,0,0,0,5,10,10,10,10,10,10,5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,0,0,0,5,5,0,0,0],
-q:[-20,-10,-10,-5,-5,-10,-10,-20,-10,0,0,0,0,0,0,-10,-10,0,5,5,5,5,0,-10,-5,0,5,5,5,5,0,-5,0,0,5,5,5,5,0,-5,-10,5,5,5,5,5,0,-10,-10,0,5,0,0,0,0,-10,-20,-10,-10,-5,-5,-10,-10,-20],
-k:[-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-20,-30,-30,-40,-40,-30,-30,-20,-10,-20,-20,-20,-20,-20,-20,-10,20,20,0,0,0,0,20,20,20,30,10,0,0,10,30,20]
+  p:[0,0,0,0,0,0,0,0,50,50,50,50,50,50,50,50,10,10,20,30,30,20,10,10,5,5,10,25,25,10,5,5,0,0,0,20,20,0,0,0,5,-5,-10,0,0,-10,-5,5,5,10,10,-20,-20,10,10,5,0,0,0,0,0,0,0,0],
+  n:[-50,-40,-30,-30,-30,-30,-40,-50,-40,-20,0,0,0,0,-20,-40,-30,0,10,15,15,10,0,-30,-30,5,15,20,20,15,5,-30,-30,0,15,20,20,15,0,-30,-30,5,10,15,15,10,5,-30,-40,-20,0,5,5,0,-20,-40,-50,-40,-30,-30,-30,-30,-40,-50],
+  b:[-20,-10,-10,-10,-10,-10,-10,-20,-10,0,0,0,0,0,0,-10,-10,0,5,10,10,5,0,-10,-10,5,5,10,10,5,5,-10,-10,0,10,10,10,10,0,-10,-10,10,10,10,10,10,10,-10,-10,5,0,0,0,0,5,-10,-20,-10,-10,-10,-10,-10,-10,-20],
+  r:[0,0,0,0,0,0,0,0,5,10,10,10,10,10,10,5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,0,0,0,5,5,0,0,0],
+  q:[-20,-10,-10,-5,-5,-10,-10,-20,-10,0,0,0,0,0,0,-10,-10,0,5,5,5,5,0,-10,-5,0,5,5,5,5,0,-5,0,0,5,5,5,5,0,-5,-10,5,5,5,5,5,0,-10,-10,0,5,0,0,0,0,-10,-20,-10,-10,-5,-5,-10,-10,-20],
+  k:[-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-20,-30,-30,-40,-40,-30,-30,-20,-10,-20,-20,-20,-20,-20,-20,-10,20,20,0,0,0,0,20,20,20,30,10,0,0,10,30,20]
 };
 
 function evalBoard(fen){
@@ -475,60 +433,85 @@ function evalBoard(fen){
   if(g.in_checkmate())return g.turn()==='w'?-9000:9000;
   if(g.in_stalemate()||g.in_draw())return 0;
   var board=g.board(),score=0;
-  for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=board[r][c];if(!p)continue;var idx=p.color==='w'?r*8+c:(7-r)*8+c;score+=p.color==='w'?(PV[p.type]+(PST[p.type]?PST[p.type][idx]:0)):-(PV[p.type]+(PST[p.type]?PST[p.type][idx]:0));}
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
+    var p=board[r][c];if(!p)continue;
+    var idx=p.color==='w'?r*8+c:(7-r)*8+c;
+    var pst=PST[p.type]?PST[p.type][idx]:0;
+    score+=p.color==='w'?(PV[p.type]+pst):-(PV[p.type]+pst);
+  }
   return score;
 }
+
 function localBestMove(fen){
   var g=new Chess(fen),isW=g.turn()==='w',mvs=g.moves({verbose:true});
-  if(!mvs.length)return{uci:'',cp:evalBoard(fen)};
+  if(!mvs.length)return{uci:'',cp:evalBoard(fen),san:''};
   var best=mvs[0],bestScore=isW?-Infinity:Infinity;
   for(var i=0;i<mvs.length;i++){
     g.move(mvs[i]);
     var g2=new Chess(g.fen()),opp=g2.moves({verbose:true}),sc;
     if(!opp.length){sc=evalBoard(g.fen());}
-    else{sc=isW?Infinity:-Infinity;for(var j=0;j<opp.length;j++){g2.move(opp[j]);var s2=evalBoard(g2.fen());if(isW&&s2<sc)sc=s2;if(!isW&&s2>sc)sc=s2;g2.undo();}}
+    else{
+      sc=isW?Infinity:-Infinity;
+      for(var j=0;j<opp.length;j++){
+        g2.move(opp[j]);var s2=evalBoard(g2.fen());
+        if(isW&&s2<sc)sc=s2;if(!isW&&s2>sc)sc=s2;g2.undo();
+      }
+    }
     if(isW&&sc>bestScore){bestScore=sc;best=mvs[i];}
     if(!isW&&sc<bestScore){bestScore=sc;best=mvs[i];}
     g.undo();
   }
   return{uci:best.from+best.to+(best.promotion||''),cp:bestScore,san:best.san};
 }
-function ownMaterial(fen,color){var g=new Chess(fen),b=g.board(),t=0;for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.color===color)t+=PV[p.type];}return t;}
-function cpToQuality(loss,sac){if(sac&&loss<=80)return'brilliant';if(loss<=15)return'best';if(loss<=60)return'good';if(loss<=150)return'inaccuracy';if(loss<=350)return'mistake';return'blunder';}
-function calcAccuracy(qs){var wp={brilliant:100,best:100,good:85,inaccuracy:60,mistake:30,blunder:5};if(!qs.length)return 100;var s=0;qs.forEach(function(q){s+=(wp[q]||85);});return(s/qs.length).toFixed(1);}
 
+function ownMaterial(fen,color){
+  var g=new Chess(fen),b=g.board(),t=0;
+  for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.color===color)t+=PV[p.type];}
+  return t;
+}
+
+function cpToQuality(loss,sac){
+  if(sac&&loss<=80)return'brilliant';
+  if(loss<=15)return'best';
+  if(loss<=60)return'good';
+  if(loss<=150)return'inaccuracy';
+  if(loss<=350)return'mistake';
+  return'blunder';
+}
+
+function calcAccuracy(qs){
+  var wp={brilliant:100,best:100,good:85,inaccuracy:60,mistake:30,blunder:5};
+  if(!qs.length)return'100.0';
+  var s=0;qs.forEach(function(q){s+=(wp[q]||85);});
+  return(s/qs.length).toFixed(1);
+}
+
+// ── ANALYZE ───────────────────────────────────────────────
 async function analyze(){
   var pgn=document.getElementById('pgninput').value.trim();
   if(!pgn){toast('Paste a PGN first','err');return;}
   var tg=new Chess();if(!tg.load_pgn(pgn)){toast('Invalid PGN','err');return;}
   var th=new Chess();th.load_pgn(pgn);
   var hist=th.history({verbose:true});if(!hist.length){toast('No moves found','err');return;}
+
   moves=hist;results=new Array(hist.length+1).fill(null);
   curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();analyzing=true;curGameId=null;
   var fens=[],tg3=new Chess();fens.push(tg3.fen());
   hist.forEach(function(m){tg3.move(m);fens.push(tg3.fen());});
+
   document.getElementById('emptystate').style.display='none';
   var sdot=document.getElementById('sdot'),stxt=document.getElementById('stxt'),po=document.getElementById('prog-out'),pi=document.getElementById('prog-in');
   sdot.className='sdot spin-mode';po.style.display='block';
   showPage('analysis');renderBoard();
   document.getElementById('mcount').textContent='0 / '+hist.length;
-  var usingSF=sf&&sfReady;
+
   for(var i=0;i<fens.length;i++){
     await new Promise(function(res){setTimeout(res,0);});
     pi.style.width=Math.round(i/fens.length*100)+'%';
-    stxt.innerHTML='<span class="spin"></span><strong>'+(usingSF?'Stockfish':'Local engine')+'</strong> — move '+i+' / '+(fens.length-1);
-    var r;
-    if(usingSF){
-      r=await new Promise(function(resolve){
-        sfAnalyze(fens[i],depth,function(res){
-          if(!res){var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);resolve({evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]});return;}
-          resolve({evalCP:res.cp,eval:res.cp/100,bestMove:res.bestMove,bestEval:res.cp,lines:res.lines.map(function(l){return{eval:l.cp/100,moves:l.pv||''};})});
-        });
-      });
-    }else{
-      var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);
-      r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]};
-    }
+    stxt.innerHTML='<span class="spin"></span><strong>Analyzing...</strong> move '+i+' / '+(fens.length-1);
+    var loc=localBestMove(fens[i]);
+    var ev=evalBoard(fens[i]);
+    var r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]};
     results[i]=r;
     if(i>0&&results[i-1]){
       var color=hist[i-1].color,sign=color==='w'?1:-1;
@@ -537,11 +520,12 @@ async function analyze(){
       r.cpLoss=Math.max(0,cpLoss);r.quality=cpToQuality(cpLoss,sac);r.loss=cpLoss/100;
     }else{r.cpLoss=0;r.quality='good';r.loss=0;}
   }
+
   pi.style.width='100%';sdot.className='sdot done';
   stxt.innerHTML='<strong>Done!</strong> '+hist.length+' moves analyzed.';
   po.style.display='none';analyzing=false;
   renderMoveList();renderSummary();renderGraph();updateEval();
-  saveGame();toast('Analysis complete ✓','ok');sPTab('moves');
+  saveGame();toast('Analysis complete!','ok');sPTab('moves');
 }
 
 function renderMoveList(){
@@ -550,9 +534,15 @@ function renderMoveList(){
     var n=Math.floor(i/2)+1;
     h+='<div class="mrow"><div class="mnum">'+n+'.</div>';
     var wi=i+1,wr=results[wi],wq=(wr&&wr.quality)||'good';
-    h+='<div class="mcell '+(curIdx===wi?'active':'')+'" id="mc-'+wi+'" onclick="goTo('+wi+');showPage(\'board\')">'+'<span class="msan">'+moves[i].san+'</span>'+'<span class="mann '+QCLS[wq]+'">'+(QEMOJI[wq]!==undefined?QEMOJI[wq]:wq)+(wr&&wr.cpLoss>0?' ('+wr.cpLoss+'cp)':'')+'</span></div>';
-    if(i+1<moves.length){var bi=i+2,br=results[bi],bq=(br&&br.quality)||'good';h+='<div class="mcell '+(curIdx===bi?'active':'')+'" id="mc-'+bi+'" onclick="goTo('+bi+');showPage(\'board\')">'+'<span class="msan">'+moves[i+1].san+'</span>'+'<span class="mann '+QCLS[bq]+'">'+(QEMOJI[bq]!==undefined?QEMOJI[bq]:bq)+(br&&br.cpLoss>0?' ('+br.cpLoss+'cp)':'')+'</span></div>';}
-    else h+='<div class="mcell" style="opacity:.1;cursor:default"></div>';
+    h+='<div class="mcell '+(curIdx===wi?'active':'')+'" id="mc-'+wi+'" onclick="goTo('+wi+');showPage(\'board\')">'
+      +'<span class="msan">'+moves[i].san+'</span>'
+      +'<span class="mann '+QCLS[wq]+'">'+(QEMOJI[wq]!==undefined?QEMOJI[wq]:wq)+(wr&&wr.cpLoss>0?' ('+wr.cpLoss+'cp)':'')+'</span></div>';
+    if(i+1<moves.length){
+      var bi=i+2,br=results[bi],bq=(br&&br.quality)||'good';
+      h+='<div class="mcell '+(curIdx===bi?'active':'')+'" id="mc-'+bi+'" onclick="goTo('+bi+');showPage(\'board\')">'
+        +'<span class="msan">'+moves[i+1].san+'</span>'
+        +'<span class="mann '+QCLS[bq]+'">'+(QEMOJI[bq]!==undefined?QEMOJI[bq]:bq)+(br&&br.cpLoss>0?' ('+br.cpLoss+'cp)':'')+'</span></div>';
+    }else h+='<div class="mcell" style="opacity:.1;cursor:default"></div>';
     h+='</div>';
   }
   document.getElementById('movelist-wrap').innerHTML=h+'</div>';
@@ -565,19 +555,49 @@ function updActMove(){
 }
 
 function renderSummary(){
-  var s={w:{br:0,be:0,go:0,in:0,mi:0,bl:0,tot:0},b:{br:0,be:0,go:0,in:0,mi:0,bl:0,tot:0}};
+  var s={w:{br:0,be:0,go:0,in:0,mi:0,bl:0},b:{br:0,be:0,go:0,in:0,mi:0,bl:0}};
   var map={brilliant:'br',best:'be',good:'go',inaccuracy:'in',mistake:'mi',blunder:'bl'};
-  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';s[m.color][map[q]]=(s[m.color][map[q]]||0)+1;s[m.color].tot++;});
-  function acc(st){return st.tot>0?Math.max(0,100-(st.bl*3+st.mi*2+st.in)/st.tot*40).toFixed(1):'100.0';}
-  var wa=acc(s.w),ba=acc(s.b);
+  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';s[m.color][map[q]]=(s[m.color][map[q]]||0)+1;});
+  function getAcc(color){var qs=[];moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.quality)qs.push(r.quality);});return calcAccuracy(qs);}
+  var wa=getAcc('w'),ba=getAcc('b');
   function col(v){return parseFloat(v)>=80?'var(--green)':parseFloat(v)>=60?'var(--yellow)':'var(--red)';}
-  document.getElementById('summary-wrap').innerHTML=`<div class="sum-grid"><div class="scard"><div class="scard-title"><div class="cdot" style="background:#eee"></div>White</div><div class="acc-big" style="color:${col(wa)}">${wa}%</div><div class="acc-bar"><div class="acc-fill" style="width:${wa}%"></div></div><div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">${s.w.br}</span></div><div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">${s.w.be}</span></div><div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">${s.w.go}</span></div><div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">${s.w.in}</span></div><div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">${s.w.mi}</span></div><div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">${s.w.bl}</span></div></div><div class="scard"><div class="scard-title"><div class="cdot" style="background:#444"></div>Black</div><div class="acc-big" style="color:${col(ba)}">${ba}%</div><div class="acc-bar"><div class="acc-fill" style="width:${ba}%"></div></div><div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">${s.b.br}</span></div><div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">${s.b.be}</span></div><div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">${s.b.go}</span></div><div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">${s.b.in}</span></div><div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">${s.b.mi}</span></div><div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">${s.b.bl}</span></div></div></div><div class="scard"><div class="scard-title">Game Info</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px"><span style="color:var(--text2)">Total Moves</span><span style="font-family:'IBM Plex Mono',monospace">${moves.length}</span><span style="color:var(--text2)">White Blunders</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--red)">${s.w.bl}</span><span style="color:var(--text2)">Black Blunders</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--red)">${s.b.bl}</span><span style="color:var(--text2)">Depth</span><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent)">${depth}</span></div></div>`;
+  document.getElementById('summary-wrap').innerHTML=
+    '<div class="sum-grid">'
+    +'<div class="scard"><div class="scard-title"><div class="cdot" style="background:#eee"></div>White</div>'
+    +'<div class="acc-big" style="color:'+col(wa)+'">'+wa+'%</div>'
+    +'<div class="acc-bar"><div class="acc-fill" style="width:'+wa+'%"></div></div>'
+    +'<div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">'+s.w.br+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">'+s.w.be+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">'+s.w.go+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">'+s.w.in+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">'+s.w.mi+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">'+s.w.bl+'</span></div></div>'
+    +'<div class="scard"><div class="scard-title"><div class="cdot" style="background:#444"></div>Black</div>'
+    +'<div class="acc-big" style="color:'+col(ba)+'">'+ba+'%</div>'
+    +'<div class="acc-bar"><div class="acc-fill" style="width:'+ba+'%"></div></div>'
+    +'<div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">'+s.b.br+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">'+s.b.be+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">'+s.b.go+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">'+s.b.in+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">'+s.b.mi+'</span></div>'
+    +'<div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">'+s.b.bl+'</span></div></div></div>'
+    +'<div class="scard"><div class="scard-title">Game Info</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">'
+    +'<span style="color:var(--text2)">Total Moves</span><span style="font-family:\'IBM Plex Mono\',monospace">'+moves.length+'</span>'
+    +'<span style="color:var(--text2)">White Blunders</span><span style="font-family:\'IBM Plex Mono\',monospace;color:var(--red)">'+s.w.bl+'</span>'
+    +'<span style="color:var(--text2)">Black Blunders</span><span style="font-family:\'IBM Plex Mono\',monospace;color:var(--red)">'+s.b.bl+'</span>'
+    +'<span style="color:var(--text2)">Depth</span><span style="font-family:\'IBM Plex Mono\',monospace;color:var(--accent)">'+depth+'</span>'
+    +'</div></div>';
 }
 
 function renderGraph(){
   var labels=['Start'],data=[0],pts=['rgba(124,111,255,.8)'];
   var qc={brilliant:'rgba(124,111,255,.9)',best:'rgba(79,255,176,.9)',good:'rgba(72,219,251,.8)',inaccuracy:'rgba(255,224,102,.9)',mistake:'rgba(255,154,60,.9)',blunder:'rgba(255,71,87,.9)'};
-  moves.forEach(function(m,i){labels.push((Math.floor(i/2)+1)+(m.color==='w'?'':'.. ')+m.san);data.push(Math.max(-10,Math.min(10,(results[i+1]&&results[i+1].eval)||0)));pts.push(qc[(results[i+1]&&results[i+1].quality)||'good']);});
+  moves.forEach(function(m,i){
+    labels.push((Math.floor(i/2)+1)+(m.color==='w'?'':'.. ')+m.san);
+    data.push(Math.max(-10,Math.min(10,(results[i+1]&&results[i+1].eval)||0)));
+    pts.push(qc[(results[i+1]&&results[i+1].quality)||'good']||'rgba(100,100,150,.8)');
+  });
   var ctx=document.getElementById('evalChart').getContext('2d');
   if(evalChartObj)evalChartObj.destroy();
   evalChartObj=new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{data:data,borderColor:'rgba(124,111,255,.6)',borderWidth:2,pointBackgroundColor:pts,pointRadius:4,pointHoverRadius:6,fill:{target:'origin',above:'rgba(124,111,255,.05)',below:'rgba(255,107,53,.05)'},tension:.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return(c.raw>=0?'+':'')+Number(c.raw).toFixed(2);}}}},scales:{x:{ticks:{color:'#555',maxTicksLimit:8,font:{size:9}},grid:{color:'rgba(255,255,255,.03)'}},y:{min:-10,max:10,ticks:{color:'#555',callback:function(v){return v>0?'+'+v:v;},font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}}},onClick:function(e,els){if(els.length){goTo(els[0].index);showPage('board');}}}});
@@ -585,15 +605,15 @@ function renderGraph(){
 
 function renderEngineLines(){
   var r=results[curIdx];
-  if(!r||!r.lines){document.getElementById('engine-wrap').innerHTML='<div class="empty"><div class="empty-ico">🤖</div><h3>Engine Lines</h3><p>Tap a move to see engine lines.</p></div>';return;}
-  var h='<div class="elines"><div class="sec-title" style="margin-bottom:8px">Top Lines — Move '+curIdx+'</div>';
-  r.lines.forEach(function(l,i){if(!l)return;var ev=l.eval,evs=Math.abs(ev)>=99?(ev>0?'Mate':'-Mate'):(ev>=0?'+':'')+Number(ev).toFixed(2);h+='<div class="eline"><span class="erank">'+(i+1)+'.</span><span class="eeval '+(ev>0.1?'pos':ev<-0.1?'neg':'eq')+'">'+evs+'</span><span class="emoves">'+(l.moves||'—')+'</span></div>';});
+  if(!r||!r.lines){document.getElementById('engine-wrap').innerHTML='<div class="empty"><div class="empty-ico">&#129302;</div><h3>Engine Lines</h3><p>Tap a move to see engine lines.</p></div>';return;}
+  var h='<div class="elines"><div class="sec-title" style="margin-bottom:8px">Top Lines - Move '+curIdx+'</div>';
+  r.lines.forEach(function(l,i){if(!l)return;var ev=l.eval,evs=Math.abs(ev)>=99?(ev>0?'Mate':'-Mate'):(ev>=0?'+':'')+Number(ev).toFixed(2);h+='<div class="eline"><span class="erank">'+(i+1)+'.</span><span class="eeval '+(ev>0.1?'pos':ev<-0.1?'neg':'eq')+'">'+evs+'</span><span class="emoves">'+(l.moves||'--')+'</span></div>';});
   h+='</div><div class="statusbar"><span class="mann '+QCLS[r.quality||'good']+'" style="font-size:14px;padding:4px 10px">'+(QEMOJI[r.quality||'good']||'')+' '+(r.quality||'good').toUpperCase()+'</span><span style="font-size:12px;color:var(--text2);margin-left:10px">CP loss: <strong style="color:var(--text)">'+(r.cpLoss||0)+'</strong></span></div>';
   document.getElementById('engine-wrap').innerHTML=h;
 }
 
-function getGames(){try{return JSON.parse(localStorage.getItem('ciq5')||'[]');}catch(e){return[];}}
-function setGames(g){localStorage.setItem('ciq5',JSON.stringify(g));}
+function getGames(){try{return JSON.parse(localStorage.getItem('ciq_final')||'[]');}catch(e){return[];}}
+function setGames(g){localStorage.setItem('ciq_final',JSON.stringify(g));}
 
 function saveGame(){
   if(!moves.length)return;
@@ -603,12 +623,14 @@ function saveGame(){
   if(ei>=0)gs[ei]=g;else gs.unshift(g);
   setGames(gs);renderLibrary();
 }
+
 function computeStats(){
-  var s={w:{bl:0,mi:0,in:0,tot:0},b:{bl:0,mi:0,in:0,tot:0}};
-  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';if(q==='blunder')s[m.color].bl++;else if(q==='mistake')s[m.color].mi++;else if(q==='inaccuracy')s[m.color].in++;s[m.color].tot++;});
-  function acc(color){var qs=[];moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.quality)qs.push(r.quality);});return calcAccuracy(qs);}
-  return{wBl:s.w.bl,wMi:s.w.mi,wIn:s.w.in,bBl:s.b.bl,bMi:s.b.mi,bIn:s.b.in,wAcc:acc('w'),bAcc:acc('b')};
+  function getAcc(color){var qs=[];moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.quality)qs.push(r.quality);});return calcAccuracy(qs);}
+  var s={w:{bl:0,mi:0,in:0},b:{bl:0,mi:0,in:0}};
+  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';if(q==='blunder')s[m.color].bl++;else if(q==='mistake')s[m.color].mi++;else if(q==='inaccuracy')s[m.color].in++;});
+  return{wBl:s.w.bl,wMi:s.w.mi,wIn:s.w.in,bBl:s.b.bl,bMi:s.b.mi,bIn:s.b.in,wAcc:getAcc('w'),bAcc:getAcc('b')};
 }
+
 function detectOpening(){
   if(!moves.length)return'Unknown Opening';
   var line=moves.slice(0,6).map(function(m){return m.san;}).join(' ');
@@ -616,11 +638,24 @@ function detectOpening(){
   for(var i=0;i<ops.length;i++){if(line.indexOf(ops[i][0])===0)return ops[i][1];}
   return'Unknown Opening';
 }
+
 function renderLibrary(){
   var gs=getGames();document.getElementById('gcnt').textContent=gs.length;
-  if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">📂<br>No saved games yet</div>';return;}
-  document.getElementById('glist').innerHTML=gs.map(function(g){return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'+'<div class="gc-top"><span class="gc-name">'+g.name+'</span><div class="gc-btns"><button class="gc-btn" onclick="event.stopPropagation();openRename(\''+g.id+'\')">✏️</button><button class="gc-btn gc-del" onclick="event.stopPropagation();delGame(\''+g.id+'\')">✕</button></div></div>'+'<div class="gc-opening">'+g.opening+'</div>'+'<div class="gc-pills"><span class="pill p-r">??'+((g.stats&&g.stats.wBl)||0)+'+'+((g.stats&&g.stats.bBl)||0)+'</span><span class="pill p-o">?'+((g.stats&&g.stats.wMi)||0)+'+'+((g.stats&&g.stats.bMi)||0)+'</span><span class="pill p-g">W:'+((g.stats&&g.stats.wAcc)||'?')+'% B:'+((g.stats&&g.stats.bAcc)||'?')+'%</span></div>'+'<div class="gc-date">'+new Date(g.date).toLocaleDateString()+' · '+g.moveCount+'mv</div></div>';}).join('');
+  if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">&#128193;<br>No saved games yet</div>';return;}
+  document.getElementById('glist').innerHTML=gs.map(function(g){
+    return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'
+      +'<div class="gc-top"><span class="gc-name">'+g.name+'</span>'
+      +'<div class="gc-btns"><button class="gc-btn" onclick="event.stopPropagation();openRename(\''+g.id+'\')">&#9999;&#65039;</button>'
+      +'<button class="gc-btn gc-del" onclick="event.stopPropagation();delGame(\''+g.id+'\')">&#10005;</button></div></div>'
+      +'<div class="gc-opening">'+g.opening+'</div>'
+      +'<div class="gc-pills">'
+      +'<span class="pill p-r">??'+((g.stats&&g.stats.wBl)||0)+'+'+((g.stats&&g.stats.bBl)||0)+'</span>'
+      +'<span class="pill p-o">?'+((g.stats&&g.stats.wMi)||0)+'+'+((g.stats&&g.stats.bMi)||0)+'</span>'
+      +'<span class="pill p-g">W:'+((g.stats&&g.stats.wAcc)||'?')+'% B:'+((g.stats&&g.stats.bAcc)||'?')+'%</span>'
+      +'</div><div class="gc-date">'+new Date(g.date).toLocaleDateString()+' - '+g.moveCount+'mv</div></div>';
+  }).join('');
 }
+
 function loadGame(id){
   var g=getGames().find(function(x){return x.id===id;});if(!g)return;
   document.getElementById('pgninput').value=g.pgn;
@@ -631,32 +666,32 @@ function loadGame(id){
   document.getElementById('sdot').className='sdot done';
   document.getElementById('stxt').innerHTML='<strong>Loaded.</strong> '+moves.length+' moves.';
   document.getElementById('emptystate').style.display='none';
-  showPage('analysis');sPTab('moves');toast('Game loaded ♟','info');
+  showPage('analysis');sPTab('moves');toast('Game loaded!','info');
 }
-function delGame(id){if(!confirm('Delete this game?'))return;var gs=getGames().filter(function(g){return g.id!==id;});setGames(gs);if(curGameId===id)curGameId=null;renderLibrary();toast('Deleted','info');}
-function filterGames(q){var gs=getGames().filter(function(g){return g.name.toLowerCase().includes(q.toLowerCase())||g.opening.toLowerCase().includes(q.toLowerCase());});if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">🔍<br>No results</div>';return;}document.getElementById('glist').innerHTML=gs.map(function(g){return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'+'<div class="gc-top"><span class="gc-name">'+g.name+'</span></div><div class="gc-opening">'+g.opening+'</div></div>';}).join('');}
+
+function delGame(id){if(!confirm('Delete?'))return;var gs=getGames().filter(function(g){return g.id!==id;});setGames(gs);if(curGameId===id)curGameId=null;renderLibrary();toast('Deleted','info');}
+function filterGames(q){var gs=getGames().filter(function(g){return g.name.toLowerCase().indexOf(q.toLowerCase())>=0||g.opening.toLowerCase().indexOf(q.toLowerCase())>=0;});if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">No results</div>';return;}document.getElementById('glist').innerHTML=gs.map(function(g){return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'+'<span class="gc-name">'+g.name+'</span><div class="gc-opening">'+g.opening+'</div></div>';}).join('');}
 function openRename(id){renamingId=id;var g=getGames().find(function(x){return x.id===id;});document.getElementById('renameInp').value=(g&&g.name)||'';document.getElementById('renameModal').style.display='flex';setTimeout(function(){document.getElementById('renameInp').focus();},100);}
 function closeRename(){document.getElementById('renameModal').style.display='none';renamingId=null;}
-function doRename(){var n=document.getElementById('renameInp').value.trim();if(!n||!renamingId)return closeRename();var gs=getGames();var i=gs.findIndex(function(g){return g.id===renamingId;});if(i>=0){gs[i].name=n;setGames(gs);renderLibrary();toast('Renamed ✓','ok');}closeRename();}
+function doRename(){var n=document.getElementById('renameInp').value.trim();if(!n||!renamingId)return closeRename();var gs=getGames();var idx=gs.findIndex(function(g){return g.id===renamingId;});if(idx>=0){gs[idx].name=n;setGames(gs);renderLibrary();toast('Renamed!','ok');}closeRename();}
 
 function exportJSON(){
   if(!moves.length){toast('No game loaded','err');return;}
   var d={pgn:document.getElementById('pgninput').value,opening:detectOpening(),moves:moves.map(function(m,i){return{n:Math.floor(i/2)+1,color:m.color==='w'?'White':'Black',san:m.san,quality:(results[i+1]&&results[i+1].quality)||'good',eval:results[i+1]&&results[i+1].eval,bestMove:results[i+1]&&results[i+1].bestMove};}),stats:computeStats(),date:new Date().toISOString(),depth:depth};
   var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chessiq-'+Date.now()+'.json';a.click();toast('JSON exported ✓','ok');
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chessiq-'+Date.now()+'.json';a.click();toast('JSON exported!','ok');
 }
 function exportPDF(){
   if(!moves.length){toast('No game loaded','err');return;}
   var st=computeStats(),op=detectOpening();
   var w=window.open('','_blank');
-  w.document.write('<html><head><title>ChessIQ</title><style>body{font-family:Arial,sans-serif;margin:30px}table{border-collapse:collapse;width:100%;margin-top:20px}th,td{border:1px solid #ddd;padding:6px 9px;font-size:12px}th{background:#f5f5f5}.bl{background:#fff0f0}.mi{background:#fff8f0}.be{background:#f0fff0}</style></head><body><h1>♟ ChessIQ Analysis</h1><p><b>Opening:</b> '+op+' | <b>Moves:</b> '+moves.length+' | <b>Depth:</b> '+depth+'</p><p>White: <b>'+st.wAcc+'%</b> ('+st.wBl+' blunders) | Black: <b>'+st.bAcc+'%</b> ('+st.bBl+' blunders)</p><table><tr><th>#</th><th>Color</th><th>Move</th><th>Quality</th><th>Eval</th><th>Best</th></tr>'+moves.map(function(m,i){var r=results[i+1];var q=(r&&r.quality)||'good';return'<tr class="'+(q==='blunder'?'bl':q==='mistake'?'mi':q==='best'||q==='brilliant'?'be':'')+'"><td>'+(Math.floor(i/2)+1)+'</td><td>'+(m.color==='w'?'W':'B')+'</td><td><b>'+m.san+'</b></td><td>'+q+' '+(QEMOJI[q]||'')+'</td><td>'+(r&&r.eval!=null?(r.eval>=0?'+':'')+Number(r.eval).toFixed(2):'—')+'</td><td>'+(r&&r.bestMove||'—')+'</td></tr>';}).join('')+'</table></body></html>');
-  w.document.close();w.print();toast('PDF ready ✓','ok');
+  w.document.write('<html><head><title>ChessIQ</title><style>body{font-family:Arial,sans-serif;margin:30px}table{border-collapse:collapse;width:100%;margin-top:20px}th,td{border:1px solid #ddd;padding:6px 9px;font-size:12px}th{background:#f5f5f5}.bl{background:#fff0f0}.mi{background:#fff8f0}.be{background:#f0fff0}</style></head><body><h1>ChessIQ Analysis</h1><p><b>Opening:</b> '+op+' | <b>Moves:</b> '+moves.length+'</p><p>White: <b>'+st.wAcc+'%</b> ('+st.wBl+' blunders) | Black: <b>'+st.bAcc+'%</b> ('+st.bBl+' blunders)</p><table><tr><th>#</th><th>Color</th><th>Move</th><th>Quality</th><th>Eval</th><th>CP Loss</th></tr>'+moves.map(function(m,i){var r=results[i+1];var q=(r&&r.quality)||'good';return'<tr class="'+(q==='blunder'?'bl':q==='mistake'?'mi':q==='best'||q==='brilliant'?'be':'')+'"><td>'+(Math.floor(i/2)+1)+'</td><td>'+(m.color==='w'?'W':'B')+'</td><td><b>'+m.san+'</b></td><td>'+q+' '+(QEMOJI[q]||'')+'</td><td>'+(r&&r.eval!=null?(r.eval>=0?'+':'')+Number(r.eval).toFixed(2):'--')+'</td><td>'+(r&&r.cpLoss||0)+'</td></tr>';}).join('')+'</table></body></html>');
+  w.document.close();w.print();toast('PDF ready!','ok');
 }
 
 function showPage(p){
-  var pages=['board','analysis','library'];
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
-  document.querySelectorAll('.tnav').forEach(function(el,i){el.classList.toggle('active',pages[i]===p);});
+  document.querySelectorAll('.tnav').forEach(function(el,i){el.classList.toggle('active',['board','analysis','library'][i]===p);});
   document.getElementById('page-'+p).classList.add('active');
   if(p==='library')renderLibrary();
   if(p==='board')renderBoard();
@@ -676,19 +711,20 @@ function newGame(){
   document.getElementById('stxt').textContent='Ready. Paste a PGN and tap Analyze.';
   document.getElementById('emptystate').style.display='';
   document.getElementById('evalnum').textContent='0.00';
-  document.getElementById('bestmv').textContent='—';
+  document.getElementById('bestmv').textContent='--';
   document.getElementById('mcount').textContent='0 / 0';
-  document.getElementById('movelist-wrap').innerHTML='<div class="empty"><div class="empty-ico">📋</div><h3>No moves yet</h3></div>';
-  document.getElementById('summary-wrap').innerHTML='<div class="empty"><div class="empty-ico">📊</div><h3>No summary yet</h3></div>';
+  document.getElementById('movelist-wrap').innerHTML='<div class="empty"><div class="empty-ico">&#128203;</div><h3>No moves yet</h3></div>';
+  document.getElementById('summary-wrap').innerHTML='<div class="empty"><div class="empty-ico">&#128202;</div><h3>No summary yet</h3></div>';
   if(evalChartObj){evalChartObj.destroy();evalChartObj=null;}
   renderBoard();renderLibrary();showPage('analysis');sPTab('input');
 }
-function loadSample(){document.getElementById('pgninput').value='1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. c4 c6 12. cxb5 axb5 13. Nc3 Bb7 14. Bg5 b4 15. Nb1 h6 16. Bh4 c5 17. dxe5 Nxe4 18. Bxe7 Qxe7 19. exd6 Qf6 20. Nbd2 Nxd6 1-0';toast('Sample loaded','info');}
+function loadSample(){document.getElementById('pgninput').value='1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. c4 c6 12. cxb5 axb5 13. Nc3 Bb7 14. Bg5 b4 15. Nb1 h6 16. Bh4 c5 17. dxe5 Nxe4 18. Bxe7 Qxe7 19. exd6 Qf6 20. Nbd2 Nxd6 1-0';toast('Sample loaded!','info');}
 function toast(msg,type){var n=document.getElementById('notif');n.textContent=msg;n.className='notif show '+(type==='ok'?'ok':type==='err'?'err':'info');setTimeout(function(){n.classList.remove('show');},2800);}
 
 document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='ArrowLeft')g2b();if(e.key==='ArrowRight')g2f();});
 window.addEventListener('resize',renderBoard);
-window.addEventListener("load",function(){startStockfish();setTimeout(function(){renderBoard();renderLibrary();},200);});
+renderBoard();
+renderLibrary();
 </script>
 </body>
 </html>
