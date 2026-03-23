@@ -5,10 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Aria — Chess Companion</title>
 <script>
-// Inline minimal Chess.js fallback — loads before anything else
-window._chessJsLoaded = false;
+// saveKey runs before ANYTHING else - isolated and crash-proof
+function saveKey(){
+  var v=document.getElementById('api-key-input').value.trim();
+  if(!v){alert('Enter your Groq key (gsk_...)');return;}
+  localStorage.setItem('aria_groq_key',v);
+  document.getElementById('key-modal').style.display='none';
+  document.getElementById('status-txt').textContent='Aria is awake!';
+}
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" onerror="console.warn('Chess.js CDN failed, PGN loading disabled')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -262,6 +267,7 @@ textarea::placeholder{color:rgba(255,255,255,0.2)}
 }
 
 /* ── API KEY MODAL ── */
+#key-modal.hidden{display:none}
 #key-modal{
   position:fixed;inset:0;background:rgba(0,0,0,0.92);
   display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
@@ -315,6 +321,18 @@ textarea::placeholder{color:rgba(255,255,255,0.2)}
     <p>Your chess companion. Enter your free Groq API key to wake her up.</p>
     <input type="password" id="api-key-input" placeholder="gsk_..." autocomplete="off"/>
     <button class="save-btn" onclick="saveKey()">Wake Up Aria →</button>
+    <p class="modal-note">🔒 Stored locally · Get yours free at groq.com</p>
+  </div>
+</div>
+
+<!-- API Key Modal -->
+<div id="key-modal">
+  <div class="modal-box">
+    <div style="font-size:44px;text-align:center;margin-bottom:14px">🤖</div>
+    <h2>Meet Aria</h2>
+    <p>Your chess companion. Enter your free Groq API key to wake her up.</p>
+    <input type="password" id="api-key-input" placeholder="gsk_..." autocomplete="off"/>
+    <button class="save-btn" id="wake-btn" onclick="saveKey()">Wake Up Aria →</button>
     <p class="modal-note">🔒 Stored locally · Get yours free at groq.com</p>
   </div>
 </div>
@@ -676,14 +694,12 @@ function changeKey() {
 
 // ── INIT ──
 window.addEventListener('load', () => {
-  if (API_KEY) document.getElementById('key-modal').classList.add('hidden');
-  initStockfish();
-  loadVoices();
-  startBlinkLoop();
-  updateVoiceBtn();
-});
-window.addEventListener('load', () => {
-  if (API_KEY) document.getElementById('key-modal').classList.add('hidden');
+  const wakeBtn = document.getElementById('wake-btn');
+  if (wakeBtn) wakeBtn.addEventListener('click', saveKey);
+  if (API_KEY) {
+    const modal = document.getElementById('key-modal');
+    if (modal) modal.classList.add('hidden');
+  }
   initStockfish();
   loadVoices();
   startBlinkLoop();
@@ -744,6 +760,17 @@ async function loadPGN() {
   if (!pgn) { showNotif('Paste a PGN first', 'err'); return; }
   const btn = document.getElementById('analyze-btn');
   btn.disabled=true; btn.textContent='⏳ Loading…';
+
+  // Load Chess.js lazily if not already loaded
+  if (typeof Chess === 'undefined') {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    }).catch(() => {});
+  }
   try {
     const chess = new Chess();
     if (!chess.load_pgn(pgn)) throw new Error('Invalid PGN');
