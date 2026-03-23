@@ -29,7 +29,7 @@ body{
 /* ── ARIA SCENE ── */
 #scene{
   position:fixed;
-  top:55px;left:0;right:0;bottom:60px;
+  top:0;left:0;right:0;bottom:85px;
   z-index:1;
   display:flex;align-items:flex-end;justify-content:center;
   pointer-events:none;
@@ -39,17 +39,17 @@ body{
 #aria-body{
   position:relative;
   width:100%;height:100%;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:flex-end;justify-content:center;
 }
 
-/* ── ARIA SVG ROBOT ── */
 #aria-svg{
-  width:min(75vw,340px);
+  width:min(85vw,400px);
   height:auto;
-  filter:drop-shadow(0 0 30px rgba(200,180,255,0.25)) drop-shadow(0 0 60px rgba(124,111,255,0.15));
+  object-fit:contain;
+  object-position:bottom;
+  filter:drop-shadow(0 0 30px rgba(200,180,255,0.25));
 }
 
-/* Glow ring beneath Aria */
 #aria-glow{
   position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);
   width:200px;height:40px;
@@ -331,37 +331,58 @@ textarea::placeholder{color:rgba(255,255,255,0.2)}
 </div>
 
 
-<!-- Aria Scene — Real Image with Green Screen Removal -->
+<!-- Aria Scene -->
 <div id="scene">
-  <div id="aria-body">
-    <div id="aria-glow"></div>
-    <div id="aria-module">
-      <style>
-        #aria-module{position:relative;width:100%;height:100%;display:flex;justify-content:center;align-items:center;pointer-events:none;}
-        #aria-container{position:relative;display:flex;justify-content:center;align-items:center;width:100%;height:100%;animation:ariaBreathe 4s ease-in-out infinite;pointer-events:none;}
-        #aria-sway-wrapper{position:relative;display:flex;justify-content:center;align-items:center;width:100%;height:100%;animation:ariaSway 6s ease-in-out infinite alternate;pointer-events:none;}
-        #aria-img{max-width:min(82vw,360px);max-height:92%;width:auto;height:auto;object-fit:contain;object-position:bottom;display:block;pointer-events:none;}
-        @keyframes ariaBreathe{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(1.015) translateY(-1%)}}
-        @keyframes ariaSway{0%{transform:rotate(-0.5deg)}100%{transform:rotate(0.5deg)}}
-        #aria-eyes{display:none;}
-        #aria-mouth{position:absolute;top:36.8%;left:47.2%;width:5.2%;height:3.1%;background-color:#3b1b1b;border-radius:50% 50% 40% 40%;opacity:0;z-index:10;transition:opacity 0.1s;pointer-events:none;}
-        .aria-speaking{opacity:1!important;animation:ariaTalk 0.15s infinite alternate;}
-        @keyframes ariaTalk{0%{transform:scaleY(0.4) scaleX(0.8)}100%{transform:scaleY(1.2) scaleX(1.1)}}
-      </style>
-      <div id="aria-container">
-        <div id="aria-sway-wrapper">
-          <img id="aria-img" src="https://mhashirbruh-cpu.github.io/Chessiq/aria.png" alt="Aria"/>
-          <div id="aria-eyes"></div>
-          <div id="aria-mouth"></div>
-        </div>
-      </div>
-      <script>
-        window.speakAnim=function(on){
-          const m=document.getElementById('aria-mouth');
-          if(m) on?m.classList.add('aria-speaking'):m.classList.remove('aria-speaking');
-        };
-      </script>
-    </div>
+  <div id="aria-container">
+    <style>
+      /* ── CHANGE 1: Leg visibility — ACCEPTED ── */
+      #aria-container{
+        position:relative;height:95%;
+        display:flex;align-items:flex-end;justify-content:center;
+        pointer-events:none;
+      }
+      /* ── CHANGE 4: Mouth recalibration — ACCEPTED ── */
+      #aria-mouth{
+        position:absolute;top:36.6%;left:50%;
+        transform:translateX(-50%);
+        width:14px;height:6px;background:#2a1a3d;
+        border-radius:50%;opacity:0;transition:opacity 0.2s;z-index:10;pointer-events:none;
+      }
+      #aria-mouth.talking{opacity:1;animation:syllableBounce 0.15s infinite alternate;}
+      @keyframes syllableBounce{
+        0%{transform:translateX(-50%) scale(1,1)}
+        100%{transform:translateX(-50%) scale(1.3,0.7)}
+      }
+      /* ── CHANGE 7: Eye blink — ACCEPTED but color CORRECTED from #d8c9ff to #f0d5b8 ── */
+      #aria-eyes{
+        position:absolute;top:34.3%;left:50%;
+        transform:translateX(-50%);
+        width:44px;height:12px;z-index:11;overflow:hidden;pointer-events:none;
+      }
+      #aria-eyes::after{
+        content:'';position:absolute;top:0;left:0;width:100%;height:0;
+        background:#f0d5b8;animation:blink-cycle 6s infinite;
+      }
+      @keyframes blink-cycle{0%,96%,98%,100%{height:0}97%{height:100%}}
+      /* ── CHANGE 5+6: Body sway + breathing — ACCEPTED ── */
+      #aria-img{
+        height:100%;width:auto;object-fit:contain;object-position:bottom;
+        filter:drop-shadow(0 0 20px rgba(124,111,255,0.2));
+        transform-origin:bottom center;
+        animation:bodySway 10s ease-in-out infinite,breathing 4s ease-in-out infinite alternate;
+        pointer-events:none;
+      }
+      @keyframes bodySway{
+        0%,100%{transform:rotate(0deg) translateX(0)}
+        25%{transform:rotate(0.8deg) translateX(4px)}
+        50%{transform:rotate(-0.4deg) translateX(-2px)}
+        75%{transform:rotate(0.6deg) translateX(2px)}
+      }
+      @keyframes breathing{from{scale:1}to{scale:1.015}}
+    </style>
+    <img id="aria-img" src="https://mhashirbruh-cpu.github.io/Chessiq/aria.png" alt="Aria"/>
+    <div id="aria-mouth"></div>
+    <div id="aria-eyes"></div>
   </div>
 </div>
 <!-- Wave bars (listening indicator) -->
@@ -753,28 +774,36 @@ function loadVoices(){
 }
 
 function speak(text) {
-  if(!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const clean=text.replace(/<[^>]+>/g,'').replace(/\*\*/g,'').replace(/\s+/g,' ').trim();
-  const snippet=clean.length>600?clean.slice(0,600)+'...':clean;
-  const u=new SpeechSynthesisUtterance(snippet);
-  u.rate=0.88; u.pitch=1.18; u.volume=1;
-  const allVoices=speechSynthesis.getVoices();
-  const best=allVoices.find(v=>v.lang.startsWith('en')&&/samantha|ava|victoria|fiona|moira|karen|siri|enhanced/i.test((v.name||'').toLowerCase()))
-    ||allVoices.find(v=>v.lang.startsWith('en')&&/(female|woman)/i.test(v.name||''))
-    ||allVoices.find(v=>v.lang.startsWith('en-US'))
-    ||allVoices[0];
-  if(best) u.voice=best;
-  u.onstart=()=>{
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const ut=new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g,'').replace(/\*/g,'').replace(/\s+/g,' ').trim());
+  // CHANGE 3: ACCEPTED but CORRECTED — broader voice search not just Samantha/Ava
+  const voices=window.speechSynthesis.getVoices();
+  const best=voices.find(v=>v.name.includes('Samantha')||v.name.includes('Ava'))
+    ||voices.find(v=>v.lang.startsWith('en')&&/victoria|fiona|moira|karen|enhanced/i.test(v.name))
+    ||voices.find(v=>v.lang.startsWith('en-US'))
+    ||voices.find(v=>v.lang.startsWith('en'))
+    ||voices[0];
+  if(best) ut.voice=best;
+  ut.pitch=1.05; ut.rate=0.95;
+  ut.onstart=()=>{
+    isSpeaking=true;
     setStatus('Aria is speaking…','ok');
-    if(typeof speakAnim==='function') speakAnim(true);
+    const mouth=document.getElementById('aria-mouth');
+    const img=document.getElementById('aria-img');
+    if(mouth) mouth.classList.add('talking');
+    if(img) img.style.animation='bodySway 2s ease-in-out infinite,breathing 1s ease-in-out infinite alternate';
   };
-  u.onend=()=>{
-    if(typeof speakAnim==='function') speakAnim(false);
+  ut.onend=()=>{
+    isSpeaking=false;
     setStatus('Aria is ready','ok');
-    if(voiceLoopActive&&voiceOn) setTimeout(()=>startMic(),600);
+    const mouth=document.getElementById('aria-mouth');
+    const img=document.getElementById('aria-img');
+    if(mouth) mouth.classList.remove('talking');
+    if(img) img.style.animation='bodySway 10s ease-in-out infinite,breathing 4s ease-in-out infinite alternate';
+    if(voiceLoopActive&&voiceOn) setTimeout(()=>startMic(),400);
   };
-  speechSynthesis.speak(u);
+  window.speechSynthesis.speak(ut);
 }
 
 function toggleVoice(){
