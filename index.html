@@ -3,1089 +3,1091 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ChessIQ</title>
+<title>Aria — Chess Companion</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080810;--s1:#0e0e1a;--s2:#151524;--s3:#1c1c2e;--border:#252538;--accent:#7c6fff;--green:#4fffb0;--yellow:#ffe066;--orange:#ff9a3c;--red:#ff4757;--blue:#48dbfb;--text:#e2e2f0;--text2:#6b6b8a;--text3:#9898b8;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;touch-action:manipulation}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;display:flex;flex-direction:column}
-.app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);background:rgba(8,8,16,.97);flex-shrink:0}
-.logo{font-weight:800;font-size:17px;letter-spacing:-.5px}
-.logo em{color:var(--accent);font-style:normal}
-.hbtns{display:flex;gap:6px}
-.btn{padding:5px 12px;border-radius:7px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:11px}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text3)}
-.btn-ghost:active{border-color:var(--accent);color:var(--accent)}
-.btn-primary{background:var(--accent);color:#fff}
-.topnav{display:flex;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0}
-.tnav{flex:1;padding:9px 4px;border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:11px;border-bottom:2px solid transparent;text-align:center}
-.tnav.active{color:var(--accent);border-bottom-color:var(--accent)}
-.page{display:none;flex:1;overflow:hidden;flex-direction:column}
-.page.active{display:flex}
-.board-page{display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:10px 8px 24px;gap:10px;background:var(--s1)}
-.board-topbar{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:520px}
-.flip-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--s2);color:var(--text3);cursor:pointer;font-size:11px;font-family:'Outfit',sans-serif;font-weight:600}
-#chessboard{display:grid;grid-template-columns:repeat(8,1fr);border:3px solid #2a2a3f;border-radius:4px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.7),0 0 0 1px rgba(124,111,255,.2);user-select:none;-webkit-user-select:none;touch-action:none;}
-.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.piece-wrap{transition:none;}
-.piece-wrap.sliding{position:fixed;pointer-events:none;z-index:100;transition:left 0.12s cubic-bezier(0.25,0.46,0.45,0.94),top 0.12s cubic-bezier(0.25,0.46,0.45,0.94);}
-.sq.light{background:#f0d9b5}.sq.dark{background:#b58863}
-.sq.sel{background:#7c6fff !important}
-.sq.lastm-l{background:#cdd26a !important}.sq.lastm-d{background:#aaa23a !important}
-.sq.bestfrom{background:#52be80 !important}.sq.bestto{background:#27ae60 !important}
-.sq.legal::after{content:'';position:absolute;width:32%;height:32%;background:rgba(0,0,0,0.2);border-radius:50%;pointer-events:none;}
-.sq.legal-cap::after{content:'';position:absolute;inset:0;border:5px solid rgba(0,0,0,0.18);border-radius:2px;pointer-events:none;}
-.files-row{display:flex;width:100%}
-.files-row span{flex:1;text-align:center;font-size:10px;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-weight:700}
-.bcontrols{display:flex;gap:8px;align-items:center}
-.nbtn{width:38px;height:38px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
-.nbtn:active{border-color:var(--accent);color:var(--accent)}
-.mctr{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2);min-width:52px;text-align:center}
-.depth-row{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--border);border-radius:9px;padding:9px 13px;width:100%;max-width:520px}
-.dlbl{font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
-input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border);outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);cursor:pointer}
-.dval{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);font-weight:700;min-width:24px;text-align:right}
-.eval-row{display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid var(--border);border-radius:9px;padding:10px 14px;width:100%;max-width:520px}
+html{height:100%;height:-webkit-fill-available}
+body{
+  height:100%;height:100dvh;
+  overflow:hidden;
+  background:#0d0a1a;
+  font-family:'Outfit',sans-serif;
+  min-height:-webkit-fill-available;
+}
 
-/* ── ROBOT COMPANION ─────────────────────────────────── */
-.companion{display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;width:100%;max-width:520px;min-height:64px;}
-.robot-avatar{flex-shrink:0;width:46px;height:46px;position:relative;}
-.robot-avatar svg{width:46px;height:46px;}
-.robot-eye{animation:blink 4s infinite;}
-@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%,98%{transform:scaleY(0.1)}}
-.companion-text{flex:1;min-width:0;}
-.companion-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;}
-.companion-label.good{color:var(--green)}
-.companion-label.ok{color:var(--blue)}
-.companion-label.warn{color:var(--yellow)}
-.companion-label.bad{color:var(--orange)}
-.companion-label.blunder{color:var(--red)}
-.companion-label.brilliant{color:var(--accent)}
-.companion-label.idle{color:var(--text2)}
-.companion-msg{font-size:12px;color:var(--text);line-height:1.5;}
-.companion-chip{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-top:4px;}
-.chip-green{background:rgba(79,255,176,.15);color:var(--green);border:1px solid rgba(79,255,176,.3)}
-.chip-red{background:rgba(255,71,87,.15);color:var(--red);border:1px solid rgba(255,71,87,.3)}
-.chip-yellow{background:rgba(255,224,102,.15);color:var(--yellow);border:1px solid rgba(255,224,102,.3)}
-.chip-orange{background:rgba(255,154,60,.15);color:var(--orange);border:1px solid rgba(255,154,60,.3)}
-.chip-accent{background:rgba(124,111,255,.15);color:var(--accent);border:1px solid rgba(124,111,255,.3)}
-.chip-blue{background:rgba(72,219,251,.15);color:var(--blue);border:1px solid rgba(72,219,251,.3)}
-@keyframes companionPop{0%{transform:scale(0.92);opacity:0}100%{transform:scale(1);opacity:1}}
-.companion.pop{animation:companionPop .25s ease-out;}
-.eval-bar{width:12px;height:68px;border-radius:6px;background:var(--s3);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column-reverse;flex-shrink:0}
-.eval-w{background:#e0e0e0;width:100%;transition:height .5s;height:50%}
-.eval-num{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent)}
-.eval-lbl{font-size:11px;color:var(--text2);margin-top:2px}
-.bm-box{margin-left:auto;text-align:right}
-.bm-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px}
-.bm-val{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:var(--green);margin-top:2px}
-.analysis-page{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
-.ptabs{display:flex;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0}
-.ptab{flex:1;padding:10px 4px;border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;font-size:11px;border-bottom:2px solid transparent;text-align:center}
-.ptab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.pcontent{flex:1;overflow-y:auto;padding:14px}
-.pview{display:none}.pview.active{display:block}
-.card{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:14px;margin-bottom:12px}
-.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:9px}
-textarea{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:10px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11px;resize:vertical;outline:none;min-height:80px;line-height:1.5}
-textarea:focus{border-color:var(--accent)}
-textarea::placeholder{color:var(--text2)}
-.pgn-btns{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
-.statusbar{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.sdot{width:8px;height:8px;border-radius:50%;background:var(--text2);flex-shrink:0}
-.sdot.spin-mode{background:var(--yellow);animation:pulse 1s infinite}
-.sdot.done{background:var(--green)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.stxt{font-size:12px;color:var(--text2);flex:1}
-.stxt strong{color:var(--text)}
-.prog-out{height:3px;background:var(--border);border-radius:2px;overflow:hidden;flex:1;max-width:120px}
-.prog-in{height:100%;background:linear-gradient(90deg,var(--accent),var(--blue));border-radius:2px;transition:width .3s;width:0}
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;color:var(--text2);gap:10px}
-.empty-ico{font-size:44px;opacity:.15}
-.empty h3{font-size:15px;color:var(--text3)}
-.empty p{font-size:12px;line-height:1.6;max-width:260px}
-.move-grid{display:flex;flex-direction:column;gap:2px}
-.mrow{display:flex;align-items:center;gap:3px}
-.mnum{min-width:26px;padding:5px 6px;background:var(--s1);font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);text-align:right;border-radius:4px}
-.mcell{flex:1;padding:6px 9px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:5px;background:var(--s1);border:1px solid transparent}
-.mcell:active{background:var(--s2)}
-.mcell.active{background:rgba(124,111,255,.12);border-color:var(--accent)}
-.msan{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--text)}
-.mann{font-size:10px;padding:1px 5px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-weight:700}
-.a-br{background:rgba(124,111,255,.2);color:var(--accent)}
-.a-be{background:rgba(79,255,176,.2);color:var(--green)}
-.a-go{background:rgba(72,219,251,.2);color:var(--blue)}
-.a-in{background:rgba(255,224,102,.2);color:var(--yellow)}
-.a-mi{background:rgba(255,154,60,.2);color:var(--orange)}
-.a-bl{background:rgba(255,71,87,.2);color:var(--red)}
-.a-bk{background:rgba(100,100,150,.15);color:var(--text2)}
-.a-ex{background:rgba(79,255,176,.15);color:#00e5ff}
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.scard{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:13px 14px}
-.scard-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:8px;display:flex;align-items:center;gap:5px}
-.cdot{width:7px;height:7px;border-radius:50%}
-.acc-big{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;margin-bottom:5px}
-.acc-bar{height:4px;border-radius:3px;background:var(--s3);overflow:hidden;margin-bottom:7px}
-.acc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));transition:width .8s}
-.qrow{display:flex;justify-content:space-between;font-size:11px;padding:2px 0}
-.qlbl{color:var(--text2)}.qval{font-family:'IBM Plex Mono',monospace;font-weight:700}
-.graph-card{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:14px;margin-bottom:12px}
-.graph-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin-bottom:12px}
-.elines{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:13px;margin-bottom:10px}
-.eline{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);align-items:flex-start}
-.eline:last-child{border-bottom:none}
-.erank{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);min-width:14px;padding-top:2px}
-.eeval{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;min-width:44px;padding-top:2px}
-.eeval.pos{color:var(--green)}.eeval.neg{color:var(--red)}.eeval.eq{color:var(--text2)}
-.emoves{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text);line-height:1.6;flex:1;word-break:break-word}
-.library-page{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.lib-head{padding:12px 14px;border-bottom:1px solid var(--border);background:var(--s1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.lib-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2)}
-.lib-cnt{background:var(--s3);border:1px solid var(--border);color:var(--accent);padding:1px 8px;border-radius:20px;font-size:11px;font-family:'IBM Plex Mono',monospace}
-.lib-search{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0}
-.lib-search input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:8px 11px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none}
-.lib-search input:focus{border-color:var(--accent)}
-.lib-search input::placeholder{color:var(--text2)}
-.lib-list{flex:1;overflow-y:auto;padding:10px}
-.gc{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px;cursor:pointer}
-.gc:active,.gc.cur{border-color:var(--accent)}
-.gc-top{display:flex;justify-content:space-between;margin-bottom:4px}
-.gc-name{font-size:13px;font-weight:700}
-.gc-btns{display:flex;gap:6px}
-.gc-btn{background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px;padding:0 4px}
-.gc-btn:active{color:var(--accent)}
-.gc-del:active{color:var(--red)!important}
-.gc-opening{font-size:11px;color:var(--accent);margin-bottom:6px;font-weight:600}
-.gc-pills{display:flex;gap:5px;flex-wrap:wrap}
-.pill{font-size:10px;font-family:'IBM Plex Mono',monospace;padding:2px 7px;border-radius:3px;font-weight:700}
-.p-r{background:rgba(255,71,87,.12);color:var(--red);border:1px solid rgba(255,71,87,.25)}
-.p-o{background:rgba(255,154,60,.12);color:var(--orange);border:1px solid rgba(255,154,60,.25)}
-.p-g{background:rgba(79,255,176,.12);color:var(--green);border:1px solid rgba(79,255,176,.25)}
-.gc-date{font-size:10px;color:var(--text2);margin-top:6px;font-family:'IBM Plex Mono',monospace}
-.lib-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;text-align:center;color:var(--text2);gap:10px;font-size:13px}
-.notif{position:fixed;bottom:16px;right:12px;left:12px;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;z-index:999;transform:translateY(100px);opacity:0;transition:all .3s;text-align:center}
-.notif.show{transform:translateY(0);opacity:1}
-.notif.ok{border-color:var(--green);color:var(--green)}
-.notif.err{border-color:var(--red);color:var(--red)}
-.notif.info{border-color:var(--accent);color:var(--accent)}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:flex-end;justify-content:center}
-.modal{background:var(--s1);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px}
-.modal h3{font-size:15px;margin-bottom:14px}
-.modal input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:11px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;margin-bottom:14px}
-.modal input:focus{border-color:var(--accent)}
-.modal-acts{display:flex;gap:8px}
-.modal-acts .btn{flex:1;padding:10px;font-size:13px}
-.spin{width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:rspin .8s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
-@keyframes rspin{to{transform:rotate(360deg)}}
+/* ── BACKGROUND ── */
+#bg{
+  position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 70% at 50% 30%, #1a0f3a 0%, #0d0a1a 60%, #080612 100%);
+}
+#bg::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 60%, rgba(124,111,255,0.08) 0%, transparent 70%);
+}
+
+/* ── ARIA SCENE ── */
+#scene{
+  position:fixed;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+
+#aria-body{
+  position:relative;
+  animation:breathe 4s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+@keyframes breathe{
+  0%,100%{transform:translateY(0px)}
+  50%{transform:translateY(-8px)}
+}
+
+/* ── ARIA SVG ROBOT ── */
+#aria-svg{
+  width:min(75vw,340px);
+  height:auto;
+  filter:drop-shadow(0 0 30px rgba(200,180,255,0.25)) drop-shadow(0 0 60px rgba(124,111,255,0.15));
+}
+
+/* Glow ring beneath Aria */
+#aria-glow{
+  position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);
+  width:200px;height:40px;
+  background:radial-gradient(ellipse, rgba(124,111,255,0.3) 0%, transparent 70%);
+  animation:glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse{
+  0%,100%{opacity:0.6;transform:translateX(-50%) scaleX(1)}
+  50%{opacity:1;transform:translateX(-50%) scaleX(1.15)}
+}
+
+/* ── TOP BAR ── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:10;
+  padding:14px 16px 10px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(13,10,26,0.9) 0%,transparent 100%);
+}
+.logo-txt{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.logo-txt em{color:#a89fff;font-style:normal}
+.top-actions{display:flex;gap:8px}
+.top-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.7);font-size:15px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.top-btn:hover,.top-btn.active{background:rgba(124,111,255,0.3);border-color:rgba(124,111,255,0.5);color:#fff}
+
+/* ── STATUS INDICATOR ── */
+#status-bar{
+  position:fixed;top:64px;left:50%;transform:translateX(-50%);
+  z-index:10;
+  background:rgba(0,0,0,0.4);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:5px 14px;
+  display:flex;align-items:center;gap:7px;
+  font-size:12px;color:rgba(255,255,255,0.6);
+  transition:all .3s;
+}
+#status-dot{
+  width:7px;height:7px;border-radius:50%;background:#4caf50;
+  animation:pulse-g 2.5s infinite;
+}
+#status-dot.thinking{background:#7c6fff;animation:pulse-p .7s infinite}
+#status-dot.listening{background:#ff4757;animation:pulse-r .5s infinite}
+@keyframes pulse-g{0%,100%{box-shadow:0 0 0 0 rgba(76,175,80,.5)}60%{box-shadow:0 0 0 4px rgba(76,175,80,0)}}
+@keyframes pulse-p{0%,100%{box-shadow:0 0 0 0 rgba(124,111,255,.7)}50%{box-shadow:0 0 0 5px rgba(124,111,255,0)}}
+@keyframes pulse-r{0%,100%{box-shadow:0 0 0 0 rgba(255,71,87,.7)}50%{box-shadow:0 0 0 5px rgba(255,71,87,0)}}
+
+/* ── USER MESSAGE CLOUD ── */
+#msg-cloud{
+  position:fixed;
+  left:16px;right:16px;
+  bottom:120px;
+  z-index:20;
+  background:rgba(20,16,40,0.65);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  padding:18px 20px;
+  font-size:22px;
+  font-weight:600;
+  color:#fff;
+  line-height:1.4;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .35s ease, transform .35s ease;
+  pointer-events:none;
+  max-height:45vh;
+  overflow-y:auto;
+}
+#msg-cloud.show{opacity:1;transform:translateY(0)}
+#msg-cloud.fade{opacity:0;transform:translateY(-10px)}
+
+/* ── PGN PANEL (slide up) ── */
+#pgn-panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  background:rgba(13,10,26,0.97);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,0.1);
+  border-radius:20px 20px 0 0;
+  padding:20px 16px 34px;
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(0.34,1.56,0.64,1);
+}
+#pgn-panel.open{transform:translateY(0)}
+.panel-handle{
+  width:40px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,0.2);
+  margin:0 auto 16px;
+}
+.panel-title{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.panel-tabs{display:flex;gap:6px;margin-bottom:12px}
+.ptab{
+  flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);
+  background:transparent;color:rgba(255,255,255,0.4);
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;
+}
+.ptab.active{background:rgba(124,111,255,0.2);border-color:rgba(124,111,255,0.4);color:#a89fff}
+.tab-content{display:none}.tab-content.active{display:block}
+textarea{
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);border-radius:12px;
+  padding:12px;color:#fff;font-family:monospace;font-size:11px;
+  resize:none;outline:none;min-height:80px;line-height:1.5;
+}
+textarea:focus{border-color:rgba(124,111,255,0.5)}
+textarea::placeholder{color:rgba(255,255,255,0.2)}
+.panel-btns{display:flex;gap:8px;margin-top:10px}
+.p-btn{
+  flex:1;padding:11px;border-radius:12px;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;transition:all .2s;
+}
+.p-btn-primary{background:linear-gradient(135deg,#7c6fff,#9d8fff);color:#fff}
+.p-btn-primary:hover{background:linear-gradient(135deg,#9d8fff,#b8a8ff)}
+.p-btn-ghost{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
+.photo-drop{
+  border:2px dashed rgba(255,255,255,0.15);border-radius:14px;
+  padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.03);
+}
+.photo-drop:hover{border-color:rgba(124,111,255,0.5);background:rgba(124,111,255,0.05)}
+.photo-drop p{font-size:13px;color:rgba(255,255,255,0.4);margin-top:8px}
+#photo-preview-wrap{display:none;margin-top:10px;position:relative}
+#photo-preview{width:100%;max-height:140px;object-fit:contain;border-radius:10px;border:1px solid rgba(255,255,255,0.1)}
+.remove-photo{
+  position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.7);
+  border:none;color:#fff;border-radius:50%;width:26px;height:26px;
+  cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
+}
+#game-badge{
+  display:none;background:rgba(124,111,255,0.15);border:1px solid rgba(124,111,255,0.3);
+  border-radius:10px;padding:8px 12px;margin-bottom:10px;
+  font-size:11px;color:#a89fff;display:flex;align-items:center;justify-content:space-between;
+}
+#game-badge.show{display:flex}
+#file-input{display:none}
+
+/* ── BOTTOM BAR ── */
+#bottombar{
+  position:fixed;bottom:0;left:0;right:0;z-index:15;
+  padding:12px 16px 28px;
+  background:linear-gradient(to top,rgba(13,10,26,0.95) 0%,transparent 100%);
+  display:flex;align-items:center;gap:10px;
+}
+.bot-btn{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.12);
+  color:#fff;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;flex-shrink:0;
+}
+.bot-btn:hover{background:rgba(124,111,255,0.25);border-color:rgba(124,111,255,0.4)}
+.bot-btn.mic-active{
+  background:rgba(255,71,87,0.2);border-color:rgba(255,71,87,0.5);
+  animation:mic-ring .8s infinite;
+}
+@keyframes mic-ring{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,71,87,0.4)}
+  50%{box-shadow:0 0 0 8px rgba(255,71,87,0)}
+}
+.text-input-wrap{
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.07);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:28px;padding:8px 8px 8px 16px;
+}
+#chat-input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:#fff;font-family:'Outfit',sans-serif;font-size:14px;
+  min-height:36px;max-height:80px;resize:none;line-height:1.4;
+}
+#chat-input::placeholder{color:rgba(255,255,255,0.25)}
+#send-btn{
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,#7c6fff,#9d8fff);color:#fff;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;transition:all .2s;
+}
+#send-btn:disabled{background:rgba(255,255,255,0.1);cursor:not-allowed}
+#send-btn:hover:not(:disabled){background:linear-gradient(135deg,#9d8fff,#b8a8ff);transform:scale(1.05)}
+
+/* ── WAVE ANIMATION (listening) ── */
+#wave-bars{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  z-index:20;display:none;align-items:flex-end;gap:4px;height:32px;
+}
+#wave-bars.show{display:flex}
+#wave-bars span{
+  width:4px;border-radius:2px;background:#7c6fff;
+  animation:wave-bar 0.8s ease-in-out infinite;
+}
+#wave-bars span:nth-child(1){height:8px;animation-delay:0s}
+#wave-bars span:nth-child(2){height:18px;animation-delay:0.1s}
+#wave-bars span:nth-child(3){height:28px;animation-delay:0.2s}
+#wave-bars span:nth-child(4){height:18px;animation-delay:0.3s}
+#wave-bars span:nth-child(5){height:8px;animation-delay:0.4s}
+@keyframes wave-bar{
+  0%,100%{transform:scaleY(0.4);opacity:0.5}
+  50%{transform:scaleY(1.2);opacity:1}
+}
+
+/* ── API KEY MODAL ── */
+#key-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);
+  display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
+}
+#key-modal.hidden{display:none}
+.modal-box{
+  background:rgba(20,16,40,0.98);border:1px solid rgba(124,111,255,0.3);
+  border-radius:22px;padding:30px 22px;max-width:340px;width:100%;
+  backdrop-filter:blur(20px);
+}
+.modal-box h2{font-size:24px;font-weight:800;color:#a89fff;margin-bottom:8px;text-align:center}
+.modal-box p{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65;margin-bottom:18px;text-align:center}
+.modal-box input{
+  width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  color:#fff;border-radius:12px;padding:13px;
+  font-family:monospace;font-size:12px;outline:none;margin-bottom:12px;
+}
+.modal-box input:focus{border-color:rgba(124,111,255,0.5)}
+.modal-box .save-btn{
+  width:100%;background:linear-gradient(135deg,#7c6fff,#9d8fff);color:#fff;
+  border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;
+}
+.modal-box .save-btn:hover{background:linear-gradient(135deg,#9d8fff,#b8a8ff)}
+.modal-note{font-size:11px;color:rgba(255,255,255,0.25);text-align:center;margin-top:10px}
+
+/* ── NOTIF ── */
+.notif{
+  position:fixed;top:110px;left:50%;transform:translateX(-50%) translateY(-10px);
+  background:rgba(20,16,40,0.9);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.1);border-radius:12px;
+  padding:9px 18px;font-size:13px;color:#fff;z-index:99;
+  opacity:0;transition:all .3s;white-space:nowrap;
+}
+.notif.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.notif.ok{border-color:rgba(79,255,176,0.4);color:#4fffb0}
+.notif.err{border-color:rgba(255,71,87,0.4);color:#ff4757}
+.notif.info{border-color:rgba(124,111,255,0.4);color:#a89fff}
 </style>
 </head>
 <body>
-<div class="app">
-<header>
-  <div class="logo">&#9822; Chess<em>IQ</em></div>
-  <div class="hbtns">
-    <button class="btn btn-ghost" onclick="exportJSON()">&#8595; JSON</button>
-    <button class="btn btn-ghost" onclick="exportPDF()">&#8595; PDF</button>
-    <button class="btn btn-primary" onclick="newGame()">+ New</button>
-  </div>
-</header>
-<div class="topnav">
-  <button class="tnav active" onclick="showPage('board')">&#9822; Board</button>
-  <button class="tnav" onclick="showPage('analysis')">&#128269; Analysis</button>
-  <button class="tnav" onclick="showPage('library')">&#128193; Library</button>
-</div>
-<div class="page active" id="page-board">
-  <div class="board-page">
-    <div class="board-topbar">
-      <span style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:1px" id="turnLabel">White to move</span>
-      <button class="flip-btn" onclick="flipBoard()">&#8645; Flip</button>
-    </div>
-    <div id="boardWrap" style="position:relative;display:inline-block">
-      <div id="chessboard"></div>
-      <svg id="arrowLayer" style="position:absolute;top:0;left:0;pointer-events:none;overflow:visible" width="0" height="0">
-        <defs>
-          <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
-            <polygon points="0 0, 5 2.5, 0 5" fill="rgba(79,255,176,0.9)"/>
-          </marker>
-        </defs>
-        <line id="arrowLine" x1="0" y1="0" x2="0" y2="0" stroke="rgba(79,255,176,0.9)" stroke-width="0" marker-end="url(#arrowhead)" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="files-row" id="fileLabels">
-      <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
-    </div>
-    <div class="bcontrols">
-      <button class="nbtn" onclick="g2s()">&#9198;</button>
-      <button class="nbtn" onclick="g2b()">&#9664;</button>
-      <span class="mctr" id="mcount">0 / 0</span>
-      <button class="nbtn" onclick="g2f()">&#9654;</button>
-      <button class="nbtn" onclick="g2e()">&#9197;</button>
-    </div>
-    <div class="depth-row">
-      <span class="dlbl">Depth</span>
-      <input type="range" min="6" max="18" value="10" oninput="setDepth(this.value)">
-      <span class="dval" id="dval">10</span>
-    </div>
-    <div class="eval-row">
-      <div class="eval-bar"><div class="eval-w" id="evalbar"></div></div>
-      <div>
-        <div class="eval-num" id="evalnum">0.00</div>
-        <div class="eval-lbl" id="evallbl">Equal</div>
-      </div>
-      <div class="bm-box">
-        <div class="bm-lbl">Best Move</div>
-        <div class="bm-val" id="bestmv">&#8212;</div>
-      </div>
-    </div>
 
-    <!-- ROBOT COMPANION -->
-    <div class="companion" id="companion">
-      <div class="robot-avatar">
-        <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
-          <!-- Antenna -->
-          <line x1="23" y1="2" x2="23" y2="8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="23" cy="2" r="2.5" fill="var(--accent)"/>
-          <!-- Head -->
-          <rect x="7" y="8" width="32" height="22" rx="5" fill="var(--s3)" stroke="var(--accent)" stroke-width="1.5"/>
-          <!-- Eyes -->
-          <g class="robot-eye">
-            <rect x="11" y="14" width="9" height="8" rx="2" fill="var(--accent)" opacity="0.9"/>
-            <rect x="26" y="14" width="9" height="8" rx="2" fill="var(--accent)" opacity="0.9"/>
-            <rect x="13" y="16" width="3" height="3" rx="1" fill="#fff" opacity="0.6"/>
-            <rect x="28" y="16" width="3" height="3" rx="1" fill="#fff" opacity="0.6"/>
-          </g>
-          <!-- Mouth -->
-          <rect x="14" y="25" width="18" height="3" rx="1.5" fill="var(--border)" id="robotMouth"/>
-          <!-- Body -->
-          <rect x="11" y="32" width="24" height="12" rx="4" fill="var(--s3)" stroke="var(--border)" stroke-width="1.5"/>
-          <!-- Body lights -->
-          <circle cx="17" cy="38" r="2.5" fill="var(--accent)" opacity="0.5" id="light1"/>
-          <circle cx="23" cy="38" r="2.5" fill="var(--border)" id="light2"/>
-          <circle cx="29" cy="38" r="2.5" fill="var(--border)" id="light3"/>
-        </svg>
-      </div>
-      <div class="companion-text">
-        <div class="companion-label idle" id="companionLabel">ARIA · AI Coach</div>
-        <div class="companion-msg" id="companionMsg">Navigate through moves to get feedback on each decision.</div>
-      </div>
+<!-- Background -->
+<div id="bg"></div>
+
+<!-- API Key Modal -->
+<div id="key-modal">
+  <div class="modal-box">
+    <div style="font-size:44px;text-align:center;margin-bottom:14px">🤖</div>
+    <h2>Meet Aria</h2>
+    <p>Your chess companion. Enter your free Groq API key to wake her up.</p>
+    <input type="password" id="api-key-input" placeholder="gsk_..." autocomplete="off"/>
+    <button class="save-btn" onclick="saveKey()">Wake Up Aria →</button>
+    <p class="modal-note">🔒 Stored locally · Get yours free at groq.com</p>
+  </div>
+</div>
+
+<!-- Top Bar -->
+<div id="topbar">
+  <div class="logo-txt">♞ Chess<em>IQ</em></div>
+  <div class="top-actions">
+    <button class="top-btn" id="voice-btn" title="Voice mode" onclick="toggleVoice()">🔊</button>
+    <button class="top-btn" title="Load PGN / Photo" onclick="togglePanel()">♟</button>
+    <button class="top-btn" title="API Key" onclick="changeKey()">🔑</button>
+    <button class="top-btn" title="Clear" onclick="clearChat()">🗑</button>
+  </div>
+</div>
+
+<!-- Status -->
+<div id="status-bar">
+  <div id="status-dot"></div>
+  <span id="status-txt">Aria is ready</span>
+</div>
+
+<!-- Aria Scene -->
+<div id="scene">
+  <div id="aria-body">
+    <div id="aria-glow"></div>
+    <!-- ARIA ROBOT SVG — white armor, blue eyes, gold accents, anime face -->
+    <svg id="aria-svg" viewBox="0 0 300 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bodyGrad" cx="40%" cy="35%">
+          <stop offset="0%" stop-color="#f0f0f8"/>
+          <stop offset="60%" stop-color="#d8d8e8"/>
+          <stop offset="100%" stop-color="#b0b0c8"/>
+        </radialGradient>
+        <radialGradient id="armGrad" cx="35%" cy="30%">
+          <stop offset="0%" stop-color="#e8e8f4"/>
+          <stop offset="100%" stop-color="#b8b8d0"/>
+        </radialGradient>
+        <radialGradient id="skinGrad" cx="40%" cy="35%">
+          <stop offset="0%" stop-color="#f8d5b8"/>
+          <stop offset="100%" stop-color="#e8b898"/>
+        </radialGradient>
+        <radialGradient id="faceGrad" cx="45%" cy="35%">
+          <stop offset="0%" stop-color="#fde8d0"/>
+          <stop offset="100%" stop-color="#f0c8a8"/>
+        </radialGradient>
+        <filter id="glow-filter">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f0d060"/>
+          <stop offset="50%" stop-color="#c8a030"/>
+          <stop offset="100%" stop-color="#f0d060"/>
+        </linearGradient>
+        <linearGradient id="blackBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2a2a3a"/>
+          <stop offset="100%" stop-color="#111118"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ── LEGS ── -->
+      <!-- Left leg -->
+      <rect x="108" y="350" width="38" height="100" rx="6" fill="url(#bodyGrad)"/>
+      <rect x="106" y="440" width="42" height="18" rx="5" fill="#c8c8e0"/>
+      <!-- Knee joint left -->
+      <circle cx="127" cy="370" r="10" fill="#d0d0e4" stroke="#b0b0c8" stroke-width="1.5"/>
+      <circle cx="127" cy="370" r="5" fill="#c0c0d8"/>
+      <!-- Left foot -->
+      <rect x="104" y="455" width="46" height="16" rx="6" fill="#d0d0e4"/>
+
+      <!-- Right leg -->
+      <rect x="154" y="350" width="38" height="100" rx="6" fill="url(#bodyGrad)"/>
+      <rect x="152" y="440" width="42" height="18" rx="5" fill="#c8c8e0"/>
+      <!-- Knee joint right -->
+      <circle cx="173" cy="370" r="10" fill="#d0d0e4" stroke="#b0b0c8" stroke-width="1.5"/>
+      <circle cx="173" cy="370" r="5" fill="#c0c0d8"/>
+      <!-- Right foot -->
+      <rect x="150" y="455" width="46" height="16" rx="6" fill="#d0d0e4"/>
+
+      <!-- ── WAIST / HIP ── -->
+      <rect x="100" y="295" width="100" height="60" rx="8" fill="url(#bodyGrad)"/>
+      <!-- Black undersuit at waist -->
+      <rect x="110" y="300" width="80" height="40" rx="5" fill="url(#blackBodyGrad)"/>
+      <!-- Gold waist panels -->
+      <rect x="105" y="305" width="30" height="20" rx="4" fill="url(#goldGrad)"/>
+      <rect x="165" y="305" width="30" height="20" rx="4" fill="url(#goldGrad)"/>
+      <!-- Gold hip connectors -->
+      <rect x="112" y="330" width="76" height="8" rx="4" fill="url(#goldGrad)" opacity="0.8"/>
+
+      <!-- ── TORSO ── -->
+      <!-- Main chest white armor -->
+      <rect x="95" y="195" width="110" height="108" rx="12" fill="url(#bodyGrad)"/>
+      <!-- Black bodysuit under -->
+      <rect x="108" y="205" width="84" height="88" rx="8" fill="url(#blackBodyGrad)"/>
+      <!-- Chest center gold lock emblem -->
+      <rect x="136" y="220" width="28" height="28" rx="5" fill="url(#goldGrad)" opacity="0.9"/>
+      <rect x="141" y="225" width="18" height="18" rx="3" fill="#c89020"/>
+      <circle cx="150" cy="234" r="5" fill="url(#goldGrad)"/>
+      <!-- Shoulder armor plates -->
+      <ellipse cx="95" cy="210" rx="22" ry="18" fill="url(#bodyGrad)" stroke="#c0c0d8" stroke-width="1"/>
+      <ellipse cx="205" cy="210" rx="22" ry="18" fill="url(#bodyGrad)" stroke="#c0c0d8" stroke-width="1"/>
+      <!-- Gold shoulder bolts -->
+      <circle cx="90" cy="207" r="3" fill="url(#goldGrad)"/>
+      <circle cx="100" cy="200" r="2.5" fill="url(#goldGrad)"/>
+      <circle cx="210" cy="207" r="3" fill="url(#goldGrad)"/>
+      <circle cx="200" cy="200" r="2.5" fill="url(#goldGrad)"/>
+      <!-- Back plate hint -->
+      <rect x="118" y="197" width="64" height="12" rx="4" fill="#c0c0d8" opacity="0.5"/>
+
+      <!-- ── LEFT ARM ── (animated separately)
+      Upper arm -->
+      <g id="arm-left">
+        <rect x="62" y="200" width="34" height="75" rx="10" fill="url(#armGrad)"/>
+        <!-- Elbow joint -->
+        <circle cx="79" cy="278" r="11" fill="#c8c8e0" stroke="#b0b0c8" stroke-width="1.5"/>
+        <circle cx="79" cy="278" r="5" fill="#b8b8d0"/>
+        <!-- Forearm -->
+        <rect x="64" y="278" width="30" height="65" rx="9" fill="url(#armGrad)"/>
+        <!-- Gold wrist band -->
+        <rect x="62" y="330" width="34" height="10" rx="5" fill="url(#goldGrad)"/>
+        <!-- Hand -->
+        <ellipse cx="79" cy="352" rx="15" ry="12" fill="url(#skinGrad)"/>
+        <!-- Fingers hint -->
+        <rect x="68" y="360" width="6" height="14" rx="3" fill="url(#skinGrad)"/>
+        <rect x="76" y="362" width="6" height="16" rx="3" fill="url(#skinGrad)"/>
+        <rect x="84" y="361" width="6" height="15" rx="3" fill="url(#skinGrad)"/>
+      </g>
+
+      <!-- ── RIGHT ARM ── -->
+      <g id="arm-right">
+        <rect x="204" y="200" width="34" height="75" rx="10" fill="url(#armGrad)"/>
+        <!-- Elbow joint -->
+        <circle cx="221" cy="278" r="11" fill="#c8c8e0" stroke="#b0b0c8" stroke-width="1.5"/>
+        <circle cx="221" cy="278" r="5" fill="#b8b8d0"/>
+        <!-- Forearm -->
+        <rect x="206" y="278" width="30" height="65" rx="9" fill="url(#armGrad)"/>
+        <!-- Gold wrist band -->
+        <rect x="204" y="330" width="34" height="10" rx="5" fill="url(#goldGrad)"/>
+        <!-- Hand -->
+        <ellipse cx="221" cy="352" rx="15" ry="12" fill="url(#skinGrad)"/>
+        <!-- Fingers hint -->
+        <rect x="210" y="360" width="6" height="14" rx="3" fill="url(#skinGrad)"/>
+        <rect x="218" y="362" width="6" height="16" rx="3" fill="url(#skinGrad)"/>
+        <rect x="226" y="361" width="6" height="15" rx="3" fill="url(#skinGrad)"/>
+      </g>
+
+      <!-- ── NECK ── -->
+      <rect x="138" y="163" width="24" height="36" rx="5" fill="url(#skinGrad)"/>
+      <!-- Collar ring -->
+      <rect x="134" y="185" width="32" height="8" rx="4" fill="#c0c0d8"/>
+
+      <!-- ── HEAD / HELMET ── -->
+      <!-- Helmet main white shell -->
+      <ellipse cx="150" cy="115" rx="58" ry="62" fill="url(#bodyGrad)"/>
+      <!-- Helmet top curve -->
+      <ellipse cx="150" cy="80" rx="50" ry="40" fill="url(#bodyGrad)"/>
+      <!-- Helmet side panels -->
+      <ellipse cx="100" cy="115" rx="16" ry="30" fill="#d0d0e4" opacity="0.8"/>
+      <ellipse cx="200" cy="115" rx="16" ry="30" fill="#d0d0e4" opacity="0.8"/>
+      <!-- Helmet rim gold line -->
+      <path d="M96 130 Q150 145 204 130" stroke="url(#goldGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- Helmet top gold accent strip -->
+      <rect x="125" y="60" width="50" height="8" rx="4" fill="url(#goldGrad)" opacity="0.8"/>
+
+      <!-- ── FACE (inside helmet opening) ── -->
+      <!-- Face skin -->
+      <ellipse cx="150" cy="118" rx="42" ry="48" fill="url(#faceGrad)"/>
+
+      <!-- Hair (dark, visible from helmet) -->
+      <ellipse cx="150" cy="78" rx="38" ry="25" fill="#1a1422"/>
+      <path d="M112 90 Q105 110 108 135" stroke="#1a1422" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M188 90 Q195 110 192 135" stroke="#1a1422" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <!-- Hair detail strands -->
+      <path d="M120 78 Q118 95 115 108" stroke="#2a2030" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M150 65 Q148 80 145 90" stroke="#2a2030" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+      <!-- Eyebrows -->
+      <path d="M122 100 Q132 96 142 99" stroke="#2a1a10" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M158 99 Q168 96 178 100" stroke="#2a1a10" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+      <!-- ── EYES ── (animated) -->
+      <g id="eye-left">
+        <!-- Eye white -->
+        <ellipse cx="134" cy="112" rx="13" ry="13" fill="white"/>
+        <!-- Iris blue -->
+        <ellipse cx="134" cy="112" rx="9" ry="9" fill="#3a6fff"/>
+        <!-- Iris inner -->
+        <ellipse cx="134" cy="112" rx="6" ry="6" fill="#1a3fcc"/>
+        <!-- Pupil -->
+        <ellipse cx="134" cy="112" rx="3.5" ry="3.5" fill="#0a0a20"/>
+        <!-- Shine -->
+        <circle cx="138" cy="108" r="2.5" fill="white" opacity="0.9"/>
+        <circle cx="131" cy="115" r="1.2" fill="white" opacity="0.5"/>
+        <!-- Eyelid (for blink) -->
+        <ellipse id="lid-left" cx="134" cy="112" rx="13" ry="0" fill="url(#faceGrad)"/>
+        <!-- Lashes top -->
+        <path d="M121 106 Q127 103 134 103 Q141 103 147 106" stroke="#1a1422" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <g id="eye-right">
+        <!-- Eye white -->
+        <ellipse cx="166" cy="112" rx="13" ry="13" fill="white"/>
+        <!-- Iris blue -->
+        <ellipse cx="166" cy="112" rx="9" ry="9" fill="#3a6fff"/>
+        <!-- Iris inner -->
+        <ellipse cx="166" cy="112" rx="6" ry="6" fill="#1a3fcc"/>
+        <!-- Pupil -->
+        <ellipse cx="166" cy="112" rx="3.5" ry="3.5" fill="#0a0a20"/>
+        <!-- Shine -->
+        <circle cx="170" cy="108" r="2.5" fill="white" opacity="0.9"/>
+        <circle cx="163" cy="115" r="1.2" fill="white" opacity="0.5"/>
+        <!-- Eyelid (for blink) -->
+        <ellipse id="lid-right" cx="166" cy="112" rx="13" ry="0" fill="url(#faceGrad)"/>
+        <!-- Lashes top -->
+        <path d="M153 106 Q159 103 166 103 Q173 103 179 106" stroke="#1a1422" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- Nose subtle -->
+      <path d="M147 125 Q150 130 153 125" stroke="#d0a888" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+      <!-- ── MOUTH ── (animated) -->
+      <g id="mouth-group">
+        <!-- Lips closed default -->
+        <path id="mouth-closed" d="M138 138 Q150 143 162 138" stroke="#c08878" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Upper lip -->
+        <path id="mouth-open-top" d="M138 138 Q144 135 150 134 Q156 135 162 138" stroke="#c08878" stroke-width="1.5" fill="#d09888" stroke-linecap="round" opacity="0"/>
+        <!-- Lower lip / open mouth -->
+        <ellipse id="mouth-open-bottom" cx="150" cy="143" rx="11" ry="0" fill="#8a3030" opacity="0"/>
+      </g>
+
+      <!-- Cheek blush -->
+      <ellipse cx="118" cy="128" rx="10" ry="6" fill="#f0a090" opacity="0.25"/>
+      <ellipse cx="182" cy="128" rx="10" ry="6" fill="#f0a090" opacity="0.25"/>
+
+      <!-- Gold earring hint -->
+      <circle cx="108" cy="122" r="4" fill="url(#goldGrad)"/>
+      <circle cx="192" cy="122" r="4" fill="url(#goldGrad)"/>
+
+      <!-- ── ARM ANIMATIONS via CSS ── -->
+      <style>
+        #arm-left{
+          transform-origin:79px 200px;
+          animation:arm-sway-l 5s ease-in-out infinite;
+        }
+        #arm-right{
+          transform-origin:221px 200px;
+          animation:arm-sway-r 5s ease-in-out infinite;
+        }
+        @keyframes arm-sway-l{
+          0%,100%{transform:rotate(0deg)}
+          25%{transform:rotate(3deg)}
+          75%{transform:rotate(-2deg)}
+        }
+        @keyframes arm-sway-r{
+          0%,100%{transform:rotate(0deg)}
+          25%{transform:rotate(-3deg)}
+          75%{transform:rotate(2deg)}
+        }
+      </style>
+    </svg>
+  </div>
+</div>
+
+<!-- Wave bars (listening indicator) -->
+<div id="wave-bars">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- User message cloud -->
+<div id="msg-cloud"></div>
+
+<!-- PGN / Photo Panel -->
+<div id="pgn-panel">
+  <div class="panel-handle"></div>
+  <div class="panel-title">Load a Game</div>
+  <div id="game-badge" class="show" style="display:none">
+    <span id="game-badge-txt">No game loaded</span>
+    <button onclick="clearGame()" style="background:none;border:none;color:#ff4757;cursor:pointer;font-size:11px;font-family:'Outfit',sans-serif;font-weight:700">× Clear</button>
+  </div>
+  <div class="panel-tabs">
+    <button class="ptab active" onclick="switchPTab('pgn')">📋 PGN</button>
+    <button class="ptab" onclick="switchPTab('photo')">📷 Photo</button>
+  </div>
+  <div class="tab-content active" id="ptab-pgn">
+    <textarea id="pgn-input" placeholder="Paste your PGN from Chessis here..." rows="4"></textarea>
+    <div class="panel-btns">
+      <button class="p-btn p-btn-primary" onclick="loadPGN()" id="analyze-btn">▶ Load Game</button>
+      <button class="p-btn p-btn-ghost" onclick="document.getElementById('pgn-input').value=''">Clear</button>
+    </div>
+  </div>
+  <div class="tab-content" id="ptab-photo">
+    <div class="photo-drop" onclick="document.getElementById('file-input').click()">
+      <div style="font-size:32px">📷</div>
+      <p>Tap to take photo or upload board</p>
+    </div>
+    <input type="file" id="file-input" accept="image/*" capture="environment" onchange="handlePhoto(event)"/>
+    <div id="photo-preview-wrap">
+      <img id="photo-preview" src="" alt="Board"/>
+      <button class="remove-photo" onclick="removePhoto()">×</button>
+      <button class="p-btn p-btn-primary" style="width:100%;margin-top:8px" onclick="sendPhoto()" id="photo-send-btn">Send to Aria →</button>
     </div>
   </div>
 </div>
-<div class="page" id="page-analysis">
-  <div class="analysis-page">
-    <div class="ptabs">
-      <button class="ptab active" onclick="sPTab('input')">Input</button>
-      <button class="ptab" onclick="sPTab('moves')">Moves</button>
-      <button class="ptab" onclick="sPTab('summary')">Summary</button>
-      <button class="ptab" onclick="sPTab('graph')">Graph</button>
-      <button class="ptab" onclick="sPTab('engine')">Engine</button>
-    </div>
-    <div class="pcontent">
-      <div class="pview active" id="pt-input">
-        <div class="card">
-          <div class="sec-title">Paste PGN</div>
-          <textarea id="pgninput" placeholder="Paste your PGN here..." rows="5"></textarea>
-          <div class="pgn-btns">
-            <button class="btn btn-primary" onclick="analyze()">&#9654; Analyze</button>
-            <button class="btn btn-ghost" onclick="loadSample()">Sample Game</button>
-            <button class="btn btn-ghost" onclick="document.getElementById('pgninput').value=''">Clear</button>
-          </div>
-        </div>
-        <div class="statusbar">
-          <div class="sdot" id="sdot"></div>
-          <div class="stxt" id="stxt">Ready. Paste a PGN and tap Analyze.</div>
-          <div class="prog-out" id="prog-out" style="display:none"><div class="prog-in" id="prog-in"></div></div>
-        </div>
-        <div class="empty" id="emptystate">
-          <div class="empty-ico">&#9822;</div>
-          <h3>No Game Loaded</h3>
-          <p>Paste a PGN and tap Analyze. The engine will evaluate every move.</p>
-        </div>
-      </div>
-      <div class="pview" id="pt-moves">
-        <div id="movelist-wrap"><div class="empty"><div class="empty-ico">&#128203;</div><h3>No moves yet</h3><p>Analyze a game first.</p></div></div>
-      </div>
-      <div class="pview" id="pt-summary">
-        <div id="summary-wrap"><div class="empty"><div class="empty-ico">&#128202;</div><h3>No summary yet</h3><p>Analyze a game first.</p></div></div>
-      </div>
-      <div class="pview" id="pt-graph">
-        <div class="graph-card">
-          <div class="graph-title">Evaluation Graph</div>
-          <canvas id="evalChart" height="180"></canvas>
-        </div>
-      </div>
-      <div class="pview" id="pt-engine">
-        <div id="engine-wrap"><div class="empty"><div class="empty-ico">&#129302;</div><h3>Engine Lines</h3><p>Tap any move to see engine lines.</p></div></div>
-      </div>
-    </div>
+
+<!-- Bottom Bar -->
+<div id="bottombar">
+  <button class="bot-btn" id="mic-btn" onclick="toggleMic()" title="Speak to Aria">🎤</button>
+  <div class="text-input-wrap">
+    <textarea id="chat-input" placeholder="Ask Aria…" rows="1"
+      onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <button id="send-btn" onclick="sendMessage()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
   </div>
 </div>
-<div class="page" id="page-library">
-  <div class="library-page">
-    <div class="lib-head">
-      <span class="lib-title">Saved Games</span>
-      <span class="lib-cnt" id="gcnt">0</span>
-    </div>
-    <div class="lib-search"><input placeholder="Search games..." oninput="filterGames(this.value)"></div>
-    <div class="lib-list" id="glist"><div class="lib-empty">&#128193;<br>No saved games yet</div></div>
-  </div>
-</div>
-</div>
-<div class="modal-bg" id="renameModal" style="display:none">
-  <div class="modal">
-    <h3>Rename Game</h3>
-    <input type="text" id="renameInp" placeholder="Game name...">
-    <div class="modal-acts">
-      <button class="btn btn-ghost" onclick="closeRename()">Cancel</button>
-      <button class="btn btn-primary" onclick="doRename()">Save</button>
-    </div>
-  </div>
-</div>
+
 <div class="notif" id="notif"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <script>
-// ══════════════════════════════════════════════════════════════
-//  CBURNETT PIECES — direct from Lichess source files
-// ══════════════════════════════════════════════════════════════
-var PIECE_SVG={
-wK:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path stroke-linejoin="miter" d="M22.5 11.63V6M20 8h5"/><path fill="#fff" stroke-linecap="butt" stroke-linejoin="miter" d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5"/><path fill="#fff" d="M11.5 37a22.3 22.3 0 0 0 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V27v-3.5c-3.5-7.5-13-10.5-16-4-3 6 5 10 5 10z"/><path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0"/></g></svg>',
-wQ:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M8 12a2 2 0 1 1-4 0 2 2 0 1 1 4 0m16.5-4.5a2 2 0 1 1-4 0 2 2 0 1 1 4 0M41 12a2 2 0 1 1-4 0 2 2 0 1 1 4 0M16 8.5a2 2 0 1 1-4 0 2 2 0 1 1 4 0M33 9a2 2 0 1 1-4 0 2 2 0 1 1 4 0"/><path stroke-linecap="butt" d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11V11l-5.5 13.5-3-15-3 15-5.5-14V25L7 14z"/><path stroke-linecap="butt" d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path fill="none" d="M11.5 30c3.5-1 18.5-1 22 0M12 33.5c6-1 15-1 21 0"/></g></svg>',
-wR:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path stroke-linecap="butt" d="M9 39h27v-3H9zm3-3v-4h21v4zm-1-22V9h4v2h5V9h5v2h5V9h4v5"/><path d="m34 14-3 3H14l-3-3"/><path stroke-linecap="butt" stroke-linejoin="miter" d="M31 17v12.5H14V17"/><path d="m31 29.5 1.5 2.5h-20l1.5-2.5"/><path fill="none" stroke-linejoin="miter" d="M11 14h23"/></g></svg>',
-wB:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><g fill="#fff" stroke-linecap="butt"><path d="M9 36c3.39-.97 10.11.43 13.5-2 3.39 2.43 10.11 1.03 13.5 2 0 0 1.65.54 3 2-.68.97-1.65.99-3 .5-3.39-.97-10.11.46-13.5-1-3.39 1.46-10.11.03-13.5 1-1.35.49-2.32.47-3-.5 1.35-1.94 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z"/></g><path stroke-linejoin="miter" d="M17.5 26h10M15 30h15m-7.5-14.5v5M20 18h5"/></g></svg>',
-wN:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path fill="#fff" d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21"/><path fill="#fff" d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.042-.94 1.41-3.04 0-3-1 0 .19 1.23-1 2-1 0-4.003 1-4-4 0-2 6-12 6-12s1.89-1.9 2-3.5c-.73-.994-.5-2-.5-3 1-1 3 2.5 3 2.5h2s.78-1.992 2.5-3c1 0 1 3 1 3"/><path fill="#000" d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0m5.433-9.75a.5 1.5 30 1 1-.866-.5.5 1.5 30 1 1 .866.5"/></g></svg>',
-wP:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path fill="#fff" stroke="#000" stroke-linecap="round" stroke-width="1.5" d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z"/></svg>',
-bK:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path stroke-linejoin="miter" d="M22.5 11.6V6"/><path fill="#000" stroke-linecap="butt" stroke-linejoin="miter" d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5"/><path fill="#000" d="M11.5 37a22.3 22.3 0 0 0 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V27v-3.5c-3.5-7.5-13-10.5-16-4-3 6 5 10 5 10z"/><path stroke-linejoin="miter" d="M20 8h5"/><path stroke="#ececec" d="M32 29.5s8.5-4 6-9.7C34.1 14 25 18 22.5 24.6v2.1-2.1C20 18 9.9 14 7 19.9c-2.5 5.6 4.8 9 4.8 9"/><path stroke="#ececec" d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0"/></g></svg>',
-bQ:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><g stroke="none"><circle cx="6" cy="12" r="2.75"/><circle cx="14" cy="9" r="2.75"/><circle cx="22.5" cy="8" r="2.75"/><circle cx="31" cy="9" r="2.75"/><circle cx="39" cy="12" r="2.75"/></g><path stroke-linecap="butt" d="M9 26c8.5-1.5 21-1.5 27 0l2.5-12.5L31 25l-.3-14.1-5.2 13.6-3-14.5-3 14.5-5.2-13.6L14 25 6.5 13.5z"/><path stroke-linecap="butt" d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"/><path fill="none" stroke-linecap="butt" d="M11 38.5a35 35 1 0 0 23 0"/><path fill="none" stroke="#ececec" d="M11 29a35 35 1 0 1 23 0m-21.5 2.5h20m-21 3a35 35 1 0 0 22 0m-23 3a35 35 1 0 0 24 0"/></g></svg>',
-bR:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path stroke-linecap="butt" d="M9 39h27v-3H9zm3.5-7 1.5-2.5h17l1.5 2.5zm-.5 4v-4h21v4z"/><path stroke-linecap="butt" stroke-linejoin="miter" d="M14 29.5v-13h17v13z"/><path stroke-linecap="butt" d="M14 16.5 11 14h23l-3 2.5zM11 14V9h4v2h5V9h5v2h5V9h4v5z"/><path fill="none" stroke="#ececec" stroke-linejoin="miter" stroke-width="1" d="M12 35.5h21m-20-4h19m-18-2h17m-17-13h17M11 14h23"/></g></svg>',
-bB:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><g fill="#000" stroke-linecap="butt"><path d="M9 36c3.4-1 10.1.4 13.5-2 3.4 2.4 10.1 1 13.5 2 0 0 1.6.5 3 2-.7 1-1.6 1-3 .5-3.4-1-10.1.5-13.5-1-3.4 1.5-10.1 0-13.5 1-1.4.5-2.3.5-3-.5 1.4-2 3-2 3-2z"/><path d="M15 32c2.5 2.5 12.5 2.5 15 0 .5-1.5 0-2 0-2 0-2.5-2.5-4-2.5-4 5.5-1.5 6-11.5-5-15.5-11 4-10.5 14-5 15.5 0 0-2.5 1.5-2.5 4 0 0-.5.5 0 2z"/><path d="M25 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0z"/></g><path stroke="#ececec" stroke-linejoin="miter" d="M17.5 26h10M15 30h15m-7.5-14.5v5M20 18h5"/></g></svg>',
-bN:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path fill="#000" d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21"/><path fill="#000" d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.04-.94 1.41-3.04 0-3-1 0 .19 1.23-1 2-1 0-4 1-4-4 0-2 6-12 6-12s1.89-1.9 2-3.5c-.73-1-.5-2-.5-3 1-1 3 2.5 3 2.5h2s.78-2 2.5-3c1 0 1 3 1 3"/><path fill="#ececec" stroke="#ececec" d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0m5.43-9.75a.5 1.5 30 1 1-.86-.5.5 1.5 30 1 1 .86.5"/><path fill="#ececec" stroke="none" d="m24.55 10.4-.45 1.45.5.15c3.15 1 5.65 2.49 7.9 6.75S35.75 29.06 35.25 39l-.05.5h2.25l.05-.5c.5-10.06-.88-16.85-3.25-21.34s-5.79-6.64-9.19-7.16z"/></g></svg>',
-bP:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"><path stroke="#000" stroke-linecap="round" stroke-width="1.5" d="M22.5 9a4 4 0 0 0-3.22 6.38 6.48 6.48 0 0 0-.87 10.65c-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47a6.46 6.46 0 0 0-.87-10.65A4.01 4.01 0 0 0 22.5 9z"/></svg>'
-};
+// ── CONFIG ──
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
+// ── STATE ──
+let API_KEY = localStorage.getItem('aria_groq_key') || '';
+let chatHistory = [];
+let gameData = null;
+let pendingPhoto = null;
+let voiceOn = true;
+let voiceLoopActive = false;
+let sfWorker = null;
+let sfReady = false;
+let panelOpen = false;
+let msgCloudTimer = null;
+let isSpeaking = false;
 
-// ── CHESS MOVE SOUND ─────────────────────────────────────────
-const moveSound = new Audio('data:audio/wav;base64,UklGRh5bAQBXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAATElTVBoAAABJTkZPSVNGVA4AAABMYXZmNjAuMTYuMTAwAGRhdGHYWgEA+f8AAAUA/v/8/wMABQACAAAA/f/8////BAAFAAMA/f/3//3/BAD9//v/AQD8//f//P/9//n/9v/1//n/9v/y//z/AQD8//7//f/8/wIAAAD7/wAAAQD9//z/+P/7/wIA/f/3//j/9//3//j/+/8AAPz/9////wQA/v/3//T/+f////r/+/8AAPr/9/////////8BAPv/+/8DAP//9//6//f/7v/2/wQAAgD8//3/BAAIAAUAAAAFAAkAAwD//wUADQALAAQABgAHAP////8IAAkACQAIAAEAAQAFAAYACwAIAPv//P8DAAAAAAAEAAQAAgD/////AwAFAAMAAwAHAA0ACwACAAMACgAGAAAABAADAPn/+P8EAAoAAgD4//b///8GAAIA/f8EAAsAAQD3/wAABQD4//X///8CAAEA///7//7////5//v////9///////6//z////9//v/+P/2//b/9v/9/wYABQD///v//P////b/7v/6/wMA+//4//v/+//9//r/9//7//z/+f/7//r/+P/8//v/+f/5//L/7f/y//b/9v/7//3/+f/5//z/+P/z//n//P/4//b/8v/v//b/+v/z//L/9f/x//L/9f/y//T//P/8//X/8v/1//n/+f/8//z/9f/y//n//P/3//j//f/2/+7/9/8CAPv/9P/4//j/9//6//z///8CAPv/9f/7//7//P8AAAIA/f/2//D/9f8EAAYA/v/7//r/+/8AAAMAAwAEAAMA//8CAAYABQAIAAsABQD///7///8CAAMAAAAAAAYABQADAAgACAAEAAMABwAIAAgACAAEAP7//P///wAAAAD7//b/+/8CAAIABAAHAAgADAALAAQABgAKAAkABgAEAAQABgAEAAQABAADAAkABwACAAwACwD5//n/BQAHAAcAAAD5/wIABAADAA0ADQADAAEA//8HABMADAADAAcABQAEAAwADwAMAAgAAwAGAAsACgAIAAkABwADAAUABgACAAAABAAFAAIAAQACAAYAAwABAAoACQD+/wEABQD+//7/AgACAAMA/P/5/wQABwADAAcABAABAAgAAQD2//v////8//v/AAAEAAAA/f8DAAMA+//9/wUABAAFAAgABAAAAAEA///7//v/9v/y//n/+v/z//X//v8BAAAA//8CAAQAAQABAAQA/f/7/wIABAADAAQAAQD+//n/9f/+/wUA/////wEAAAABAAIAAAAFAAcAAQD8//r/9//8/wQABAD9//n//f8CAAIA+//3////BwABAAAACAADAP//BgABAPf/BAANAAUAAgADAAAA/////wkAFAAKAP//BAD///n/BAAFAP7//v8EAAwADgAIAAsADQAAAPb/+/8HAAwA/P/t//b/AwAEAAMAAQACAAEAAAAGAAoAAwAAAP7///8HAAcA/P/+/wEA+//6//7/BAAGAP//+v///wYACgAIAAMA/f/3//f/+//8//7////9/wAAAQD+/wEABAD///r/+f/+/wQAAgD9//n/+//+//n/8v/4//3//f///wAA/v/7//r///8FAAIAAAD///3/AAAAAP7/AwADAP//AwAEAP////8BAAEA/P/3//v////+////+//0//b/+P/5/wEAAQD//wMAAAD6//3////7//n//P/9//z//P/+//v/9f/y//T/+v////7//v8CAP//+P/7/wIA/f/1//j//f/6//b/8//3//3//v///wMAAAD6//n/+v/9/wEAAAD9//3//f/9//v//v8CAP//+v/3//f//v8AAPj/9//9//r/+v8DAAIA+P/2////AwD+/wAABgAFAAcACwAKAAkADAAKAAMA/v8DAAwACQAEAAUABQAFAAQAAAD+/wAAAwADAP///f8BAAMABAADAP///v8CAAIAAQAAAAIABgAHAAMA/f/+/wMAAAD8/wAA/f/4/wEAAgD9/wEAAgD+/wMABQAAAAEABQAIAAgAAwACAAUAAgD+/wMACgAIAAAA/v8BAAEA/v/7//r/+v/3//b//v8DAP///f/+//z//P/8//v/+//+//3/9v/0//r//f/5//j/+//7//3/AwAFAP7//v8GAAYAAQAEAAAA9//6/wEA///6//b/9v/7////AQAAAP3///8DAP7/+f/7//3/+//7//z/+v/7//7/+//3//n/+v/8/wAA///7//7////+/wMABQACAP3/+////wUAAgABAAYACwAOAAgAAwAIAAkABAAFAAQAAAACAAIA/v/+//3/9//6/wEAAgD///3///8CAP///f8CAAAA+////wEA+//7/wEAAwACAAIAAgD///z//f/9//3/BQAHAP///f8CAAEABAAIAAQA//8AAP3//f8EAAUA/v/5//v/AAABAAAAAgACAP7/+P/1//n/AAD+//v///8AAPv/9v/5/////v/9/wEA///7/wEABgAFAAYAAwABAAUABwAEAAIAAQABAAEA//8BAAUABgAIAA4ADgAJAAUABgAIAAcAAwD///7/AwAFAAQAAQD8//v/AAACAAIAAwABAP7//f///////v8CAAQA/P/4//z//P/8/////f/6//v//f/+/wAAAgAAAP3///8DAAAAAAADAAIAAwAHAAYAAwABAPz/+v/6//z//v/+//v/+//7//n/9//6//3/+f/2//r//v/7//r//P/8//r/+f/4//j/+P/4//n/+//6//X/9v/5//r//f/8//T/9P/7//v/9//3//T/9P/6//3/+f/2//f/+f/4//f/9f/0//f/9//z//L/9P/0//P/7//v//T/9f/z//f/9v/w/+//9v/4//f/+v/5//L/9v/8//X/8v/5//b/7//z//f/+f/6//f/9P/1//f/+f/4//b/9v/3//b/9f/3//n/+P/3//f/+P/6//j/9v/4//b/8//5//3/+//7//j/9P/5//7/+//4//r/+//+/wIAAgAAAAIAAwAEAAkACAAEAAYABwAEAAUABgAGAAkACQAIAAsACQAIAAwACQADAAUABgAFAAcABwAGAAgACgAKAAcAAwAIABAAEQAMAAkADAANAAoADAAPAA0ADAANAAoACAALAA4ADgAKAAYABgAJAAkABQAEAAcABwAGAAYABAABAAAA//8DAAcABQAGAAYABAAHAAcAAwAGAAgAAQD//wMAAgABAAAA///+//3//P8BAAQAAAD9/wAAAQAAAAEAAwAAAAAABQAGAAQABQAGAAMAAwAGAAcABwAJAAgABQAEAAIAAwAIAAYAAgACAAMAAwAGAAYABQAGAAQAAgAGAAQAAAABAAIABAAHAAYAAwADAAQABQAEAAIABAACAP//BAAHAAIABAAKAAYABQANAA4ABwAFAAgACgAKAAgACAAIAAgACQAMAAwACAADAAMABQAEAAYACgAGAAAABAAKAAoABwAHAAoADQAJAAUABgAHAAQABQAKAAsABwAEAAUACAAJAAcAAwACAAEAAQABAAIAAwADAAMAAwACAAMACQAMAAQAAQAGAAgACAAJAAgAAwABAAIABgADAPz//f8AAAEAAgABAP//AQAAAP3///8BAP7//v8AAAAAAQADAAEA/v/+/wAA/v/7//3//f/7////AgD7//n/AAAAAPz/+//6//v//f/9//z//v/7//n/+//+//3/+P/1//b/9//1//X/8//y//j/+v/1//T/9v/z//L/9f/4//n/+P/3//j/9v/4//7//v/5//j/+P/5//z/AAAAAPz/+P/9////+v/7/wEAAAAAAAMAAwAEAAMA/v8BAAMA+//6/wAA/f/5//v//f8AAAMAAwADAAUABAABAP///v///wEAAwADAP////8FAAUAAQAAAAEAAgACAP//AgAFAP7/+P/8/wAAAQAAAP3//P/9//r//P////r/+P/+//3/+v/9//3//P8AAAIAAAD///3//P/8//3///8CAAEA/////wEA/P/1//f//P/9//3////9//3//f/8//3//v/6//f/+P/4//v////7//b/+P/5//f/+P/6//z//f/6//j/+v/8//n/9//4//r//P/5//T/8//z/+//7f/w//P/+P/4//X/9v/1//H/9f/6//v//v/9//j/+f/6//f//P/+//T/9P/9//n/+P8AAPz/9v/4//f/+P8BAAAA+v/6//r/+v/9//7/+v/2//X/+f/8//z//v/8//r//f/+//v//P/+////AwAEAAAAAgACAP3//f8AAP///v///wIABQACAAAAAQADAAYACgALAAoACwAKAAgABwAEAAMABAADAAUACQAHAAEAAAAFAAgABgAGAAkABgAEAAgABwADAAcABwADAAUABwAEAAIAAwADAAUABAAEAAQA///+/wIAAAD+/wAA/f/7/wAA///8//3//f/8//7/AAAAAAAAAgACAP3/+f/8//z/9v/1//n/+v/6//j/+P/6//j/9v/7/////v////3/+v/9////+//7//3////+//v/+//5//X/+P/+//v/9//5//r/9//1//f/+//5//j/+//6//j/+v/7//z////8//z/AQAAAP7/AQD+//v//v/8//f/+f/4//b/+f/6//j/+//+/wEAAwABAAEABAD///v//v/+//z//v////3//P/7//3////7//j/+v///wAA+v/2//b/9f/2//n/+//8//7//f/9/wEAAQD+//7/AQABAP3//f/9//j/9v/5//f/9//8//r/9P/4//v/+f/6//v/+v/7//n/9//6//3/+f/3//f/9//3//n/+//5//b/9//7//r/9//5//v/+f/4//n/+//6//z/AAD+//v//f/6//n/AQADAP3//P/7//v/AQACAP7/AAAFAAYACwAQAAwABwAHAAsACgAHAAYABgADAAIABAACAAIAAwACAAMABgAGAAUABgAGAAMABAAHAAMAAQAFAAMAAAAFAAkABAAGAAsACQAIAAkACAAKAAwACAAIAAcABAAGAAoACQAKAAsABwAHAAoACQAIAAsADQAMAAwADQANAAsADAAOAAwADAAOAA4ADQAMAAsADAANAAsACQAIAAcACgAMAAoADAALAAQABAAHAAQAAgABAP//AQABAP//AQD///z//v/8//j///8CAPv/+/////z/+f/7////AAD9//n//P/9//r//f8BAP3/+//+/wIAAgD///7/AgADAAIAAwADAAMABAAFAAQAAgABAAEA/v/8//7//P/4//j//P/+//3/+v/5//v/+v/7////+//3//z////6//r//P/8///////6//v////7//j//f8AAAAA/f/6//3//v/6//z////7//j/+f/5//v//v/9//3/AAACAAIAAgABAAAAAAABAAMAAwABAAAA/P/4//n//f/+//3//P/8//z//P/+//7/+f/4//v/+v/6//7/AAABAAEA/v/+/wAA///7//v//P8AAAEA/////wIAAQD//wIAAgABAAQAAwACAAIAAgABAAEAAgD///z//v8BAP7//P///wAAAAD///z/+//9//3//f/+/wAAAQAAAP7///8DAAQAAgADAAQABgAHAAQAAwAEAAIAAQAFAAQAAAD+///////+//z//f////3//f////7//f///////f/6//j/+v/6//X/8//2//b/9//4//b/9P/1//b/9f/0//P/8P/y//r////9//z/AAADAAMABQAGAAUAAgAAAAIAAwAAAP3////+//z/AQAFAAUABQACAP7/AAADAP///v8AAAAA//////3//v8DAAMAAwAFAAkACQAHAAgACgAKAAkABwAFAAUABgAIAAcABAACAAMAAgABAAUABQD//wEABgADAAAABAAEAP//AAACAP///v8AAAAAAAADAAQABAAEAAIA//8CAAMA///8//z/+v/7//7////+//z/+/8AAAAA/P8AAAUAAgACAAQAAQADAAYAAAD8//7/+//5//r/9//3//z//P/7///////8/wAAAgABAAIAAAD8//7/AgADAAMAAgD+////AwACAP3/+//8/wAAAgAAAPr/+v/+/////v///////P/6//r//P/+//7//f8AAAIAAAD8//3/AAACAAAA///9//r/+/8BAAMAAAD+//z/+//7//j/9v/7//v/9v/5//7/+//2//T/9v/7//v/9v/3//z/+f/0//j/+//5//n//P/9//n/9v/6//7//v/7//f/9f/2//b/9//4//b/8f/w//P/9v/1//T/9//3//X/+P/7//j/9//5//f/+P/9//r/9f/5//3/+v/5//r/+v/3//r//P/6//r//v/+//z//f/9//r/+P/6//z//P/8//z//P/6//n/+//8//3//f/7//z//v/9//z/+//4//j/+P/7/////f/4//r/+v/5//3/+//1//n/+f/y//X/9v/x//X/+P/0//f//P/7//3/AAD9//z//f/7//z//P/7////AwACAAQABQABAAAABAAGAAgABwADAAUACwAMAAsADwAQAA8ADwAOAAsADAAOAAwADAAPAA8ADgAPAA4ADAAMAA0ADgAOAA8AEQAMAAkADQALAAgADgAPAAkADAAQAA0ADgAUABMADgAOAA8ADQALAA8AEgANAAsADwANAAkACwANABEAEwANAAkADgAPAAwADgAQAAsADAATABIACgAJAAgAAgADAAoABwADAAcABgABAAAAAQABAAIAAAD//wMABQAFAAQAAQABAAMAAQAAAAUABAD///7///8DAAMA/////wQABQAAAPz//f8AAP////8CAAEA/v8BAAAA/f8CAAUAAAACAAQA/v/6//v//f////z/+f/8//7//P/8//v/9P/y//f/+P/3//n/+v/5//v//v/6//n//P/8//z///////3/AAABAAAA/f/5//n///////z//v////7////+//3/AwADAAAA/v/8//r//f/8//v/+//4//b/+v/7//j/+f/7//v//P/+//7//P/7//z//v8AAP///v/9//z/+v/3//j//v8AAP3/+//8//3//f/9//3//v/9//r/+v/9//z//P8BAAEA+v/6//7//v/8//7//v/9//z/+v/5//r/+f/4//7/BQACAP//AAD+//3/AAAAAP7////8//r/AQACAP7/AgAEAP7//f8CAAMAAgAEAAUAAgD9//3/AAD///3/AAAAAAAAAgD///v/+//6//z/BAAFAAAA/f/9//3//v/+//3//f8AAAIA/f/6//7/AgAAAAIAAwD8//r/AAACAAEAAAD9//r//P/9//3/+//5//f/9v/3//n/+v/7/////v/5//r//P/7//3//v/9/////v/5//j//f/9//n/+///////AQAFAAMA/f/9/wEAAQD9//z//v////3//f8AAAAA/P/+/wEA/v///wEA/v/9/wEAAgAAAP7/+//8/wEAAQD8//v//v8AAAAA+//5//z//P/7///////7//3/AQD///3/AAABAP7//P/+/////f/9//7///8AAP3/+v/5//n/+f/7//n/+P/7//z/+v/7//n/9f/2//b/9v/5//z/+P/0//P/9f/2//P/8v/0//P/8f/0//f/9v/z/+//7//0//f/+P/2//L/8//3//b/8//0//T/8//0//P/8//3//f/9v/4//X/8//4//z/+//7//n/+P/7//7//f///wAA//8CAAIA/f/9//7//v8BAAMA///+//7//v8CAAQA///9//////8BAAUAAgD//wQABwAHAAkACQAFAAIAAQAAAP///v/+//7///8DAAMA///8//3/AAADAAIAAgADAAEAAgAFAAIA/////wMACAAKAAQAAQAHAAoACAAIAAYABgAJAAkABQAEAAgACgAMAAoABwAJAAsACAAHAAgACgALAAoABQADAAcABwADAAQACQAIAAYABgAHAAcABgAFAAcACQAGAAYACAAGAAMABAAHAAkABwAEAAMABQAGAAMA/f8AAAcABAACAAYAAwD9/wMABgABAAAAAgD//wAAAgABAP//AAAAAAIAAQD+//7//P/8//7//v/+/wIAAgABAAIAAAD9////AAD//wEAAQD9//3//v/9//3/////////AAAAAAQABwAFAAMAAwAAAAEABAAEAAMAAwADAAIAAwAFAAUAAgD+//3/AAAEAAMAAQACAAUABQAFAAYABwAIAAkABwAIAAgAAwABAAYABwADAAIAAAD8//7/AAABAAEA/////wEAAwACAAEAAAACAAIAAAADAAgABwAIAAkABwAJAAsABwAHAAkABgAFAAkACAAGAAcABQABAAAA/v8BAAMAAQAAAAAA/v8AAAQAAQD+/wAAAQACAAAA//8EAAkABwAEAAUABAAEAAQABgAGAAEA//8DAAEA/f//////+//+/////v8BAAEA/f8CAAcAAgABAAMABQAHAAQA/v8AAAEA/f///wIA//8BAAMA/f/5//7/AQAAAP7//f/9//v/+f/8//7//P/8//7//f/9////AAADAAMAAAD//wIAAgD6//X/9f/4//r//P/9//j/9P/4//r/9v/2//z//f/4//T/9P/2//n/+v/4//n//f/6//X/9v/3//f/+P/3//b/9//3//n/+v/3//j/+//4//X/+f/5//X/+P/7//n/+v/6//n/+P/5//v//v/6//f/+v/7//v//f///wAAAAD5//T/+v////3//P/7//j/9//5//j/9//2//b/+P/7//7//v/9//3//////wAAAgABAAAAAQADAAMAAgADAAQABAAGAAUAAgAEAAoACAACAAMABQAFAAgACAAFAAQAAwAFAAkABwACAAQABQAAAP//AwAEAP7/+v/8////AAAAAAAA/f/8//3/+//7//z/+//7//v/+//8//3/+//7//z/+//+/wAA/f/9/wAA/////wEAAAAAAAAA/f/8/wEAAgABAAIAAwAAAAAABQAFAAEAAAABAP7/+f/5//3/AgABAPv/+f/8//z/+//+/wIAAgABAP////8BAAEAAgACAAAA/f///wEAAgAEAAMAAgAFAAYABAAEAAcABQABAAAAAgABAAEAAQAAAAAAAQABAAAAAAABAAMAAwACAAIABQAHAAUAAgABAAMABQAGAAQAAQAAAAIABgAFAP///P8AAAMAAQD/////AAADAAUAAwAAAP//AAAAAAEABAACAPz/+f///wYABgACAAMAAwAAAP//AQAAAAAABAAFAAIAAAACAAcABgADAAMAAgD///7///8BAAEA/f/4//j/+v/7//z//P/8//7/AAD+//3///8AAP7//P/9/wEA///6//7/BAABAPz//P/8//n/9v/4//3//v/9///////8//3////8//3////+//3//P/7//z//f/8//n/9//4//v//P/6//j/+f/9/wEA/v/7//3//P/7////AAD+/////v/9/wAAAAD7//z/AAAAAP///P/7////AQD9//n//P/+//7///8AAP3/+f/9/wMAAAD8//r//P8AAAIAAAD+//3//f////3//P8AAP//+f/5//z//P/+//3/+//+//7/+P/4//z//P/8//7/AQABAAAAAgADAAAA//8AAPz/+P/7///////7//b/+/8DAP7/+P/9/////P/7//r/9v/2//v////8//T/9P/5//j/9f/3//j/9//2//T/9v/5//n/9v/0//b//P////n/9v/8/wEAAAABAAIAAQABAAIAAQAAAAEAAQAAAAIAAgD///7//v/+//7//////////v8AAAIAAgAEAAIA//8BAAQAAAD+/////P/+/wMAAQAAAAcACQAIAAoACQAKAAoABgAFAAcAAgD//wEAAwAFAAUAAwAFAAgABAABAAEAAgAGAAUA/v8AAAcABQACAAQAAwACAAMAAAD8//3/AwAFAAEA/P/7//r/+/8AAAMAAgACAAIAAQD///7/AQAEAAEA/f///wEAAQABAAIABQADAAAAAgAFAAQABQAGAAMAAgADAAMABAAEAAEAAwAHAAQAAAAAAP///v/+////AgABAP//AwAHAAEAAAADAP///f8EAAcAAwAAAAEA///9/wEABgADAP3//v8FAAYA///+/wEAAgADAAQAAQD8//v//v8AAP//+//6//3//f/7//z/+//6//r/+//9/////P/5//n//P/7//j/9//5//v//P/8//r/+v/8//3/+v/6//z//P///wAA/f/7//7//v/7//j/+f/6//f/+P/7//z/+v/7//7//v/9//7/AAABAP///f/9//z///8BAP///v/+//z//f////3/AAADAAAA//8CAAAA//8BAP7///8EAAIA/v8AAP7//P/+//7//f8AAAEA//8BAAUABwAHAAUAAgAAAAEAAgADAAMAAwABAAAABAAEAAIABAAIAAgABwAIAAMA/f///wcACgAJAAcABAADAAYACAAHAAgACAAEAAIABAADAAYACwAKAAYABgAGAAUAAgACAAUABAABAAQABQACAAYACwAFAAIABAD+//3/BAAFAAQABgAEAAEAAQABAAEA///7//3/AAD9//r//P///wAAAAD/////AAABAAEA/////////v8AAAMAAgABAAIAAwAEAAQAAwACAAAA/v///////f/9//3/+////wMA/f/8/wIAAgACAAUABAADAAgACQAIAAcABQAGAAgABQAFAAYAAgADAAkABQACAAYABwAHAAoABgABAAMABQAEAAQA/v/4//v//v/9////AQABAAEAAAAAAAAA/f/8/wAAAwD///z//v/9//v///8BAP7//P/7//n/+f/8//v/+//8//f/9v/7//3//P8AAAIA/v/9//7//v/9//r/+f/8//3/+//6//j/9f/2//b/9//8//r/8//2//z//P/6//v/+//7//r/9//3//n/9v/z//P/8v/y//P/8v/2//r/9f/y//n//f/5//f/+f/7//z/+f/3//b/8v/w//P/9f/1//T/8//1//X/8v/z//f/9v/0//X/9f/5//3/+P/1//j/9P/y//j/+f/2//f/9v/2//v//P/8/wEAAgD//wAAAQADAAYAAQD+/wQABQD//wEABQAAAP//AwABAAEABQAIAAYABAACAAMABgAEAAIABAAEAAIAAgAFAAUAAgABAAUACQAHAAQAAgACAAMABAAFAAYABQADAAIAAgACAAQABgAEAAIABAAFAAcACQAJAAkACQAJAAcABAACAAMABQAEAAYABwAEAAMABgAEAAEAAgADAAEAAAADAAcAAwD//wAAAAD//wMABwAIAAkACwAMAAYA/v///wcABgADAAUABAAFAAwADQALAA8ADwAHAAYACQAKAAwACQAGAAwADQAIAAgACgALAA8ADQAHAAcACAAGAAkACwAIAAcABwAGAAcABwAHAAsADQAHAAIAAQAEAAYAAAD+/wkADQAIAAoADgAIAAgACwAFAAEAAwAAAP7/AgADAP7//f8AAAMAAQD+//7/AAD9//3/BgAIAAAA+/8AAAMA/f/6//v/+f/1//f/+v/3//f/9//0//T/+f/6//f/9//4//j/+//9//v/+//+//7/+v/5//r/+v/8//7//P/5//r/+//+////+f/2//z/+v/1//n/9//0//r/+f/x//X/9//w//T/+P/1//v/AwD///z/+//4//z////4//j//v/5//T/+P/8/////f/3//r//v/5//j//f/7//z////7//v////9//r//P/7//n/+P/3//r/+//2//j////8//b/8//z//f/+f/1//P/9//5//r/+f/2//b/+f/4//f/+f/5//n/+//5//b/9//7//z/+f/6//3//P/4//v//v/5//X/+P/6//n/+v/+//3/+f/9/wAA/f/9/wEA///7//7/AQABAAEA///8//j/9f/5//z/+v/7//z/9//4//3//f/7//7/+//6/wEABgAFAAQAAAD+//////8BAAIA/v/6////AQABAAIA///7//3///8AAAAA/f/8//n/9f/2//3////+/wIABQACAPz/+/8BAAcABwAHAAMA/f/9/wAA/v8AAAUAAwABAAEAAAABAAEA/P8AAAUA/v/6/wAAAQD//wIABAADAAQAAQD8//3/AAAEAAcABgACAAEA///9////AgADAAMAAgAAAPz//P8CAAMA/v/8//r/+f/9/wAA/v/+//3/+v/5//j/+f/9//v/9//8//3/+v/+////+P/5//3//P/+////+f/3//j/9//7//7/+P/2//v/+//7////AAAAAAAA///7//n/+//8//z//f/+//3///8BAAAAAgAGAAQAAwAEAP///P8AAAAA/v8AAP///f8CAAQAAgACAAEAAQAFAAYABAAEAAcABwAIAAsACwAMAA4ADgALAAkACgAKAAgACgAMAAwACwALAAYAAgAFAAcACAAKAA0AEAAPAAsACQAIAAMAAQAIAAkABQAKAAwAAwACAAYABQAJAA0ABwADAAYACQAJAAYABQAIAAgABQAKAAsAAgABAAcABQAFAAkACgAKAAoABwAHAAUAAgAHAAcAAAACAAcAAgADAAMA/f8AAAYAAgAAAAYABAABAAIAAAAAAAIAAgACAP///P///wIAAgAEAAQA/f/9/wAAAAABAAIAAAD//wEAAQD+//3//v/8//b/8v/3//z/+v/6//z//P/4//T/9v/7//r/+P/6//r/+v///wEA/P/7//v/+P/2//f/+P/4//f/9v/3//j/9//5//7////8//r/+f/5//r//f/+//z/+//4//n//v////v//f8AAPz/+v/8//r/+v/7//n//P8CAAEA//8BAP3//P8DAAYAAwACAAIAAAAAAAEAAwADAAAA//8DAAMAAgADAAMAAwAFAAMA/v/8//3/AQAEAAMAAwADAP7//f8CAAEAAgAHAAMA//8GAAkAAQAAAAMAAgADAAUABAADAAQABAAFAAYABAADAAIAAgACAAMAAwAEAAQAAgACAAQABQAGAAgABwADAP///f/7//n/+v/+/wAA/f/4//j/+v/6//f/9f/0//b/+v/6//j/+v/3//L/8//4//n/+f/3//X/+P/6//f/+f/9//j/9f/6//3//f/7//j/+v//////+//8//7//f/3//X/+/8AAAEA/v/6//r//P/6//b/9f/2//v/AgD9//T/9v/8//z/+v/6//v/+v/3//b/9v/0//b/+f/1//T/+f/3//D/8//5//r/+//7//r//P/7//b/9P/1//T/9//7//n/9v/4//r/+//8//v//P/8//n/+f///wEA/v/9//3//f/+//3/+//6//r//P/7//b/9P/5//v/+v/6//r/+//+//3/+v/5//n/+//+//7//v/+//3//v////z/+v/9//z/+P/4//r//f/9//v///8DAP7/+P/8/////f/6//f/9f/2//j/+v/7//r/+//9//z/+v/6//f/+P/+/wAAAwAGAAIA/v////7//v8CAAIAAgAGAAMA///+/wAAAgADAAAAAAABAP7//v8CAP//+//9//7//v///wAAAQABAP7//v/+//v//v////3/AQADAP3//P8AAAEAAwABAPz//f8AAP3//P/9/wAABwAFAP7/AAADAP///v///wEABgAGAAMAAwACAP//AAAAAAAAAQAAAAMABwADAP//AwAFAAUACQAIAAMABQAHAAgACQAKAAoADAALAAgABwAIAAoACQAJAAsADAAQABQAEgAMAA0ADQANABEAEQANAAsACAAGAAkACgAHAAcACQAIAAYACAALAAgAAwADAAMAAAACAAYAAgD//wEA///7////BQAFAAEAAgAEAAEA//8CAAIAAAADAAQAAgADAAYABQAFAAgABwADAAMABQAFAAUABgAGAAIAAAAEAAkACAAFAAMAAAD+////AAADAAUAAQD9/wIACAADAP//AQAFAAYABQADAAQAAwADAAUACAAJAA0ADAAHAAgACQAEAAEAAgADAAgACgAFAAUACAAEAAIABgAIAAYAAQD9////AQABAAQACAAIAAYABgAIAAgABAAHAA0ACgAHAAoACgAJAAwADQAOAA8ACwAHAAgACAAKAA4ADAAJAAkABQADAAcACQAHAAQAAgAGAAoABgAFAAcABAAAAAMABgAFAAMABAAGAAUAAwAFAAkACAAGAAcABwAGAAUABwAHAAEAAQAIAAYAAQADAAIA/v8CAAQAAAAAAAIAAgACAP///f8DAAMA/P///wIA+//7/wMABAACAAMABAABAP3//v8BAAAA//8DAAUAAwAFAAcABgAHAAUAAAD//////v/9//v/+//+//z/+P/7//z/+P/6//z/9//1//n/+//6//j/8//w//T/9v/1//T/9v/3//f/9v/0//L/9P/5//r/8//v//L/8v/v//D/8f/t/+3/8//2//b/+f/5//X/8//1//j/+P/1//L/8//y/+7/7P/w//H/7v/z//v/+//5//f/9f/z//X/+P/4//X/8//3//r/9v/2//z////+//r/9//+/wMA/f/6//v/+f/4//r/+P/6///////+//7//P/6//r/+v/7//v/+//8//3///8DAAIA/f///////P/+/wEA/f/6//z///8BAAEAAQADAAEA/P/8//3//P/+/wMAAgAAAAIAAwD///v//P8BAAUAAgD//wEAAAD8//3/AAD+//7/AgD///3/BQAGAAEAAQACAP7///8CAAEAAwAFAP///v8EAAYACAALAAkAAwADAAQAAQAAAAAA//8AAAIAAgACAP7/+//7//3//f/8//f/9f/4//r/+f/6//n/+P/7//v/+P/3//j/+v/7//r/+f/4//j/+v/6//j/+v/9//v/+P/4//j//P////r/+P/8//v/+v8BAAQA///9/////v/+/////v/8////AAD6//f/+f/3//X/9//7//v/+v/6//v/+v/5//v//P/9//z/+v/6//7//v/+//3/9//1//v/+//3//v/AQD+//n/+v/+////+//7//z//P////7/+P/5//n/9f/6//7/9v/0//j/9P/x//b/+P/2//X/9P/4//j/9f/5//v/9//4//j/8//2//v/+f/4//f/8//3/////P/3//b/9//+/wMAAAD9////AAD/////AgACAP7//P/8//r//f8CAP//+////wAA+v/5//z//f/+/wAAAQABAAEAAQACAAMAAQD8//n/+v/8//v/+v/+/wIA///9/wAA/P/7/wIAAwD9//3//v/8////AAD9/wAAAwACAAUABQABAAAA///8//7/AAABAAMAAAD+/wQABwAIAAoABgACAAQAAwADAAcABQADAAcABwACAAIABgAHAAQAAgAHAAkABQAGAAgAAgAEAAwACgAIAAcAAwABAAMAAAAAAAMAAQD9//7/AAAAAAIABQAHAAUABgAJAAcABgAKAAcAAgAEAAUAAwAGAAwADAAIAAYABQACAP3/AAAEAAIA/v/8//7/AgACAP//AQABAP7///8CAP///v8EAAYAAQABAAYABwAEAAUACAAIAAcACAAFAAAAAAABAAMABgAFAAEAAgAFAAQAAwADAP////8DAAMA/v///wIAAgABAAAA/////wAA/v/9////AQABAP//AQABAP///v8AAAEAAQABAP//AgAFAAIA//8AAP3/+f/7//z/+//9/////////wEAAgD///n/+v/9//z//f8BAAQABQABAP7/AgAFAAMABAAEAAIAAgACAAIABwAJAAUABQAHAAYACAAHAP///P///wAA/v/8//v//v8CAAMABAACAAAA/v/+//7/AAACAAEAAQAEAAYABAABAAAAAgAEAAMA/f/6/wEABwAGAAUABQACAAIAAgABAAMAAgAAAAYACAAAAAEABwACAP7/AAAAAAAAAAD9/wAAAwD///3/AAD//wAAAwACAAIABAD///z/AQAEAAIABAAIAAcABgAFAAQABQAHAAYABQAGAAUAAAD//wEA///9/wAAAAD8//3/AAAAAAEAAgD+//v//v////////8AAAQABQACAP7//v8AAAIAAwADAAUABgABAAAABAAFAAUABgAEAAQACgAHAAIABQAGAP////8FAAIA/P/7//r/+f/6//3//v///wAAAAD+//z///8EAAQAAgAEAAUAAQD//wEABAAEAAAA/v8DAAMA//8DAAYAAAAAAAYABgAFAAQAAAD+/wAAAgADAAUAAgD9////AgADAAEAAQADAAMAAgABAAEAAgAFAAIAAAAEAAYAAwADAAMABQAGAAYACAAKAAYABAAFAAIABAAHAAQAAAABAAIAAwADAAAAAwAGAAIAAAADAAEAAgACAP7///8DAAEAAQADAP7//v8AAP3//f8BAP///v8BAAEAAwAHAAUAAgAAAP7/AAABAP//AQACAP7//v8AAP7//P/7//n/+f/6//j/+P/7//r/9v/3//3/AAD+/////v/7//z//f/9/wEABAAEAAQAAQD9/wEABAACAAIA///+/wUACAADAAUABQD9//z//v/9/wAAAQD+//3/+//4//r/+f/0//T/9//5//z/+//6//r/9//2//z//f/3//b/9v/z//P/9v/3//b/9//6/////v/4//b/9//3//T/9f/6//z/+v/5//v/+f/0//L/9P/0//H/8v/3//b/8//1//b/8//x//L/8f/v/+3/7v/y//P/8P/x//P/8f/x//T/8//v/+//8f/z//T/8//w//P/9f/z//b//P/6//f/9//2//f/+P/1//T/+P/3//j//f////3//f/8//z//f/9//z//f////3/+v/8///////7//r/+v/9//3/+f/5//z/+f/4//v/+f/6//3/+//6//3/+//5//r/9//2//n//P/9//z/+f/6//7//P/7//7////7//j//P8EAAMA/P/7//3///8AAAAA/P/6//j/+f/8//r/+v8BAAEA//8CAAIA/v///wEAAwADAAEAAQAEAAAAAAAFAAQAAQAEAAUABAAFAAIAAQAFAAYAAwADAAMABQAIAAcABgAIAAoABwAEAAUABgADAAEAAgAEAAQABgAGAAYABwAEAAAAAQACAAAAAgAHAAUAAQABAAIAAgADAAUABgAFAAQABAAEAAEA/P///wUABQAAAP//AQABAAIABgAIAAcACAAKAAoADAANAAcACQASAA4ABgAMAA4ABwAGAAcAAwAEAAgACQAIAAUAAwAFAAYABAAHAAgAAgD//wAAAAACAAMAAgACAAMAAQD+/wEAAgAAAAAAAwADAAEAAAABAAIABAAGAAQABAAGAAIA/P/8//7//P/9//7//f/6//n/+//6//j/+P/3//f/+v/6//b/9f/5//z//P/6//r//f/7//T/8//6//v/9//3//n/9//3//f/9P/z//j//P/7//r//f/7//r/AAABAPr/+//9//j/+f/9//r/+f/+//7//P/6//v/AQACAP7/AQAFAAEAAQAFAAMAAAACAAYABgADAAUACAAGAAUACgAKAAUABgAIAAUAAwADAAMABAACAAIABAABAAEACAAIAAEAAAABAAEAAQADAAYACAAEAAIABAAEAAUABgAEAAQABAAFAAkACQAEAAUACAAIAAcABQAFAAYAAgD+//3/+//8/wAA///+/wAA/f/2//n//f/7//z/+//3//n//v/7//n/+v/5//f/9//3//f/+f/8//7/+//6//z/+//6//z/+f/5/wEAAwD/////AQD/////BAADAP7/AAABAPv//v8EAAEABAAFAP//AAAHAAYAAwACAAAAAQABAP//AAD///3/AAABAAAAAAD9//v///8CAAEAAAD+//z//f/9//3/AAACAAEAAgADAAAA/v8AAAAA/v/8//j/+P/6//3/AAACAP7//f/+//r/9//7//3/+P/1//v/AAD9//z//v/9////AwADAAUABwADAAAA/v/+//7//f/9//////8BAAMAAgABAAMAAgAAAAEABAAGAAUABQAGAAQAAAD//wAAAgAAAAAABQAEAP////////z//P/+/wAAAAD9//7/AQAAAAAAAwADAAEAAgABAP//AQACAAAA////////AwADAP3//v8BAP7//f8AAPz/+//+/wAA///+//7//P/6//3//f/7//r/+f/5//3//P/6//v/+//9////+//3//f/+P/8/////v8BAAEA/v8CAAcABgADAAIAAgAAAAEABwAGAAEAAwAHAAgACQALAAgAAwABAAQABQACAP7//v8CAAYAAQD6//3/AQABAAAAAwAGAAMA//8DAAUAAgACAAEA/v/+/wEAAwAGAAUAAQD//wMAAgD+/wAABQACAAEACAAFAP//AgAEAP///f8AAAQAAgABAAUABQABAAQABgAFAAUABAAEAAYABQAFAAoABwD+//7/AAD+/wAA///8/wAAAwABAAQACAAEAAIAAwACAAEAAgADAAUABwAGAAIA/v/9////AgACAP7//f8BAAMABwAJAAMAAwAJAAgABQAEAAUACAAFAP7//P/9//7////+/wAAAgD9//z/AQABAP3//f/8//3//P/6//z//v/8////AQD8//v/AAABAPz//P8BAAIAAgD///v//f8CAAAA/f/9/wAAAQD7//3/CAAGAAEABgAGAAEABQAHAAYACAAIAAYAAwAAAAEA/f/7/wAAAgACAAUAAwAAAAMAAwAAAP7/AAAGAAgAAwAEAAUAAAABAAYABAAAAAMACQAIAAUABwAHAAYACAAIAAYACAAGAAQACwALAAQABQAHAAEAAgAHAAgACwALAAQAAgAHAAEA/P8BAAEA/f///wEAAAAAAAMABgACAAAABAACAP7/AQABAP3//f/7//r///////3////9//z//f/6//r//v/6//T/+f/9//r/+//+//v/+f/6//r//P/9//r/+f/5//j/9//1//X/9f/x//D/8//v/+7/9P/3//j/+P/0//P/8f/w//X/9P/y//X/8//0//r/9f/y//z/+P/0//z/+v/z//X/8//y//f/9//0//b/+v/4//T/+f8AAP7/+//7//v//P/5//b/+P/1//T/+v/4//T/9//6//v/+//4//f/9//4//n/9f/0//j/9P/y//b/9f/x//H/8v/1//j/9v/1//X/9f/1//X/9f/y/+7/8f/y//D/8//2//T/8//1//j/9v/y//b/+f/0//n/AwD+//f/+P/3//j/+//5//n/+v/3//j//v////z/+f/5//f/9P/z//f/+v/4//b/9//6//z//f/8//v///8GAAYA/v/6////AAD9////AQABAAUACAAIAAcABgAFAAQAAAD//wIABAADAAQABgAKAAoABAD9//7/AgACAAMABQAEAAIAAwAEAAQAAgABAAMAAQAAAAYACwAIAAUAAwABAAEAAAD+/wAAAgACAAIAAAAAAAQABAABAAEAAwAEAAMAAgACAAIAAwAEAAIAAQAFAAUAAwAEAAIA/v/9//7/AAACAAMABQAFAAIAAwAHAAUA//8BAAgACAAEAAMAAwACAAYABwAGAAcABQADAAcABwAGAAkADAAKAAYABAAHAAsADAAMAAkABwAMAA4ACAAGAAYABQAEAAEA/v////7//P/7//z////7//f/+//9//z//f/8//3/AAD8//r//v///wIAAgD7//z/AAD9//7/AAD7//r//v8AAAAA/f/+/wQAAwD+//7//v/7//n/+f/6//r//P/+//7/AQACAAAAAwACAPz/AQAGAAIAAQAAAP7/AAD//wEABgAEAAMABwAGAAQABQAEAAMA///9//////8BAAIA//8DAAcAAQD//wIAAwAFAAMAAgAGAAYAAwAEAAIAAwAGAAMAAgAEAAMAAQD///z/AAABAP3//f/8//r//P/+//3//P/+////+//6//3//v8AAAEA+v/5//3/+v/7//7//f/7//z//v/+//7/AgACAAAABQADAP7/BAAHAAIAAgAFAAcABwACAAUACQAEAAQABwAGAAcACAACAP7///8BAAQAAQABAAQAAwAAAAEABgAJAAQABAAJAAYAAwACAAAAAwAHAAUABgAGAAMACQANAAgABgAHAAkACQAGAAcABQABAAYACAAEAAcABQACAAMA/P/6////AAACAAIA+//7/////P/7//f/9v/9//3/+/8AAP7/AAAIAAYAAwACAP3/+v/7//z////+//v/+v/3//n/+//3//n//v8AAAEA///+/wIA/v///wUAAAD8//7///8CAAMAAAADAAEA/P8AAAAA+f/7//z//P/+//z/+////////P/6//r/+//4//f/+f/4//r//P/6//v//f/6//7/AwACAAEAAQABAAIAAQABAAEAAAABAP//+/8AAAMAAAABAAMAAQAAAP///v/7//b/9//7//r/9v/5////AgABAP//AAAAAAAAAgAFAAgAAwD//wEAAwACAAIAAAD+/wAAAwADAAIA///8//v//v8CAAEA/f/5//j//f/9//n/9//3//v/AAD+//z//v///wAA///7//3//v/7////AQD7//3/BAABAP3//P/7//n/+f/6//z//P/8//v/+P/2//j/+v/5//n/+//8//z//f/7//v////+//z/AAAAAAAAAwD+//z/AgACAP//////////+//1//j//f/7//v//f/6//v//v/+/wAAAQD+//3//P/7//z///8BAP3/+P/8/wAA/v/+/wEAAAD//wIAAwABAAIABgADAP3//f/+////BAAEAP3//P8BAP///f/+////AQABAP3/+v/7//3//P/6//n/+//9//z//f/9//v//f8BAP3/+//+//3//f8EAAQAAAAFAAUAAAACAAUAAwAGAAYAAwADAAMABgAKAAYABAAEAAEAAQAFAAMAAgACAAEABQAGAAIABQAFAAIABQAFAAAAAQADAAEABAAGAAEA//8BAP7/AAAHAAgABgAHAAUAAgAGAAcAAwAEAAEA/v8BAAUAAgD///7/AgACAP7//v8BAP//AAAAAP7/AQAEAAIAAwAIAAYAAAD9/wAABAADAAQABwAEAP//AgADAAEAAwAFAAIA//8AAAEABAAFAAIA//8AAAAAAgABAP3//f8BAAAA/P/+/wIAAwD///3//f/9//7/AAABAAIAAgAAAP//AAABAP//+//9/wAAAAABAAEA/f/7//3//P/4//n//f/8//r//P/+/wIAAwD+////AgD9//z/AQD///v//v//////AQABAP3//f8AAAIA/v/8//7//v/8//z/+v/6//z/+//5//r/+//8//n/9v/5//v/+f/5//3//f/8//7//v/8//7///8AAAMAAwD+////AQD+////AAD9////AQD8//z////+/wAAAQD+/wAAAgD+//z//P/6//r//v////3//f8BAP//+v/7//z/+v/5//v/+v/+/wIA+//3//3//f/7/wAA///2//T/+P/6//v/+v/6//v/9//2//r/+//6//3//P/6//3//////wAA//8BAAcABAD//wIABAABAAEAAAD+//7///8CAAIAAAAAAAEAAQACAP//+////wEA+//7//z/+f/5//v/+f/5//3////+//z//f/8//r//f8AAAEAAwADAAEAAAD8//v/AAAAAPz//v/+//z/AgACAPv//f8AAP3///8AAP7/AQAEAP//AQAEAAEAAAACAAAAAgADAAEAAQADAAMAAgACAAYACgAHAAUACgAJAAQABAAEAAMABQAFAAIA///8//v//v8BAAMAAgAAAAEAAQAAAAIABAAAAP//AQD//wEAAwD/////BAACAP3//f/+//7/AAD+//v//f/+//r//f8FAAQAAAAAAP7//f////z/+/8BAAIAAAADAP//+/8DAAQA/P///wAA+//8//7/+//8//v/+v/+/////P/8//3//P/8//z//P/6//f/+P/7//3//v/8//r/+//6//j//P/+//j/8//3//n/+f/8/wAA//8AAAIAAAD//wUABgACAP//AAABAAEA/////wQABgABAP7/AAD/////AAD7//v/AAD7//n/AAD+//n/+//8//r/+//8//3//f/8//z/AAACAAAA/f/8//z///8BAP7//f/9//r/+//+//v/+v/9//v/+/////7//P/+//////8AAAAAAgAEAAAAAQAEAAEA/v8CAAMAAwADAAAAAAABAP7//v8DAAMAAQADAAIAAgAGAAUAAQADAAQAAQAAAAAA/v/7//r//f8AAAQAAwAAAAAAAwACAAIABAAFAAQAAgACAAgACAAEAAgACgAFAAQAAwABAAMAAQD//wQABgAEAAgACAAFAAoACQAGAAkACAAFAAoADAAHAAcABwAFAAYABQABAAEAAQABAAQAAwAEAAgABgAAAAAA//8AAAEA+v/2//z//////wAAAAD///v/+f8BAAcAAgACAAUAAQAAAAIAAAD//wEAAQABAAIAAgAAAPz/+v/9//3/+//9/////f/7//v//P/9//v//P8AAP3/+//+//3/9//4//z//f/7//z////7//j//f////z//P/6//X/9f/2//b/+P/7//n/+v/7//v//P/7//j/+/////3/+P/6/////v/9/wAA/v/6//3////7//r/+v/3//r//v/////////5//j//f8AAP//AAD///r/+f/9//3/+v/8//3/+f/3//j//P////z/+P/4//b/8v/0//n/+f/2//f/+//9//j/9P/3//r/+//7//3//f/7//z///////7/AAAAAP7/AQACAP3/+//+/wAAAwACAP7///8AAAAABgAHAAEA/v/+/wEAAQD8//r//f/6//n/AAAAAPz/AQABAP7/AgAFAAIA//8AAAIABgAEAAEABAAIAAcABwANAA4ACQAJAAkABQAHAAoAAwD//wUABQACAAQABgAGAAcABQAGAAgABgAFAAUAAQAAAAEAAwAGAAYAAgAEAAcABQADAAUABQAFAAMABAAGAAUAAwAFAAMAAQADAAUACAAJAAcABwAIAAIAAgAHAAMAAAAEAAQAAAD///v//f8DAAAA/f8AAP///v8BAAEAAQACAAAA//8AAAAA///8//r/+//+/wAAAgABAAAA///8////BQAFAAMABQAEAAAAAgADAP//AAACAP///v8EAAYAAwD//////v/9/wAAAwACAAIAAwAAAAAAAwABAP//AQADAAUABgAFAAQABAACAAMABAACAAMABQABAPz/AAABAP3///8DAAAA+//9/////P/+/wYABQD//wAAAwACAAEAAgABAAAABQAGAAAA+v/7//7/////////AAD///3//f8AAAIAAgABAP3/+//+//7//P/6//n//P8CAAIA//8DAAYABAAEAAUABQAEAAIAAQABAAQAAgD8//z/AAD///z//f/+////AQACAAEAAAD///3//P/7//r/+v/8/////f/4//j/+//+//7//f///wEA/v/7////AgD///3//v8BAAIA/v/7//z//f/9//z//f///////f/6//n/+v/7//b/9f/6//z/+v/8//3/+//8//z/+f/5//b/8v/z//j/+f/0/+//8//2//T/9v/5//j/9//3//b/9//3//X/9v/5//r/+v/3//j//P/7//n//P/+//z//P///wIAAQD+/wEABAD9//v/AgADAP//AAADAAEA/P/6//v//P/8//3//P/9/wEAAAD9//7//v/4//f//f/8//X/9v/8//z/+f/2//T/9//7//z///8AAPz/9//2//j/+//7//r/+//5//j//f/9//r//P/+//r//P8BAP///P/7//n/9//6//7//v/7//3/AAD+//v//v8CAAQAAgAAAAEAAAD+////AQAAAPz/+v/7//7//v/9//7///8CAAQAAAD//wUABQACAAQACgAMAAYAAgAEAAMAAAAFAAYAAQAEAAUA/////wIABAAHAAgABgAHAAYABAAGAAYABAAGAAYABAAEAAUABwALAAkACQAKAAYABQAJAAoACgALAAYABAAFAAcACgAKAAUABQAIAAcABAADAAIAAQD///v//P8BAAEAAAAFAAUA/f/8/wAA///8////AQD+//z/+//4//r/AgAFAAIAAgAAAP3/AQAEAAEA//////3//P//////AAD///r/+v/7//b/9P/1//X/+P/4//f//f8BAP//AAD+//3/AgAAAPj//v8DAAEAAwAAAPz/AQABAPz//f/9//v/AAD///z////+//z/AgADAPz//f/9//3/AQABAP7/AQACAAAA///8//r//f/9//z/+//6//z/AAAAAP7/+//6//7/AQD9//v///8BAP//AAADAAMAAQAAAAAA//8AAAEA/////wMAAQD8//v//v8AAAIABAACAAMABQAGAAgABwADAAYACQAEAAMACAAIAAcABgACAAQACAAEAAEABAAFAAQABQAHAAcABAADAAgACgAHAAYABwAFAAYACgANAAoABgAGAAkABgADAAcACwALAAoACAALAAwACQAKAAsACQAKAAoABQABAAMABgAFAAIABAAHAAMAAwAGAAIA/f8AAAIAAQABAAEAAgABAAAAAQABAP7//v///wIABQACAP//BAAGAAIAAAD//wAAAwABAPz//v8AAAEAAgADAAQAAgD//wEABAACAAAA/f/7//v/+//8//7/+//5//r/+P/5//3/+f/2//r/+v/8/////v8BAAIA/f/+/wAA+v/9/wMA///9/////v/9//z//P///////f8BAAEA/f/9//7//v8CAAEA/P/9/wMAAwD8//n//v8CAAIAAgABAAMACgAJAAMABAADAAMACAAFAAIABAACAAQABwACAAEACAACAAAABwAEAAIACgAHAP//AwAEAAIABQACAP3//v8AAP3/+f/5//z/+v/4//3//v/5//v////////////7//j/+v/9//r/9P/2//n/9f/0//j/+f/2//b/+v/8//n/+f/6//j/9//7//z/+v/9///////8//j/+f/9//3/+//8//z//f8CAAAA+v/7/////v/9//3//f8AAAIA/////wMAAgD///7//P/7//3/+//3//b/+f/7//v/+//8//v/+v/7//v/+v/6//n/+v/7//v/+v/5//b/9v/3//L/8v/2//L/8P/1//L/7f/z//n/9//0//b/+v/3//L/9P/2//L/8P/x//L/9f/3//f/9f/1//b/9//0//b//P/9//r/9//1//f/+v/5//r/+f/5//z/+//4//3//f/z//T/+f/5//r/+v/5//r/+P/2//r//f/9//3/+//9//7/+//7/////P/6//z/+f/3//z//P/7//r/9f/1//3//f/0//L/+P/4//f/+v/7//n/+//8//r//f8AAP3//f/+//n/+v/9//v/+v/6//b/+P/8//v//P/9//r/+v/+//7//f/+////AQADAAQABQAEAAUABgAEAAMAAwAGAAoACgAIAAgABQAEAAYABAAAAAEAAAD+//////8BAAMAAgABAAAAAAACAAAA/v8BAAIAAQAFAAkABwAHAAUAAgAEAAcABAACAAQABwAHAAYABgAJAAsADQAMAAkACQAKAAsACwAKAAkACgALAAsACgAHAAcACwAOAAwACQAGAAUACAAIAAYABgAHAAoACQAEAAQABwAGAAIA//////////8BAAEA/f/+/wMABAACAAAAAAADAAAA/f8BAAIA/v8CAAYABQAEAAEAAgAJAAcAAgAGAAQAAAACAP///v8FAAYAAgAEAAEA/v8BAAEA//8DAAIA///+//z//f/9//j/+f/6//b/+f/8//r/+//9//n/+P/7//v//v////v//P/+//3//v////3/+//+/wAA/v/9/wAAAgADAAUAAwABAAYACAAFAAQABgAGAAIA/f///wMAAgABAAUABAAAAAAAAAD//wQABgACAP7/AQAFAAUAAgD/////AQABAPz/+f/9/wEAAAD////////+////AQABAAAAAAD/////AgABAAAABQAFAAMABQADAP//AgADAP////8BAAAAAQACAAIABAAHAAUAAwAIAAwACQAGAAYAAwACAAYACAADAAIABAACAP7//f8BAAYAAgABAAcACAACAAAAAwAEAAMAAwABAAEAAQD+//3//v/+//3///8AAP//AAABAP7//f/+//v/+//9//3//f///wAAAgADAAIAAAD///3//P/+/wAA//8AAAEA//8DAAkAAgD9/wUABwAAAAAA///4//j/AAABAPz//P8CAAIA/P/7//r/+P/8//3//P8BAAQAAQADAAMA/f8AAAMA//8BAAUAAQD/////AAADAAEAAAAEAAEAAAAFAAIA/P8AAAQABAAHAAUAAQABAP//AAADAAAA/f8BAAMAAAAAAAUABwACAP3/BAAJAAUABQAIAAcABAAAAP//BQAIAAUABQAHAAIA//8CAAYABgAEAAUAAgD9////AwAAAPz//v8AAP///f/7//v//f/+//v/+f/6//j/9//6//n/9//7/////P/5//b/9P/5//v/+f/4//f/+f/7//f/+P/7//j/+P/9//z/+v/8//3/AAACAP7/+//+//7//f///wAA/f/6//z//f/5//j///8CAAAAAAD///7///8AAAEAAAD+//7/AQAAAPz/+//8////AQABAAAA//8BAAQA///5//v////+//7//v/+/wAA/f/5//3/AQD+//7/AQADAAEA///9//v//P/+/wAA///8//v////+//z/AAAAAPz//v/9//f/+v8AAAAAAgADAPr/+P/7//f/9//8//j/9P/2//P/9P/5//X/7f/x//r/+f/z//H/9//8//r/+v/+//////8BAAIAAQABAAMABQAEAP//AAADAAAA+//8//3//P/8//r/+f/8//7//v/+//7/AAAAAPz//f////v/+P/7//7///8BAP//+v/7/wAABAAEAAEA//8CAAQAAQD//wAAAQABAAMABAABAAAAAwAEAAMA/v/9/wIABAD//wAAAwAAAP//AgD+//z/AgAEAAIABQAIAAcABAAEAAMA///7//v//P/+/wAA///+/wEAAAD7//f/+P/7//3///8CAP//+P/6/wEAAgD///7///8BAAAA/P/8/////f/8/wEABAD/////AwD+//n/AAADAP3//v8BAPz/+v/8//z//f/8//r/+//6//b/+v/9//r/+f/8//3//v/+//3//P/5//r//v////3/+//5//r/AAAAAP7//f/8//z/+//4//r//v/8//r//P/8//v/+//2//f//P/6//j//f8AAP7//f////7///8BAAIA///7//v/AAABAAEAAgABAAAABAAHAAcABgAHAAYABgAFAAQABAAGAAcABgAEAAMAAwAFAAgACAADAAEABQAFAAQABQAEAAIAAQABAAMABAAEAAkADQAGAAAAAQABAP3///8AAPr/+P/9//3/+P/6//7//P/8/wAA/f/7///////8/wAAAwD///3/AQAEAAEAAAAEAAkACQAFAAIAAgACAAEAAgACAP///P/8////AAD9//r//f8BAAAAAAABAP7/+v/8//3/+f/4//3/AAD+//7//v/7//n/+P/4//n/+v/5//n/+v/7//7//v/5//f/+v/8/wAAAgAAAAAAAwACAP3//f/+//z/+////wIAAgADAAMA/v/9/wAAAwAGAAYAAAD+/wMAAQD9////AAABAAEAAQADAAcABwADAAIAAgAEAAUAAgAEAAcAAwD//wAAAwAEAAQAAAD//wEABAAHAAQAAAACAAQA//8AAAYAAAD5//7/BQAHAAcABAABAAAAAQADAAMAAgAEAAMA//8BAAUAAQAAAAIAAwAGAAUAAAABAAQAAgABAAEA/v8AAAQAAgD//wEAAgADAAcABgACAAIAAwADAAQABQAEAAUABwAFAP7//v8CAAIA//8AAP7/+f/5//z/+//5//z////6//X/+f/8//j/9v/3//n/+//5//f/+f/8//7/AQABAAAAAgABAP///f/+/wMABgD+//n/AAAEAAAA/v/8//n/+f/7//3/AAAAAP7//v/+//7//v/+/////v/8//3//f/6//r//P/5//j//v8AAP///f/6//r/AAABAPr/9v/3//j//P8BAAIAAQAAAAAAAAD///3//v/+//7/AAABAP7//f/+////AAABAAEAAAABAAAA/v/8//3//f/9//z/+f/3//n///8DAAAA+//9/wEAAgD///7//v/9//j/+P/8//z//P/8//n/+v/+//z/9f/1//T/8//2//X/8//3//b/8v/2//j/8//0//f/9P/0//j/+//9//r/9P/x//D/8//3//X/8P/y//X/9//5//n/+f/7//r/+P/2//L/9P/4//X/9v/8//j/8v/4//z/+v/7//3//P/+/wIAAgABAAEAAgABAAAAAAABAAMAAwABAP7////+//v//f8DAAQAAQD//wEAAwACAAQABAACAAQACgALAAcABAACAAcADAAJAAgADwAQAAwACgAIAAcACAAHAAkACwAGAAQACAAHAAQABgAIAAYAAgADAAgABgAAAAIAAwAAAAMABQAEAAoACwACAAIABQAAAAEABgAEAAMABgAEAAIAAgACAAIA///+/wIAAwAAAP7/AAADAAYAAgD//wEAAgABAAMAAgACAAUABAABAAUABgAEAAoADgALAAQAAQADAAgABwAEAAcACgAGAAQAAgABAAIABAACAAIABQAHAAYABQAFAAMAAgADAAMAAQADAAcABQAAAP//AAD+//r/+v/8//v/9//2//f/9f/0//j//P/5//f/+f/3//f/+//6//j//v/+//X/8//4//n/+f/5//j//v////b/9P/6//v/+////wAAAAADAAQAAQAAAAAAAAD/////BAAIAAkACQAFAAAAAQAAAPz//v8CAAEAAgAFAAcABgADAAUACAAIAAUABQAGAAUAAgACAAYACAADAAIABgAGAAMAAQAAAAIAAQD+//7/AQAEAAQAAgD9//v//f8CAAcABQABAAMABQAFAAUAAwACAAUAAgAAAAQAAgD9/wAAAgABAAMAAQD9/wAAAQD//wAAAAABAAMABgAHAAcABQAHAAgAAQD//wMAAwAFAAcABAAGAAsABwAEAAsACwAFAAcACQAIAAcABgAEAAEA//8EAAcABAAEAAUABAAFAAUA///8//3//f///wMA///6//7/AQD///7////+//z//P/8//z/AAAFAAIA/f/+/wAA//8BAAMAAAD9//7//v/9/wEABAACAAMABQADAAIABQADAAEAAgACAAMAAwD///3/AAD///z///////3///////v//v8DAAIAAQABAP7//v8CAAAA+v/4//v/+//4//f/+P/0//H/9P/4//n/+v/3//P/9P/1//T/9P/1//P/8//1//f/9//1//T/9P/y//L/8//z//X/9//1//X/+P/5//j/+f/4//f/+P/2//X/9P/y//P/9f/2//f/9//2//b/9P/x//T/9//2//b/+f/6//r/+//7//v/+f/4//r//P/8//7/AAD/////AgAEAAIAAwAEAAIAAAD+//7//v/////////8//r//P/+//v/+///////+f/3//n/+v/5//b/9P/2//r//f8BAAIA/////wQABgADAAAAAQABAAEABgAJAAgABgAFAAMABQAIAAYAAwAGAAgAAwD+////AwAGAAcABAACAAUACAACAPz/AAAGAAYAAwABAAEAAwAEAAUABgAGAAQAAwABAP//AQACAP3/+/8AAAIAAAAAAAMAAwAAAP7///8BAAAAAgADAAAA//8DAAMAAgAEAAQAAAD+/wIABQAFAAIAAgAEAAYABwAFAAIAAAD///7//P/+/////P/4//r//f/7//r//P/7//v//v/9////AwABAP7//f/4//P/+v////3/+//8//3//v/9//3//v/8//z///8AAP7//P/5//f/+f/7//v//f/+//3/+//5//j/+P/3//X/9P/2//n/+//7//v/+f/6//v/+v/3//X/8//3//v/+v/8/wAA/f/8/////P/5////BAACAAMAAwAAAP3/+f/7/wIAAwAAAP/////+/////f/7//z//v8AAAMABAABAP7/+//7/wAAAgD/////AgACAP///f/6//n//f////3//P/7//z/AgAEAAIAAQD///z///8DAAMAAgD///3/AgAGAAMAAgADAAIABAAHAAgACQALAAgABgAGAAQAAwAIAAsABgADAAYABgAEAAUABQACAAMABQAEAAcACgAGAAQABAACAAAAAgAEAAUABgAIAAkACQAFAAQACQAKAAcABQACAP7//v8AAAAAAAAAAP7//f/+/wAAAAD9//z/AAAEAAUAAwABAP//AgACAP7/AAAGAAYAAwABAAEABAAFAAIAAQACAAEABAAFAAQABAACAAAAAAAAAP7//f/9//7////6//X/+f/7//j/+P/5//j/+f/3//T/+f/+//7//f/+//7//f/+/////f/6//n/+f/8/wAA/f/4//b/9f/0//f/+f/5//v//v/9//n/9P/2//v/+v/6//z//f/8//f/9f/6//n/8v/4/wIA///9/wAA/v8AAAQAAQD//wQABAAAAP3//P///wAA/f/8//7///////3//P///wEAAgADAAMABQAFAAMABQAHAAYABwAHAAIAAgADAP//AAADAAMACAAMAAYABgAJAAQAAgABAP7/AAABAPv/+f/7//z/+v/2//b/+v/4//f/+f/0//X//f/8//j//f///wAABwAFAP//AQACAP//AAADAAMAAgABAAQABQABAAAAAwAEAAUABAADAAYABgABAAQABQD/////BAADAAIAAgAFAAsACgAEAAMAAwACAAQACAAJAAcABQAFAAUABQAEAAMABAAGAAQAAQACAAIAAwAEAP3/+/8BAP7/9v/4//z//f/+//r/9v/7////AAABAP3//v8EAAIAAQAEAP7/9//+/wIA/f/+/wMAAgAAAP////8CAAQAAQD//wEAAwABAAAA///7//n/+v/7//7/AAD+//7/AgABAP/////7//b/+v/6//f/+f/5//j/+//7//f/+f/6//r/+v/4//b/+f/6//b/9f/2//T/9P/3//b/8v/0//r/+//3//j//f////r/+P/+/wIAAAAAAAMABAAHAAcAAQD9//////8AAAMABAAFAAcACAAGAAQABQAGAAQAAQD9//z//P/6//r//f/5//b//P8BAPz/+v/8//v/+//9//r/+f/+/wAA/f/8////AgD///r//f8AAP3/+//9//7///8BAP7/+f/7//z/+P/5/wAA///7//z//////wEAAgACAAQAAgACAAYABgABAAAAAgACAAIA/v/8/wAAAgD9//r//v8AAAAAAAD///3//f///wIAAgAAAAAAAQACAAAAAQAEAAIAAAACAAMAAwAFAAMAAQACAAMAAwADAAMABQAFAP///f8AAP3/+/8BAAEA//8AAP7//f8DAAYABAACAP3//P8CAAQAAAABAAMAAwAFAAcABwAEAAEAAAAFAAoACQAFAAcACgAEAP7/AgAFAAQABQADAP/////+//z/AAADAP///v8DAAcABQABAAIABwAIAAYAAwAAAAEABAACAP3/+//8//z/+f/6//3//f/9////AQAAAAEAAgACAAIAAQD+///////+/wAAAQACAAMAAwADAAIA///9//7//v8AAP///P/7//3//P/9//7//f/9//7///8CAAQAAwAEAAQAAgAEAAUAAgABAP7/+P/6/////P/8/wIABAADAAAA/f/+/wIABAAEAAMAAgABAAEAAQACAAUABQACAP////8BAAQABgAGAAQABQADAAEABQAGAAEAAQAFAAAA/P///wAA//8BAAEA/f/7//z//v8AAAAAAQABAP7//f/+///////+//3//P/6//3/AAD8//z/AQABAP//AgAAAPz///8CAP//AAACAP//AAADAAMAAAABAAMAAgAAAAEAAQD///7/AQACAAAA/v/9//z/+//8//7//////wAAAAD///3//v8BAAIA/v/7//z//v///////v/8//r//P8AAP///v8AAP7//f8DAAQAAQAEAAMA/P/9/wQABAAEAAIA//8BAAMA+//5//3//////////f///wEA/f/6////AAD8//j/+f/8//v/+v/8//3/+f/2//f/9v/z//b/+f/3//f/+v/6//n/+//9///////8//v//f/8//v//v8AAAEAAQABAP/////9//z/AAADAAMAAQD+/wEAAwAAAP7////6//b/+P/5//r//v/+//v//f/9//n/+f/8//v/+////wEA/f/6//r/+f/6//z//f/+//7////+////AAD///7///8BAAEA/////wIAAgACAAEA/////wAAAAD///7//f/+//7//v8AAP///f/8//r/+v/8//7//P/8//7//f/8//3/AQAEAAUABQADAAAA//8AAP7//v8CAAIA/v/9//3/+//4//r//P/+/wAA/v/6//r/+v/5//v//v/+//v/+P/3//n/+v/6//z//P/7//r/+f/6//n/+P/7/wEAAQD+////AQD9//j/+P/9/wAA/v/7//3////+/wAAAAD8//v//v/+//v//v8DAAMAAAACAAIAAQAEAAUAAwAEAAUAAQD+/wIABAABAP7/AAACAAIAAAD+//v/+P/6//7/AAD//wAAAQD///v//P////7/+//5//r//P/7//r/+//7//v/+//5//r/+//3//P/+P/8//r/+v/+/////f/9//z/+P/0//b/+f/6//v//v8BAAIAAgD9//n//P/+//3//P/9//3//f///wEAAQD+//z//P/+//7//P/9//7//P/8//7//v/9//3//f/+//7//P/8//7//f/+////+//3//j/+v/3//T/9P/0//T/9f/3//f/9//5//3//v/7//j/+P/+/wMAAQD9//z/+//6//v//v8AAP7/+//8/wAAAAD/////AQADAAIA///+/wAAAAD//wMABQABAAAAAwADAAIAAgADAAQABgABAPz//v8EAAUAAQD//wIABAADAAQABgAGAAkADQAJAAYACwANAAwADgAOAAkACQALAAYAAgAEAAYACAALAAkACAAKAAgABAAHAAgABQAEAAYABAAFAAgABwAFAAYABgAJAA0ADgAMAA0ADQAIAAcACwANAAsACAAIAAkACwAKAAYABAAFAAYABwAHAAcABwAGAAQABAAJAA0ADAAJAAgACAALAA0ACwAJAAoACAAFAAUABAAFAAkABgADAAgACwAEAAIABgADAP7/AAABAP//AAD///3/AQACAP3//v8FAAQA/v/+/wMABAABAP7///8CAAEAAAD///3//P/9//7//P/9//3//P/9/wAA///8//r/+P/2//r//f/6//n/+f/3//j//P/9//v/+v/4//j//P/9//r/9v/1//b/+/////3/+P/4//j/+v/8//3///8CAAEA/v8AAAUABQAFAAcABAD//wAAAwABAAIABgAEAP7///8AAP//AgADAP7//v8CAAEA//8DAAYABgAIAAkABgACAAMABQAHAAcABQAEAAQABAACAAAAAQADAAQABQAEAAUABwAIAAcABwAHAAkACwAIAAUACAAJAAUABAAHAAgACQAGAAQABQAGAAUABAAFAAIAAQADAAMAAwADAAEAAAACAAIA/P/8/////P/6//z/+v/4//z//v/9/wEABAABAP7/AQACAP3/+f/7//v/+f/7//3/+f/6/////P/3//j/+f/1//T/9v/5//j/9v/2//j/+v/6//r/+f/6//v//P/+/////f/6//v///8BAAIAAQD+//3/AQADAAIA///8//r//v////r/+f/7//n/+v/8//n/+v8AAAEA/v/8//v/+////////P/6//r/+//8//z//P/9//7////+//v//P////7//f/+//7//f/+//z/+f/6//3//P///wMA///6//z////9//v//P///wMAAQABAAIAAQD//wIAAgAAAAIAAgD9//r/+f/6//3////8//j/9v/5//3//P/7/////////wUACgAFAP///P/7//3/AAD8//f//P8CAAAA/P/9/////f/8//3////9//n/+//+//3//f8BAAEA//////7//f/9//3/+//7////AQAAAP7//P/9//7/+//3//v//f/7//7/AAD4//T/+v/6//n//P/8//r//f/8//f/+P/7//z//v////z/+//9//v/+P/5//v/9//1//n/+v/2//P/8//2//n/9//2//j/+P/4//n/+P/4//n/9v/1//r/+f/3//v/+//4//z//v/5//r////+//3//f/7//3/AQAAAPz/+v/7//3//P/6//z//P/5//r//v////7//f/+/wEAAAD7//r///8BAP7/+//9/wEAAQD8//z/AQAFAAQAAQABAAMABAAFAAYABQACAAMABgABAP7/AwADAP3//P8BAAUABwADAPv//P8AAPz/+f/+//3/+f/6//z//P/9//z/+//8//v/+/8AAAAA+f/3//z//v/6//n//v8AAP7/AAADAAIAAwAHAAcAAwACAAMAAwAEAAQABgAKAAoABwAGAAQABQAKAAwACQAJAAsADQANAA0ADwANAAsADQAMAAcACQAMAAkABwAJAAkACgAMAAoACAAGAAcACQALAAwACwAJAAgACgAOABAADwAJAAYACwAOAAoACAAIAAcACgAOAAwABgAFAAYABwAHAAkACgAJAAcACAAJAAkABwAEAAUABgADAAEABAADAP7//f8AAAEAAgACAAIAAgABAAIABAADAAEAAwAHAAUABAAEAAIAAgAFAAQAAgAGAAcABgAHAAcABgAHAAYABAAEAAQAAgABAP//AAADAAIA/v/9/wAAAwAAAPz//v8AAPz/+//8//j/+f/9//r/9//6//j/9//8//3/+f/7//7//P/8//3//f/+/////v8BAAMA///9///////9//7//P/4//n//f/8//z//f/9//r/9//3//z//P/4//z//v/7//r//P/7//n/9//6//7//P/4//f/+P/6//r/9//5//3/9//y//f//P/7//r/+f/6//r/+P/4//n/9//3//r/+v/6//v/+f/3//j/+f/2//T/+P/8//n/+P/6//z///////r/+/8AAP7/+//8//r/9//4//n/+v/5//X/+P/9//v/+v/6//n/+v/+//z/+P/7///////8//r/+//6//f/+P/7//3////7//b/9//5//f/+P/7//3/+//6//7/AAD7//v/AQACAP///P/5//n/+//6//r/+v/5//j/+f/6//z/+v/3//r/+//4//n/9//1//z/AQD///v/9//1//r//f/8//7////+/wIAAgD+/wAAAgAEAAcABgACAAUABgACAAMABQABAAAAAgAAAAAAAQD///7/AAD8//3/BQAHAAMABQAHAAQABQAIAAgABwAHAAUAAwADAAQABQAFAAQABAABAAAABAAFAAQABAADAAMABgAEAAAAAQAEAAQABQAEAAMABQAEAAIABgAHAAQAAwADAAUABwAFAAQACwAMAAYAAwAFAAUABAAHAAYAAAD8//7//f/5//z/AAD+//3///////3//f/7//n//P/+//z//P/9//z///8BAP3//f8BAP7/+/8BAAMA//8AAAAA/P/9/////P/7//v/+P/5//3//v8AAP///v////z/+f/8//3//f8AAPv/+P8BAAIA+v/6//7//v////3/+f/6//v//P////7//P/+//7//v8CAAIA//8AAAMAAQD+//3/AQAFAAQAAAAAAP7//v8AAP///v8CAAEA/P/+/wEAAAAAAAEAAQADAAUABgAJAAkAAwD//wIAAgAAAAMABgAEAAAAAgAEAAEA/v8CAAUAAQAAAAMAAgD///7//f/+/wAA/v/5//n//f/9//z//P/8//z//v/+//r/+P/9//7//f8BAAQAAAAAAAMABAABAP3//f8BAAAA/v8BAP//+f/5//7/AAD///v/+f/7////AAD+//3//P/+/////v/9//3//v////7//v8BAAEA+//6//7//v/7//v//P/7//r/+v///wMA/P/z//X//P8AAAMAAgABAAMABAADAAQABAACAAQABAACAAQABgAEAAUACAAGAAIAAQAFAAUAAwADAAMA/v/8////AwAFAAIA//8CAAMA/v///wIA/////wIAAQD//wAA//8BAAQABQACAAIABAACAP3///8EAAEA/f8AAAEA//8BAAMAAgACAP//+//9//7/+//8//////8AAP///v/+////AAD9//n//f8BAPz/+/8CAAAA+v/8/////f///wEA//8AAAUABgADAAMABQAEAAIAAwADAAIAAQD+//7/AwAGAAUABgAGAAQABAAHAAcAAwD//wEABAACAAIAAwAFAAQAAgACAAMAAQD9//3/AQACAAAA/v/8//n/+//+//z//P///wEAAgADAAAAAAAFAAYAAwAGAAcABAADAAUABAABAAEAAQD//wAAAgD+//v/AAABAP3//v8CAAAA/v8AAP///f/+///////9//3/AAABAP//AAADAAEA///+//7////+//v//v8FAAUAAQAAAP///f/9/////v/9/wAAAwD///n/+P/8/////f/5//v////+//7//v/8////AgD///3//f/4//f/+//8//r/9//3//3//f/4//n/+P/z//j////9//r/+v/2//f//P/8//v/+P/2//n//P/6//v/+//5//z//f/7//7/AQD8//v/AAD///z//v////z//P8AAAEA//8AAP7/+P/7/wMAAAD5//z/AAAAAAAA/v/9////+//1//f/+v/5//r/+f/4//r/+v/1//X/9//1//b/+P/3//n//v/+//3//v////7//f/7//3////7//v/AAD9//v/AAACAAIACgAKAAMAAwAGAAQABQAIAAcABwAGAAQABAAGAAQABQAKAAsACAADAAAAAQAEAAMABAAFAAIAAQADAAIAAAAEAAYAAwAAAAIABwAHAAcACQAKAAgABwAJAAcABAAFAAgABQADAAgACQAEAAMABgAJAAgABAACAAcACgAIAAcABwAIAAoACwAMAAsACAAGAAkACgALAAwACgALAA4ACgAIAA0ACgAFAAoACwAFAAYACAAFAAQABAACAAQABQADAAUABwAEAAMABAABAP///////wAA/f/5//z////9//7/AQD+//z//f/8//v//f/3//X/+v/4//T/+v/7//X/+P/5//f/+P/3//T/+P/3//P/9v/2//D/8//z/+//9f/3//D/7v/x//H/8P/t/+7/8v/z//P/+P/2//H/9P/3//X/9v/4//r//P/8//z//v/8//j/+f/4//X/9f/4//j/9v/0//P/8//0//X/9P/1//j/+f/4//b/9//6//v/+v/6//v//P///////P///wEA/v/9//v/9v/5//z/+f/6//3/+//5//j/+v/7//f/9v/8//r/9v/7//n/9f/7//r/9f/6//z/+v8AAAIA/P/6//r/+v///wIAAgABAAEAAgADAAMABgAHAAEAAgAIAAgACwAOAAoABwAJAAYABgAKAAYABAAKAAsACAALAAoABQAHAAkABgAIAA0ACgAJAA0ACwAHAAkACgAKAA0ACwAJAAsACQAGAAoADQAMAAsACgANAA4ACwALAA4ADgAPAA0ABgAFAAsADAALAAwACwALAAgABAAHAAoACAAHAAUAAAABAAEA/v///////f///wEAAAAAAAEABAADAAEABgAKAAMA/v8CAAAA/v8CAAEAAQAGAAUAAgADAAIAAQACAAEABAAJAAYABAAGAAIAAAACAPz/9//8//7//f/+//z//f8BAP7/+v/9//////8AAP7/+/8AAAEA+f/3//r/+v/9/wQABAADAAMAAAAAAAQABAD+//v//f////3/+v/5//7/AAD7//n//f////z/+v/7//z//P/+//7//v////r/9v/3//n/9P/0//n/+//5//n/+f/4//r//v/6//b/+v/6//X/9//4//b/+P/5//n//f/8//f//P////f/+P/7//j/+v////r/+v8AAP7/+//7//v//f/7//b/+P/6//n//P/8//j/+//8//f/+f/7//j/+v/7//X/9//+//3/+//9////AAAAAP3//v8AAP7//v8AAP///P/9//7//f/+//3//f8AAAEA/////wAA/////wEAAgAAAAEABQAHAAQAAgACAAIABgAHAAEA/v8BAAEAAAAAAP///v8BAAEAAQAEAAMAAQACAP7//f8DAAYAAwAGAAoACAADAAEAAAAAAAMABQAEAAYABgADAAMABgADAAAAAAD+//3//v/+//7//v/7//3/AQD+//v//f/6//j/+f/4//f/+v/7//v//v/+//z//P/9////AwACAP///v/+//3/AAD///v/+v/5//f/9//8/wAA///8//n/+v/8//v/+f/7//z//P///wAA+//6//v/+//+/////P/8/wAAAQAAAAEAAgADAAIAAQABAP7//f8BAAIA/f/+/wAA/f///wMAAQD9//3//v///wAA//8AAAEA/f/6//z//v/9//n/+f/9//7/+//6//z/+//6//7//f/7/wAAAgAAAAIAAwAAAAAAAQD//wEAAgD/////AQD+//3//v/8//7////9/wEABQABAP///v/7//7//v/7//v/+v/5/wMABwD7//v/BgAHAAAA/v8BAAMA/v/5/wAABgD9//r/AQADAAQACAADAP3/AAAEAAQABAAEAAQABQADAAAAAAD9//z/AgADAAAAAgAEAAUABgACAP3/AgAHAAQAAwAFAAUABAADAAMABQAFAAUACgAJAAIAAwAGAAMAAgADAAIAAgAEAAQABQAEAP///v8BAP//+//+/wIA/v/8/wIAAwD9/wAABQAAAP//AgAAAAAABAAEAAUABgADAAEAAwACAAAA///+/wAAAAD9//3//v/7//3/AQD///z//f/+/wAAAAD9//3///8BAAIAAQD+/wAAAQD7//j/+v/6//v//P/5//n/AQACAPv/+v/+////AAD9//j/+P/9//v/+P/7//z/+f/8/wAA/v///wIAAQAAAAAA//8AAAIAAQABAAMAAgABAAIAAgADAAUABAAFAAsACwADAP//AAADAAUAAgD+////AAABAAMABQAIAAsACAAFAAwAEAAKAAcACgAJAAoADAAKAAgACQALAAsABwAEAAkADAAGAAQABgAEAAIABgAIAAcACAAGAAIABAAFAAQACQALAAUABQAJAAYAAgAGAAcABgAHAAkACAAEAAQACQAIAAIAAQAEAAQABgAKAAcAAgAEAAUABAAFAAYABQADAAEAAgAEAAMAAgACAP///v/+//3//v////////8AAP7///8CAP///P8DAAgAAgD+/wAAAAAAAAUABAAAAAAABAAHAAUA///7//3/AQAAAP3/+//6//v//f/8//z//v/8//f/+f/9//7//f/+//7/AQACAPv/9v/7////+//7//7//f/5//n/+f/5//v//f/7//n/+//6//j/+f/3//T/9v/5//r/+P/1//L/9P/3//j/+f/5//v//f/6//f/+f/8//r/+v/5//b/9v/1//P/9P/1//P/8v/x//H/8f/w//H/8f/x//X/+//3//L/9v/4//f/+//8//f/+P/6//f/+P/6//f/+v/+//j/9f/2//L/8v/4//b/9P/4//r/+f/5//j//P8CAAAA+v/3//f/9//3//f/9//0//L/+P/7//j/+v/9//j/9v/6//r/+f/7//r/+f/6//r/+v///wEA/v/7//r/9//3////AgD+//v//P/+/wEAAAD7//r//P/6//n//f8BAAAA/f/9//7////+/wAAAAD//wAAAAABAAIAAwAFAAYAAwAEAAcABgADAAUABgADAAIAAgAGAAgAAwACAAgABQABAAgACwAFAAgACQADAAQABwAEAAYACQAGAAgACwAJAAkADQALAAgADAAIAP//AAAFAAYABAAEAAQAAwACAAUACAAHAAkADQAJAAcACgAKAAgACAAIAAcACAAHAAcACgAKAAYABwAKAAgABgAIAAcABgAEAAAAAAAHAAsABgABAAEAAQACAAUABQADAAUABgAEAAMABgAGAAQABAAEAAIAAgAEAAAA/v8CAAIAAAABAP///v8AAP7//f8AAAAAAAAEAAIAAAAFAAQAAAADAAIA/P/+//7/+v/8//7//f8AAAIA/v///wEA///+//7//f/9//z/9//2//r//P/5//X/9f/3//r//f/7//n/+P/3//b/9f/4//z//f/5//j/+//7//v//f/8//r/+//+/////f/6//n/9//2//n/+//7//r/+v/7//7//f/4//j/+v/5//r/+v/5//n/9//z//b/+P/2//b/9v/2//v/+v/4//r/+f/2//r/+v/2//r//f/4//X/9v/4//z//v/9//v/+v/7//z/+f/5//v/+v/5//n/9//3//z//v/8//v/+P/4//3//P/5//n/+v/7//7//v/+/wAAAQAAAAIAAwAEAAQAAAD7//z////+////AgABAAEABAAFAAYACAAFAAMABQAHAAUABAAEAAMAAwADAAEAAAD//wAAAwACAAAAAQACAAAAAgAFAAMAAgAEAAQAAwAEAAMAAgADAAMAAwADAAMABAAGAAUABAAGAAcABAACAAIABgAHAAEA/v8CAAIA+//7//3//v8CAAEA+//5//z//P/7//v//v8BAAIA///8//3//v////3//f/+//3//v8AAPv/+f///wAA/P/9//7//P/9//z/+f/9////+v/4//j/+v8BAAMA/v/9//3/+v/5//r/+P/4//r/+v/8//3/+f/7/////f/9////+v/5//3/+v/5//r/+P/6/wAA/f/4//n/+//8/////v/5//n//P///////v/+//z/+v/8//r/9//6/////f/7//7/AgABAP7/AgAEAAEAAwAIAAcABwAMAAoABwAJAAsADgAOAAYABAALAAwABwAFAAQAAgABAAEAAwACAAEABgAIAAQABgAJAAcACAAKAAYABAAFAAYABgADAAMABwAGAAYACQAJAAQABgAKAAcAAQD//wEAAgABAAEAAAD8//7/AAD+/wAAAQD9/wEAAwD6//n////7//r/AgACAPv//f8AAP7//v8BAAMAAAD//wQABAD//wEAAgD8//z/AQAAAP7/AAABAAEAAgABAAIABQAGAAIA//8CAAMA/f/8/wEAAAD9/wIABQADAAQABAABAAAAAgACAAMAAwAFAAkACgAHAAgACQAHAAQABgAGAAYACAAIAAUABAAEAAMAAgADAAQABQAFAAQAAgAAAAEAAgAEAAMA///9////AAD+////AQACAAIA///4//n///8BAP///f/8//7////8//v//P/6//n/+v/7//z//v/7//j/+v/9//v/+v/5//j/+f/7//z//f/+//7//f/7//v//v//////AAABAAEAAQADAAcABgAEAAQABQAGAAYABgAEAAIAAQAEAAYABAAEAAgACQAFAAIAAAD+/wMABAD//wEABgAFAAMABQAHAAgACQAJAAkACQAJAAgABwAHAAkACAAGAAgACgAIAAkACQAHAAYABwAGAAYABAABAAAAAQACAAQAAwAAAAEAAwAEAAUABgAFAAQACAAJAAUAAwAFAAcABgAFAAYABwAIAAQAAgAFAAgAAwACAAcADQAMAAYABgAJAAkACQAKAAcABAAFAAUABwAJAAQAAAAEAAYAAAD9//z///8EAAQA/f/6//v/+f/5//3//P/5//z/AAD8//n//P/+//z/+f/2//b/+//9//v/+////wAA/P/6//r/+P/6//7//f/5//n/+//7//v/+P/3//j/9v/3//n/9//1//n/+v/4//n/+P/3//z//f/5//n/+f/0//L/8//z//H/8P/y//X/9v/3//n/+//7//r/+f/4//X/9P/4//3//v/9//3//f/9//n/9//4//j/+f/7//f/9P/4//n/9v/2//X/8v/1//n/+//7//j/9//4//f/9v/3//T/8v/2//b/8v/x//T/8v/v//H/9P/z//L/9P/z//P/9v/1//X/9f/y//L/+f/4//X/+v/5//H/9f/9//v/+v/8//n/9//4//r//P/8//v//f/7//r//P/5//X/9//6//z/AQAAAPn/+f/8//v///8BAPv/+P/9/wAAAAAAAAEAAAD/////AQAEAAcACQAJAAcACAAKAAcABgAIAAgABgAHAAkABwAEAAUACwAPAAwADAAMAAgACwATABMADgANAAsABwAHAAkACAAHAAoACwAIAAgACwAKAAQABAAGAAQAAwADAAAAAAABAP3//v8CAAEA/v/+/wAABAAGAAYABQAAAP//BAAHAAMAAQAAAP////8AAAMABAABAAEAAQAAAAEAAgD+//3////7//n//f/9//v/+//3//X/+f/7//r/+f/5//v//f/9//7//v/8////AwD+//v//f/+/wAAAAD5//n/AAD+//n//P////3//f8DAAUAAgD+//7/AAACAAAA/f/8//3///8BAAEAAQAEAAAA+////wEA/v8AAAMAAAD//wMAAQABAAQAAQD+/wIABAAEAAUABAABAP7///8DAAQAAQD///3//P//////+//7//7//f/9////+//5//3//v/4//f/+v/5//P/9f/4//b/9v/7//r/9P/0//b/9//6//r/+P/6//z//P/+//3/+f/7/wAA/v/9/wIABQABAP3/AAAEAAIA//8CAAMA/////wQABAACAAUABwADAP///v/9//7/AQABAP7//f8AAAQABAACAAAAAgAEAAEA//8AAP///f8AAAEA/P/+/wQAAgD+/wAAAgACAAMAAAD7//r/+//8//7/AAABAP///v/9//3//v////3//v8BAAMAAwABAP7//f///wEAAAD+//7/AwAGAAMAAgADAAEAAAADAAEA/P/8//7/AAADAAQAAwABAAEA///+/wAAAgD///7/BAAFAP//AAAFAAUABAAEAAEAAgAEAAEA/f8BAAMA/v///wIAAAD9/wAAAAD9//v/+v/8/////v/9//7/+v/5/wAAAwD+//7//P/5////AgD9////AgD+////AQD+/wEABAD+//v//v8AAAAAAQACAAQAAgD+//7//P/6//v//P/6//7/AwABAP/////+//7/AgABAP7//v8CAAQABQAFAAEAAgAIAAQAAQAHAAgAAgACAAIA//8EAAUAAgAHAAkAAwAGAAoABgAHAAsABQAAAAIAAwAEAAUABQAHAAQAAAABAAMAAAABAAQAAgD+//3//v8BAAMABAAEAAQABQAHAAUAAwAGAAcABgAGAAMAAQAEAAQAAAACAAgABwAEAAUACQAJAAcABgADAAAA////////AgD///v//v8CAAEAAQAEAAMAAwAFAAMAAQAAAP///f///wMAAgD+//7/AgAGAAYAAgD///3//P/6//n/+v/+/wMABAD///z///8AAP//AQABAP3//v////j/9v/+////+//8//3//v8DAAMAAAD+//v/+v/9//z/+v/9/wAAAAD+/wAAAwAEAAEAAAAAAAAAAgD///r//f8CAAAAAgAFAAIAAAACAAIA///9////AgD///v//f/9//v//f/+//v//P/9//v//P///wAA/v/6//n/+//6//v//P/3//r/AwAAAPn//P////z///8BAPz/+f/9//7//P/7//z///8BAAIAAgADAAUAAwACAAUABgAAAP//AQACAAMAAQD+////AQAAAP7/+v/6/wAAAQD8//z////8//n//P/+//7//P/8/////v/8//7//v///wAA/v/7//7//f/6//3////5//j///8CAP//AAADAAEAAQAEAAIAAAABAAAA/v8DAAYABAADAAQAAwADAAEA//8AAAMAAwACAP3//f8CAAIA/f/9////AQAAAP7//f///wEAAwADAAAA//8BAAIAAQACAAEA/f/9////AAD//wAAAgD/////AQABAP//AgADAAIAAAD//wAAAQAAAP3//f///wEAAgADAAUABwAGAAQAAgAAAAAA//8BAAMAAAD//wUABgABAAMABwAGAAQAAwD///z//v/+//z/+v/8/wAA/v/7//v//P/7//z/+//3//X/9//4//j/+f/7//v/+v/7//z/+f/3//n/+v/3//X/9v/1//P/9f/1//X/+f/6//b/9//6//n/AAAHAPz/8v/2//j/9P/0//X/+P/8//n/9v/5//n/9//7//3/+P/2//f/9//5//z/+//5//j/9f/2//j/8v/w//X/8v/t//T/9//x//P/8//s/+7/9f/0//L/8//y//b/+v/4//b/9v/1//X/9f/y//b/+v/2//P/9//5//b/+P/9//z/9P/z//r//P/7//r/9//5/wEAAQD+/wEAAgABAAIAAAABAAQAAQD+/wAAAAAAAAEA/v/9//r/9P/4//7/+v/3//3//v/+/wMAAwD/////AQAAAP///v/9//3///8AAP//AgAHAAQAAAADAAQAAwADAAAAAAAGAAMA/P8AAAQA/v/7//3/AAABAP3//P8CAAMA/v///wMAAgABAP////8CAAQAAgACAAIAAgAFAAYABAAGAAkACQAGAAQACQAMAAgABgAJAAwACwAIAAcACgAMAAkACQAKAAkACgAKAAUAAwAIAAkABgAHAAcABwAKAAkABQAFAAcACAAMAA0ABwACAAQABwAIAAUAAgACAAIAAQABAAMABQAHAAUAAgAGAAgABgAFAAQAAQAEAAkABQADAAgACgAGAAcABwADAAEAAgACAAQABAAAAAAABQABAPz/AAAEAAAA/v8AAAIABAAEAAEAAQAEAAUABgAFAAEAAgAIAAcAAwAFAAcABAACAAQAAwADAAYACwAMAAgABgAFAAUABQAFAAcADAAKAAcACwANAAwADgAPAAgABAAGAAYABwAKAAkABwAKAAoABgAIAAoAAwD//wcACgACAAAAAwACAAIABQAFAAEAAAAAAAEAAAD+/wAAAwABAAIABwAIAAMAAQAEAAMAAAABAAQAAwACAAEAAAAAAAMABAAFAAMAAQAEAAkABgD/////AgACAAAA/v8AAAEAAQAAAP///f/7//v/+//9//v/+//9//3/+//9//3//f8AAAIAAQABAAEAAAD///3//v8AAP///f/9////AQAAAP3//f/9//r/+//7//r//v8AAPr/+/8CAP//+v/+/wEA///+//z//P//////+v/4//v//P/2//T/+P/5//n/9//y//T/+v/3//b/9//2//f/+//5//n//v/8//n//v////7/AAD+//z//v/9//z//v/+//7/AgAAAPz//v/+/wAAAQD9//3/AAD+//v/AAACAP7//v/8//j/+f/+//7//v8BAAAA/f///wIAAAD9//3/+//5//j/9v/0//X/+f/7//j/9v/4//r/+f/7//7//P/8/wIABgABAP3//v/8//r//f/8//n/+v/8//v//f/+//z//f/+//3///8CAAIAAgD+//j/+v/+//3///8DAAAA+v/9/wMAAwAAAP//AAD///7/AAAEAAQAAQAAAAIAAAD+/wEAAgD//wAAAQD8//z/AgAFAAQABQAHAAcABQABAAEABAAEAAEA///+/wAAAQABAAEAAAD///3/+//8//7//v/8//r/+f/8/wAA/f/7//7//v/8//3//f/6//b/9f/5/////v/6//z////9//v/+//6//v//P/6//r//P/6//j//P/6//T/9//8//v//P////7//v/+//v//f8AAP7/+//8//z/+//5//X/+f/+//z/+/////3/+v/+////+//3//T/9f/4//f/9f/3//r/+v/7//v/+f/2//j//v/9//r//P/9//j/+P/9//v/+P/7//z/+v/7//z/+f/4//n/+v/6//n//P8AAAEA/f/7//n//f8BAP///v////7//f8AAAAA/f/9//3//f/+/wAA///8//3//v/7//j/+v/4//b//f////v//P/8//r//f/8//n//v8BAPz//P/9//r//P////r/9//4//r///8CAP7//v////r/+v/+/wAAAgAEAAMAAgABAP3//P8AAP///f/7//n/+v/9//3//f////7//P/9/////v/9//r/+f/+/wAA/v8BAAQAAQD//wEAAAD///7/+//7//7////9//3/AgACAP3//v8DAAQAAAD9//7/AwADAPz//f8BAP7//v8DAAEAAAABAAAAAQACAAEABgALAAUAAQAEAAYABwAGAAYACwAMAAkACgAMAAkACQAKAAoACwALAAoACgAHAAQAAwACAAEABQAGAAYACQALAAsABwAFAAYABgAGAAsACgACAAMACQAGAAMAAwAEAAUABwAEAAMAAwAEAAYABwAFAAUAAwAAAAMABQADAAUACAAIAAcABgAEAAMABQAJAAgAAwABAAQABQACAP7///8DAAAA/f8BAAMAAAD///3//v8DAAIA//8AAP7/+//5//j/+v/+//3//f8AAP7//v8BAP7///8EAP//+//+////AQAEAP7//P8AAP////8CAP////8AAP////8AAPz//P/+//z///8CAP3//P/+//v//P////v/+v/+//v/+f/+//3/+P/6//z//P/+/////v/9//z/+//9/wAA//8AAAAA/f/8/wAAAgADAAQA///9/wUABAD7//3/AwABAAAAAQAAAAIAAgD+//7/AwAAAPz//f/9//v///8EAAAA+/8AAAIA/f/+/wAA/v///wAA/P/7//7//v////////8CAAMA//8AAAUABQACAAMAAwACAAIAAwAFAAQAAwAFAAgACAADAP//AgADAAIABAAFAAAAAAABAPz//f8DAAIAAAACAP//AAAHAAUAAgAFAAgABwAEAAEAAwAGAAQABAAHAAcACAAKAAYAAwAFAAMABAAGAAQAAgAFAAUABQAGAAUABAAFAAQAAgABAAAAAQD/////AgABAAEABQADAP//AAABAAEABAAFAAAA//8BAAAA/v/+/wAAAgAAAAIABwAGAAIAAgADAAMAAwABAAEAAQD8//3/AQD9//r/AAAEAAMAAgACAAMAAwABAAMABgADAAIABAD///r/AAAFAAAA+////wMAAwD///v/+f/7/wAAAgADAAQAAQD+/wMABwAEAAIAAwACAP//AAADAAIA//8BAAAA+//9/wEA/////wAA+//7/wAA/v/9////AAD+//v/9v/3//v/+v/5//r/+//8//7//f///wAA/v/+/wIAAAD9//7//v/9/wAAAAD+/wAAAgD///7/AgAAAP3//v/+//j/+P/+/wAA/f/9/////P/5//r/+v/6//r/+v/3//X/9P/1//j/+P/3//f/9f/y//P/9P/0//T/8f/y//f/9v/z//T/9f/2//n/+P/1//T/9f/2//f/9//3//b/9f/4//n/9//2//b/+P/7//f/8f/0//f/9P/0//b/9//5//j/+f/8//j/8v/2//n/9//5//n/9P/0//r//v/8//T/8v/1//j/+v/6//j/+v/8//r/9v/0//T/+P/4//j//v/+//j//P/7//P/8//3//T/9//7//X/9P/4//X/8//2//f/9f/x//P/9v/0//T//P/6//T/9//2//T/+v/5//P/+v/9//f/+f/9//r/+v/7//n/+v/6//j/+v/7//n/+//8//z//P/5//b/+v/+/wEABQACAP3/AQAEAAAAAgAEAAMAAwAEAAUABgADAAEABAABAP3/AAAAAP3///8DAAEA///+////AQABAP//AwAFAAIAAgAGAAQAAwAEAAEA/v8AAAMABAADAAMABQAHAAYABwAJAAYABAAJAAsACAAGAAYABQAGAAoACAAEAAQAAwD+//3/AAACAAMAAwABAAEABAAHAAYABAAHAAcABQAHAAcAAwADAAQA//8AAAMA/v/+/wEA+//5/////f/7/wAA///9/wIAAgD//wMABwAGAAYABwAKAAwABgAFAAsACQADAAQACAAHAAUABQAGAAMA/////////f/8//z////9//f/+P/+//3//P/+////AQADAAIAAgADAP7/+v/8//7/AAAAAP3//P/8//v//v8BAAAAAQABAP7/AQACAP//AQACAP7//v/+//v///8EAAEAAQAGAAUAAwAEAAIAAQADAAQABAADAAMABgAIAAUA///5//j//f////////8AAP///v/9////AAABAAEAAQABAAAAAgAGAAUAAgACAAIAAAAAAP//+//+//7/9//5//7//P/8/wIAAAD8////AgAAAPz/+/8AAP//+P/6/wAA/////wIAAQADAAMA//8AAAMAAgAEAAYAAgABAAIAAAACAAQAAQAAAAMABAADAAUABwAFAAIAAQABAAIABAAFAAIAAwAGAAYABAAEAAQAAwAAAP//AgAFAAMABAAIAAkACAAKAAsACAAHAAoACAADAAQABgAGAAUAAwABAAMABAAAAAAAAAAAAAIAAwACAAMABQAEAAMAAwAEAAYAAwD+/wIABgACAAAAAwAEAAUACAAGAAMABgAJAAcABQAHAAcACAAFAAIAAAD9//z/AQAEAP7//f8DAAcACAAGAAUABwAJAAcABAACAAEABQAHAAUABgAHAAIAAgAFAAUABQADAP3///8FAAIA//////7/AAACAP///f////7//P/+////AAAAAP7/AAADAAAA/P/+/wAA//8BAAEAAQACAAAA+//8/wIABAABAP7/AAAEAAQA/P/3//j/+P/3//j/9//1//X/9v/4//n/9//3//n/+f/4//f/9v/3//j/9v/0//T/+P/6//r/+f/7//v/+P/2//j//f////r/+P/8//z/+//8//r/9v/3//b/9v/6//v/+P/6//r/9v/1//b/9v/4//j/9v/2//T/8v/0//P/8f/0//f/9f/0//b/+f/7//3//f/9//z/+//4//r/+v/2//j/AAD+//f/9//8////AQD/////BAABAPv//f8BAAAAAAABAAIABAADAPz/+P/6//v/+v/7//7//v/7//v/+v/3//v/AgD+//n///8EAP7/+///////AAD///z//f/+//f/9P/3//r//f8AAP7//f8BAAAAAAACAP////8FAAEA+//9//7//f8CAAYAAwACAAUABQADAAMABAAEAAUABQAEAAMABAAFAAcACQAHAAIAAgAFAAUAAgACAAUABwADAAEABQAHAAQA///8//z//P/8//7/AQAAAP//AAD//wEABAABAP3///8CAAIAAQACAAIA/v/7////AQD+//7/AQACAAEA//8BAAQA/v/7/wMABwAAAP//BQADAAAAAgAFAAYABAAFAAkABwADAAMAAwADAAYABQADAAYABwAFAAYABQACAAUACQAHAAYABgAFAAcABwAFAAYABgD///7/AgACAAAA///8//r///8DAAAA/f/+/wEAAQD//wEAAgD///3/AgAGAAgADAALAAEA/P8DAAkABwAFAAgACAACAPz///8FAAcABQAGAAgABgAHAAsABgD+/wIACQAHAAUACQAHAAAAAgAHAAUABAAKAAgAAwAFAAUAAgADAAMA/////wEAAgACAAAAAAABAP///v/+//n/+P/+//3/9//4//n/+f/9//z/+/8AAAEAAAD///r/+v////v/9//8/wAA/v///wAAAQACAP3//P8BAAAA/P/+/////P/5//X/+P/+//3/+v///wEA/P/4//j/+//8//v/+f/2//T/9f/3//X/9v/5//j/+f/+//3/9v/2//n/+f/4//v/+v/4//r//f/9//3//P/8/wAAAAD7//7/AQD8//f/+v/7//r//f/9//v//P/9//n/+f/9//7//P8AAAYABQADAAMABgAIAAcAAgAAAAEAAQAAAP///v////3/+//8//v/+f/6//3///8BAP///P/9/wIAAgD+//3/AAABAP7///////3/AQACAPr/+f///wAAAAACAAAA//8DAAIAAAADAAMAAAD///3//P/9//7//f/5//f//f/+//j/+P/7//j/9v/6//v/+v/+/////P/9/////f/7//3//v/8//z//f/+//7//f/6//z/AgACAAAAAgADAAMAAwAEAAMAAwACAP//AAACAAEAAgAGAAUAAwAFAAYABQAIAAgABAACAAIAAAAAAAIAAgD+//3///8AAPz/+v///wMA///6//v//P/9/wAAAwABAP7//v/+//3/AAACAAEA/////////v/+//7/AAADAAIA/v/9/wAAAgAAAP3//P/+////AAABAP///P///wAA/P/8//7//P/+/wIA/v/6//7//v/9//3//P/8/wAA///8//7//f/6////AQD9//7/BAAEAP7/+//8//3//P/8//v/+f/7//7/+f/1//j/9//z//f/+//5//j/+f/4//n/+P/2//X/9//1//P/+f/+//v/+P/5//z/AAACAAAA/P/8//3//v////z/+f/7//3/+v/6//z/+//7/////v/6//r//P/5//r//f/8//v//f/8//n/+P/8////AAD+//v//P/+/////////wAAAgACAAMABwAHAAIAAAAFAAgABAACAAQABQAEAAQABgAIAAcABQAFAAUAAgABAAEA//8BAAIA/P/9/wUAAwD+/wEAAgABAAQABAACAAQABQAEAAcACQAFAAMABAAEAAQABQAGAAcABgAGAAQAAQADAAUAAQD//wEAAgADAAUAAwAAAAAAAAD///7///8CAAMA/v/8//7//v/9/wAAAwABAP7///8DAAUABAAEAAYABgAHAAYAAgAAAAAA/v/+/wQABAD+//3//f/7////AgD///z/+//4//n/+//6//z//f/7//7/AwAAAP7//////////P/7/wEABQABAP//BAAGAAYACgAPABEADQAKAAkACQAKAAsACgAJAAkACAAFAAUABgAGAAUABQAGAAYABgADAP///f8BAAEA/f/8//3/+//6//3//v/9//3//P/7//v/+//7//3//f/6//r/+//8//3////9//j/+P/4//f/9//5//r/+v/4//b/+v/9//v/+P/3//n///8BAPv/+P/6//v//P/+/////v/5//j//v////n/+f/8//v/+v/4//T/9v/6//b/8//3//j/+P/5//n/+P/8//7//f/+/wAAAQACAAEA///9//v/+//9//v/+v/8//n/8//1//3//f/7//7////9//z//f/6//v//v/8//j/+v/9//z/+//9//7//v/7//n//v8BAP3//P///wEAAwAAAP7/AAD+//r///8EAAEA/v/+////BQAHAAMAAgADAAAA/v/9//v//P/////////+//z//v8CAAQAAQD7//v/AAAAAP/////+//7////8//z/AAD+//3/AQADAAQABwAGAAIAAQAEAAcABAABAAQABwAEAAUACQAIAAUABQADAAEAAQD9//r//f8AAP//AQAEAAIAAwAGAAUAAgACAAQABAADAAIAAwAHAAkABQD///7/AwAEAAAA//8CAAEAAAABAAEAAwADAP7//v8BAAAA//8BAAEAAwAGAAQAAwAFAAQABAAEAAIAAAAAAAAAAAAAAP7//v8AAAAA///+//7/AgAFAAMA//8AAAMABAABAP7/AQAEAAIAAAADAAYABgAGAAYAAwABAAIAAQABAAEA///8////AQD//wEAAgAAAP////8AAAMAAgD9/wAAAwD+//3/BAAFAAIAAAABAAUABgAFAAYABgADAAQABgABAP7//f///wUACQABAPz/AwAHAAQAAQD///z//v////3//f///////v/9//3////+//v//f/+//z/+//7//z//f/+//7/+//3//v//v/7//r////+//v//P///////f/9/wIABgAFAAUAAwD//wEABAACAAQACQAGAAIABAAGAAcABwAFAAcACAACAAAAAgD//wEABgADAAAAAgACAAEAAAACAAYABgADAAYACAADAAQABwACAAAAAQD//wAABAABAP//AQD+//3/BQAFAAEAAwAGAAQABQAGAAEAAQABAP3//f8DAAIA/P/8////AgADAAEAAQAAAPv/+v/6//r/+v/9//3///////f/9P/5//z//f/8//j/+f/6//f/+v/8//j//f8EAPz/9//5//f/+v/+//j/9f/5//b/9v/6//X/8//2//T/8v/4//j/9f/1//L/8P/y//H/8f/0//P/9f/6//f/9v/4//X/9f/6//b/8f/1//P/8f/4//v/+P/5//r/+f/7//3//v8BAAEAAQADAP//+//9//3//v8BAP////8AAPr/+f/+//z/+P/6//v//P/+//n/+P/7//n/+v8AAP7/+/8BAAQAAQD///3///////v//f8EAAMAAwADAAIABQAJAAYABgAJAAgABgAHAAYAAwAAAP3/////////AQD8//v/AgABAPv//P/+////AgABAP7/AAACAAIAAQD8//v/AQAEAAQAAQD7//3/AwABAP//AAD9/wAABgAAAPz/BAAEAAAAAQABAAAAAwABAP7/BAAFAP////8DAAYACAAFAAMABgAIAAYAAwABAP//AQAFAAYAAwADAAUAAwABAAEAAAD//wAAAAD7//j/+/8AAAEA///8//v/+v/7//3/+v/3//n/+//3//j//f8AAAEABAAEAAAA/v/+/////f/+/wIAAgD+/wEABAADAAYACAADAAEAAgACAAYACQAHAAgACQAHAAkADAAJAAYABQADAAMABAADAAMAAwACAAEA/v/8/wAAAAD5//j//P/9//7/AgADAAMABAAEAAEAAQADAP3/9//7/wAA/v8AAAQAAAD8//3///8AAP///v8AAAEAAAD8//b/9v/8//z/+v/6//r//P/9//r//v8CAP7//f8BAP3/+//+//3//f8AAPz/+v8CAAIA/f///wIAAgABAAEAAgACAP7//v8DAAMAAgACAAAA/////wAABAACAPz//f////3///8DAAMAAgD///7/AwAEAAEABAAEAAEABQAEAPz//v8EAAQAAwACAP7/AAACAAEABQAEAAEABQACAP//AgACAP//AQD+//3/AAD7//v//f/6//7////2//z/AQD7////AQD+/wUABQD//wIA/P/2////AgD+//3/+f/9/wQA///+/wUABAADAAYAAgD//wEAAAD//wEAAQD//wAAAAD8////AQD+/wIAAwD+/wMABwACAAQABgACAAEAAgADAAUABAABAP/////+//r/+v/6//b/9//7//f/9P/2//P/9P/3//P/8f/x/+//8//3//b/9//5//f/+P/8//r/+f/+/////v8AAP3/+/8AAP//+//7//j//P8DAPr/9P/6//T/7f/z//L/8P/1//X/9v/6//f/9v/5//X/9f/4//v//v/8//r/AAAAAP7/AwABAPv/AAAHAAYAAAD7//7//f/5//z/9//0//r//P/8////9//x//n/+//6//n/+f/+//z/+f/+//7/+//8//r//v8GAAIA//8DAP7/+v/9//z/+v/7//z/+f/5//v/9v/0//P/7//w//X/8P/v/+//7v/0//P/6v/u//D/8v/9//v/8//4//r/+//+//z//f/+//r//f////v//f/+//z//f/6//b/9v/2//T/8f/y//f/8v/u//L/8//y//L/8P/v/+7/8P/2//f/9f/7/////v8AAP3/+f/9/wMABQADAAIAAQADAAkABwAAAAAABAAEAAMAAAACAAQAAAAAAAEA/P/8//r/+P/8//f/8P/3//j/8f/1//n/+v/7//j/+v8CAAMAAQADAAcADAAMAAoADQAOAAoACAAKAAwACQAGAAQAAwAEAAUABgADAP///f/6//X/9f/1//H/8f/1//b/8f/s/+v/7v/z//j/+v/2//L/8v/2//v/+//3//X/+P/9//z/+f/6//v/+v/+/wUABAADAAkACQD///j//v8BAPr/8v/x//L/9P/z/+//7//v/+3/7P/0//n/9v/0//r//f/7//3/BAAJAAwADwATABYAFwAXABgAGQAaABkAGQAbABgAEAALAAkAAgD7//j/9f/u/+r/7f/u/+r/6//z//v/+//5//r//v8EAAsADAAMABEAFwAXABIAFAAbABwAFwATAA4ADQAPAA0ABgAAAP//AQD+//f/8f/x//L/8f/r/+f/6f/t/+//7v/u//D/8P/0//7/AwADAAcADAATABkAHgAgACEAKAAxADQANwA4ADEAKgAnACAAGAATAA4AAQD2//D/6P/i/9//1//P/9D/0//R/9T/2v/c/97/4//p/+//9f/6//3/AQAJABAAGwAkAB0AFwAbAB0AHwAhABsAEgAKAAUAAAD7//b/6//j/+X/4//c/93/4P/f/97/3//k/+X/5f/s//T/9f///xIAHAAeACAAJQAuADQANAAvACoAKgAsACcAGwAHAPT/7P/o/+D/0f/C/7n/tP+0/7T/sP+w/67/rv+7/8b/zv/f/+f/6f/0//r/AQAQABYAGAAbAB4AGgAPAAsADQAIAAgAAQDq/97/1//L/8f/v/+0/7L/qv+k/6T/nv+i/6f/qP+u/63/rf++/8b/0f/k/+P/6P/2/wMAHAAeABoANwA9AD4ASwA2AC0AOQAnACEAGgD4/+n/4f/U/8D/lf+J/4z/c/9w/23/Vv9k/23/af+C/5H/lP+f/6T/vf/Y/+D//f8RAA0AIgA2ADsATQBMAEAAQgBDAEMANAAdABAA/f/1//7/6f/K/7X/nf+e/6b/kf9//27/Zv9x/23/bv94/3D/ff+M/47/t//T/8v/4v/2/wMALQBGAEwAVwBcAG0AcwBuAHQAVgA6ADsAEQDk/8b/nv+W/4P/Xf9K/xn/+P75/t7+5v7w/t/+Dv8e/xb/S/9L/0b/Zf9S/2D/Uf/5/uv+xP5e/i3+7f2U/Rr9T/yr+xv7QPo3+cT3EvaI9L7y8PBZ7y3t5+pF6VHnBuU/42rhYd/A3QjcaNo/2uva9dpf2ybdd99Q4gjm6uls7TDxevUG+q/+SgOGB7QLBBBRFMQYPx17IVolWCn/LXoyPjb/Oac9h0CtQmFEP0XGRBxDh0AXPYQ5fzZHM2wveSuZJ98kFSTwI+4jXyQAJZ0mUym1K9gtnC8OMBswvy8nLj4s8ikNJ7AjNR9kGs0VZRHNDVIKLwY4AZH7W/aa8RfsbOUj3pjW+86XxwPAUbgFsTiqiKT1n2Wc5ZkWmCqXoJZPlp6W3JY2l0iXU5eama2dtqKBqQmyHrxUx53TKOFn7+r9cQw5GyEqdzhuRjVVl2PZagJqP2mmadto42i9aEdogGjWZ51nf2h5aYRqG2pNavNpNF/ESjA1rB7PBrLuh9aGvt+lepQvkUOSjJEtkjyTvJM1lHuUlZSalOKUvpR6lGaUwJOKk5aTtpMYlO6TpJQrlI2TsJ19spfHBdze8cEGhhpBLh9AxVDMYB9qWWvXauhqFGuJa9ZrQGy3bNJsI22FbSZtFW0FbYhoM19tVRNMacA=')
-moveSound.preload = 'auto';
-let audioUnlocked = false;
+// ── INIT ──
+window.addEventListener('load', () => {
+  if (API_KEY) document.getElementById('key-modal').classList.add('hidden');
+  initStockfish();
+  loadVoices();
+  startBlinkLoop();
+  updateVoiceBtn();
+});
 
-function unlockAudio(){
-  if(audioUnlocked)return;
-  moveSound.play().then(function(){
-    moveSound.pause();
-    moveSound.currentTime=0;
-    audioUnlocked=true;
-  }).catch(function(){});
-}
-document.addEventListener('touchstart',unlockAudio,{once:true});
-document.addEventListener('mousedown',unlockAudio,{once:true});
-
-function playMoveSound(){
-  try{
-    moveSound.pause();
-    moveSound.currentTime=0;
-    moveSound.play().catch(function(){});
-  }catch(e){}
+// ── STOCKFISH ──
+function initStockfish() {
+  try {
+    sfWorker = new Worker('stockfish.js');
+    sfWorker.onmessage = e => {
+      if (e.data === 'uciok' || e.data === 'readyok') sfReady = true;
+    };
+    sfWorker.postMessage('uci');
+    sfWorker.postMessage('isready');
+  } catch(e) { console.warn('Stockfish:', e); }
 }
 
-
-var game=new Chess(),moves=[],results=[],curIdx=0,flipped=false,depth=8,moveTime=1500,selSq=null,legalSqs=[],lastSqs=[],bestArrow=null,evalChartObj=null,curGameId=null,renamingId=null,analyzing=false;
-var QEMOJI={brilliant:'!!',best:'!',excellent:'!',good:'',inaccuracy:'?!',mistake:'?',blunder:'??',book:''};
-var QCLS={brilliant:'a-br',best:'a-be',excellent:'a-ex',good:'a-go',inaccuracy:'a-in',mistake:'a-mi',blunder:'a-bl',book:'a-bk'};
-
-function getBoardSize(){var w=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);return Math.floor(Math.min(w-16,520)/8)*8;}
-function getSqSize(){return getBoardSize()/8;}
-
-function animateMove(fromSq, toSq, callback){
-  var board=document.getElementById('chessboard');
-  var fromEl=board.querySelector('[data-sq="'+fromSq+'"]');
-  var toEl=board.querySelector('[data-sq="'+toSq+'"]');
-  if(!fromEl||!toEl){if(callback)callback();return;}
-  var piece=fromEl.querySelector('div');
-  if(!piece){if(callback)callback();return;}
-  var fromRect=fromEl.getBoundingClientRect();
-  var toRect=toEl.getBoundingClientRect();
-  // Clone piece for animation
-  var clone=piece.cloneNode(true);
-  clone.style.cssText='position:fixed;width:'+fromRect.width+'px;height:'+fromRect.height+'px;left:'+fromRect.left+'px;top:'+fromRect.top+'px;pointer-events:none;z-index:100;transition:left 0.13s cubic-bezier(0.25,0.46,0.45,0.94),top 0.13s cubic-bezier(0.25,0.46,0.45,0.94);';
-  document.body.appendChild(clone);
-  // Hide original
-  piece.style.opacity='0';
-  // Trigger animation
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      clone.style.left=toRect.left+'px';
-      clone.style.top=toRect.top+'px';
-      setTimeout(function(){
-        document.body.removeChild(clone);
-        piece.style.opacity='1';
-        if(callback)callback();
-      },140);
-    });
-  });
-}
-
-function renderBoard(){
-  var board=document.getElementById('chessboard');
-  var size=getBoardSize(),sq=getSqSize();
-  board.style.width=size+'px';board.style.height=size+'px';board.innerHTML='';
-  var fl=document.getElementById('fileLabels');fl.style.width=size+'px';
-  var FILES=['a','b','c','d','e','f','g','h'];
-  var cols=flipped?['h','g','f','e','d','c','b','a']:['a','b','c','d','e','f','g','h'];
-  var ranks=flipped?[1,2,3,4,5,6,7,8]:[8,7,6,5,4,3,2,1];
-  fl.innerHTML=cols.map(function(f){return'<span>'+f+'</span>';}).join('');
-  for(var ri=0;ri<8;ri++){
-    for(var ci=0;ci<8;ci++){
-      var file=cols[ci],rank=ranks[ri],sqId=file+rank;
-      var fi=FILES.indexOf(file),isLight=(fi+rank)%2===1;
-      var div=document.createElement('div');
-      div.className='sq '+(isLight?'light':'dark');
-      div.style.width=sq+'px';div.style.height=sq+'px';div.dataset.sq=sqId;
-      if(lastSqs.indexOf(sqId)>=0)div.classList.add(isLight?'lastm-l':'lastm-d');
-      if(selSq===sqId)div.classList.add('sel');
-      if(bestArrow&&sqId===bestArrow.from)div.classList.add('bestfrom');
-      if(bestArrow&&sqId===bestArrow.to)div.classList.add('bestto');
-      if(legalSqs.indexOf(sqId)>=0){var hp=game.get(sqId);div.classList.add(hp?'legal-cap':'legal');}
-      var p=game.get(sqId);
-      if(p){
-        var key=p.color+p.type.toUpperCase();
-        var pd=document.createElement('div');
-        pd.style.cssText='width:90%;height:90%;pointer-events:none;display:flex;align-items:center;justify-content:center;';
-        pd.innerHTML=PIECE_SVG[key]||'';
-        var se=pd.querySelector('svg');if(se){se.style.width='100%';se.style.height='100%';}
-        div.appendChild(pd);
+function sfEval(fen, depth=15) {
+  return new Promise(resolve => {
+    if (!sfWorker || !sfReady) { resolve(null); return; }
+    let bestMove=null, score=null, lines=[];
+    const timeout = setTimeout(() => resolve({bestMove,score,lines}), 4000);
+    sfWorker.onmessage = e => {
+      const d = e.data;
+      if (d.startsWith('info depth')) {
+        const sm = d.match(/score (cp|mate) (-?\d+)/);
+        const pm = d.match(/pv (.+)/);
+        if (sm) score = sm[1]==='cp' ? (parseInt(sm[2])/100).toFixed(2) : 'M'+sm[2];
+        if (pm && lines.length < 3) lines.push(pm[1].split(' ').slice(0,5).join(' '));
       }
-      div.addEventListener('click',makeSqH(sqId));
-      div.addEventListener('touchend',makeTouchH(sqId));
-      board.appendChild(div);
-    }
-  }
-  updateArrow();
-  document.getElementById('turnLabel').textContent=moves.length===0?(game.turn()==='w'?'White to move':'Black to move'):'Move '+curIdx+' of '+moves.length;
-}
-
-function makeSqH(s){return function(e){e.preventDefault();handleSqTap(s);};}
-function makeTouchH(s){return function(e){e.preventDefault();handleSqTap(s);};}
-
-function handleSqTap(sqId){
-  unlockAudio();
-  if(analyzing)return;
-  var p=game.get(sqId);
-  if(selSq===sqId){selSq=null;legalSqs=[];renderBoard();return;}
-  if(selSq){
-    if(legalSqs.indexOf(sqId)>=0){
-      var mv=game.move({from:selSq,to:sqId,promotion:'q'});
-      if(mv){
-  var fromSq=selSq,toSq=sqId;
-  lastSqs=[fromSq,toSq];selSq=null;legalSqs=[];bestArrow=null;
-  playMoveSound();
-  animateMove(fromSq,toSq,function(){renderBoard();updateEval();});
-  return;
-}
-    }
-    if(p&&(moves.length===0||game.turn()===p.color)){
-      selSq=sqId;legalSqs=game.moves({square:sqId,verbose:true}).map(function(m){return m.to;});renderBoard();return;
-    }
-    selSq=null;legalSqs=[];renderBoard();return;
-  }
-  if(p&&(moves.length===0||game.turn()===p.color)){
-    selSq=sqId;legalSqs=game.moves({square:sqId,verbose:true}).map(function(m){return m.to;});
-  }
-  renderBoard();
-}
-
-function updateArrow(){
-  var svg=document.getElementById('arrowLayer'),line=document.getElementById('arrowLine');
-  var size=getBoardSize(),sq=getSqSize();
-  svg.setAttribute('width',size);svg.setAttribute('height',size);
-  if(!bestArrow){line.setAttribute('stroke-width','0');return;}
-  var f=sqCtr(bestArrow.from,sq),t=sqCtr(bestArrow.to,sq);
-  var dx=t.x-f.x,dy=t.y-f.y,len=Math.sqrt(dx*dx+dy*dy);
-  if(len===0)return;
-  line.setAttribute('x1',f.x+(dx/len)*(sq*0.4));
-  line.setAttribute('y1',f.y+(dy/len)*(sq*0.4));
-  line.setAttribute('x2',t.x-(dx/len)*(sq*0.3));
-  line.setAttribute('y2',t.y-(dy/len)*(sq*0.3));
-  line.setAttribute('stroke-width',Math.round(sq*0.2));
-}
-
-function sqCtr(sq,sqSize){
-  var FILES=['a','b','c','d','e','f','g','h'];
-  var fi=FILES.indexOf(sq[0]),rank=parseInt(sq[1]);
-  return{x:(flipped?7-fi:fi)*sqSize+sqSize/2,y:(flipped?rank-1:8-rank)*sqSize+sqSize/2};
-}
-
-function flipBoard(){flipped=!flipped;renderBoard();}
-
-function goTo(idx){
-  if(idx===curIdx)return;
-  var g=new Chess();for(var i=0;i<idx;i++)g.move(moves[i]);
-  playMoveSound();
-
-  // Animate single step forward or backward
-  var fromSq=null,toSq=null;
-  if(idx===curIdx+1 && idx>0){
-    fromSq=moves[idx-1].from;toSq=moves[idx-1].to;
-  } else if(idx===curIdx-1 && idx>=0 && curIdx>0){
-    fromSq=moves[curIdx-1].to;toSq=moves[curIdx-1].from;
-  }
-
-  if(fromSq&&toSq){
-    // Render the PREVIOUS board state first so piece exists to animate
-    var prevG=new Chess();for(var i=0;i<curIdx;i++)prevG.move(moves[i]);
-    var tempGame=game;
-    game=prevG;
-    renderBoard();
-    game=g;curIdx=idx;
-    lastSqs=[fromSq,toSq];
-    bestArrow=null;
-    var r=results[idx];
-    if(r&&r.bestMove&&r.bestMove.length>=4)bestArrow={from:r.bestMove.substring(0,2),to:r.bestMove.substring(2,4)};
-    selSq=null;legalSqs=[];
-    animateMove(fromSq,toSq,function(){
-      renderBoard();
-      updateEval();updActMove();renderEngineLines();
-      document.getElementById('mcount').textContent=idx+' / '+moves.length;
-    });
-  } else {
-    // Jump to any other position instantly (more than 1 step)
-    game=g;curIdx=idx;
-    lastSqs=idx>0?[moves[idx-1].from,moves[idx-1].to]:[];
-    bestArrow=null;
-    var r=results[idx];
-    if(r&&r.bestMove&&r.bestMove.length>=4)bestArrow={from:r.bestMove.substring(0,2),to:r.bestMove.substring(2,4)};
-    selSq=null;legalSqs=[];
-    renderBoard();updateEval();updActMove();renderEngineLines();
-    document.getElementById('mcount').textContent=idx+' / '+moves.length;
-  }
-}
-function g2s(){goTo(0);}function g2e(){goTo(moves.length);}
-function g2b(){if(curIdx>0)goTo(curIdx-1);}function g2f(){if(curIdx<moves.length)goTo(curIdx+1);}
-
-function updateEval(){
-  var r=results[curIdx];
-  if(!r){document.getElementById('evalnum').textContent='0.00';document.getElementById('evallbl').textContent='Equal';document.getElementById('evalbar').style.height='50%';document.getElementById('bestmv').textContent='--';updateCompanion(null);return;}
-  var cp=r.evalCP||0,ev=cp/100,abs=Math.abs(ev);
-  document.getElementById('evalnum').textContent=Math.abs(cp)>=9000?(cp>0?'M+':'M-'):(ev>=0?'+':'')+ev.toFixed(2);
-  document.getElementById('evallbl').textContent=abs<0.3?'Equal':abs<1?(ev>0?'Slight W edge':'Slight B edge'):abs<2.5?(ev>0?'White better':'Black better'):abs<5?(ev>0?'White winning':'Black winning'):(ev>0?'White decisive':'Black decisive');
-  document.getElementById('evalbar').style.height=((Math.max(-10,Math.min(10,ev))+10)/20*100)+'%';
-  document.getElementById('bestmv').textContent=(r.bestMove&&r.bestMove.length>=4)?r.bestMove.substring(0,2)+'-'+r.bestMove.substring(2,4):'--';
-  updateCompanion(r);
-}
-
-function updateCompanion(r){
-  var label=document.getElementById('companionLabel');
-  var msg=document.getElementById('companionMsg');
-  var mouth=document.getElementById('robotMouth');
-  var l1=document.getElementById('light1');
-  var l2=document.getElementById('light2');
-  var l3=document.getElementById('light3');
-  var comp=document.getElementById('companion');
-
-  if(!r||curIdx===0){
-    label.className='companion-label idle';
-    label.textContent='ARIA · AI Coach';
-    msg.innerHTML='Navigate through moves to get feedback on each decision.';
-    mouth.setAttribute('fill','var(--border)');
-    l1.setAttribute('fill','var(--accent)');l1.setAttribute('opacity','0.5');
-    l2.setAttribute('fill','var(--border)');
-    l3.setAttribute('fill','var(--border)');
-    return;
-  }
-
-  var q=r.quality||'good';
-  var mv=moves[curIdx-1];
-  var san=mv?mv.san:'';
-  var who=mv?(mv.color==='w'?'White':'Black'):'';
-  var loss=r.cpLoss||0;
-  var best=(r.bestMove&&r.bestMove.length>=4)?r.bestMove.substring(0,2)+'-'+r.bestMove.substring(2,4):'';
-
-  if(q==='book'){
-    label.className='companion-label idle';
-    label.textContent='ARIA · Book Move';
-    msg.innerHTML='&#128218; <b>'+san+'</b> is a known opening theory move. No evaluation needed.<br><span class="companion-chip chip-blue">'+who+' · Move '+curIdx+'</span>';
-    mouth.setAttribute('fill','var(--blue)');
-    l1.setAttribute('fill','var(--blue)');l1.setAttribute('opacity','0.6');
-    l2.setAttribute('fill','var(--border)');
-    l3.setAttribute('fill','var(--border)');
-    comp.classList.remove('pop');void comp.offsetWidth;comp.classList.add('pop');
-    return;
-  }
-  // Figure out WHY the move is good or bad
-  var ev=r.evalCP||0;
-  var absEv=Math.abs(ev);
-  var whyGood='It keeps the position solid and maintains balance.';
-  var whyBad='';
-  if(best){
-    if(loss>200) whyBad='<b>'+best+'</b> was winning — this move lets the opponent back in the game.';
-    else if(loss>100) whyBad='<b>'+best+'</b> was much stronger, keeping the pressure on.';
-    else if(loss>50) whyBad='<b>'+best+'</b> was more precise here.';
-    else whyBad='<b>'+best+'</b> was slightly more accurate.';
-  }
-  if(absEv>500) whyGood='It gives a decisive advantage — the position is nearly won.';
-  else if(absEv>200) whyGood='It keeps a clear winning advantage on the board.';
-  else if(absEv>50) whyGood='It maintains a comfortable edge and controls the position.';
-  else whyGood='It keeps the position balanced and solid.';
-
-  var messages={
-    brilliant:[
-      '✨ <b>'+san+'</b> is brilliant! '+who+' found a powerful move. '+whyGood,
-      '💡 Outstanding! <b>'+san+'</b> is the kind of move engines love. '+whyGood
-    ],
-    best:[
-      '👑 <b>'+san+'</b> is the best move! '+whyGood,
-      '✅ Perfect! <b>'+san+'</b> is exactly what the engine recommends. '+whyGood
-    ],
-    excellent:[
-      '🌟 Excellent move! <b>'+san+'</b> is near-perfect play. '+whyGood,
-      '⭐ Great choice with <b>'+san+'</b>! Almost the best move. '+whyGood
-    ],
-    good:[
-      '👍 <b>'+san+'</b> is a good move. '+whyGood,
-      '🙂 Solid choice with <b>'+san+'</b>. '+whyGood
-    ],
-    inaccuracy:[
-      '🤔 <b>'+san+'</b> is a slight inaccuracy — '+whyBad,
-      '😐 Not the best with <b>'+san+'</b>. '+whyBad
-    ],
-    mistake:[
-      '😬 <b>'+san+'</b> is a mistake. '+whyBad,
-      '⚠️ <b>'+san+'</b> costs <b>'+loss+' cp</b>. '+whyBad
-    ],
-    blunder:[
-      '💥 <b>'+san+'</b> is a blunder! This could cost the game. '+whyBad,
-      '🚨 Big blunder with <b>'+san+'</b> — drops <b>'+loss+' cp</b>. '+whyBad
-    ]
-  };
-
-  var labelMap={brilliant:'ARIA · Brilliant!!',best:'ARIA · Best Move',excellent:'ARIA · Excellent!',good:'ARIA · Good Move',inaccuracy:'ARIA · Inaccuracy',mistake:'ARIA · Mistake',blunder:'ARIA · Blunder!!'};
-  var classMap={brilliant:'brilliant',best:'good',excellent:'good',good:'ok',inaccuracy:'warn',mistake:'bad',blunder:'blunder'};
-  var chipMap={brilliant:'chip-accent',best:'chip-green',excellent:'chip-green',good:'chip-blue',inaccuracy:'chip-yellow',mistake:'chip-orange',blunder:'chip-red'};
-  var mouthMap={brilliant:'var(--accent)',best:'var(--green)',excellent:'var(--green)',good:'var(--green)',inaccuracy:'var(--yellow)',mistake:'var(--orange)',blunder:'var(--red)'};
-
-  var msgArr=messages[q]||messages.good;
-  var picked=msgArr[curIdx%msgArr.length];
-
-  label.className='companion-label '+classMap[q];
-  label.textContent=labelMap[q];
-  msg.innerHTML=picked+'<br><span class="companion-chip '+chipMap[q]+'">'+who+' · Move '+curIdx+'</span>';
-  mouth.setAttribute('fill',mouthMap[q]);
-
-  // Light up body LEDs based on quality
-  var colors={brilliant:'var(--accent)',best:'var(--green)',excellent:'var(--green)',good:'var(--green)',inaccuracy:'var(--yellow)',mistake:'var(--orange)',blunder:'var(--red)'};
-  l1.setAttribute('fill',colors[q]);l1.setAttribute('opacity','1');
-  l2.setAttribute('fill',q==='blunder'||q==='mistake'?colors[q]:'var(--border)');l2.setAttribute('opacity','1');
-  l3.setAttribute('fill',q==='blunder'?colors[q]:'var(--border)');l3.setAttribute('opacity','1');
-
-  // Pop animation
-  comp.classList.remove('pop');
-  void comp.offsetWidth;
-  comp.classList.add('pop');
-}
-
-var PV={p:100,n:300,b:300,r:500,q:900,k:0};
-var PST={
-  p:[0,0,0,0,0,0,0,0,50,50,50,50,50,50,50,50,10,10,20,30,30,20,10,10,5,5,10,25,25,10,5,5,0,0,0,20,20,0,0,0,5,-5,-10,0,0,-10,-5,5,5,10,10,-20,-20,10,10,5,0,0,0,0,0,0,0,0],
-  n:[-50,-40,-30,-30,-30,-30,-40,-50,-40,-20,0,0,0,0,-20,-40,-30,0,10,15,15,10,0,-30,-30,5,15,20,20,15,5,-30,-30,0,15,20,20,15,0,-30,-30,5,10,15,15,10,5,-30,-40,-20,0,5,5,0,-20,-40,-50,-40,-30,-30,-30,-30,-40,-50],
-  b:[-20,-10,-10,-10,-10,-10,-10,-20,-10,0,0,0,0,0,0,-10,-10,0,5,10,10,5,0,-10,-10,5,5,10,10,5,5,-10,-10,0,10,10,10,10,0,-10,-10,10,10,10,10,10,10,-10,-10,5,0,0,0,0,5,-10,-20,-10,-10,-10,-10,-10,-10,-20],
-  r:[0,0,0,0,0,0,0,0,5,10,10,10,10,10,10,5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,-5,0,0,0,0,0,0,-5,0,0,0,5,5,0,0,0],
-  q:[-20,-10,-10,-5,-5,-10,-10,-20,-10,0,0,0,0,0,0,-10,-10,0,5,5,5,5,0,-10,-5,0,5,5,5,5,0,-5,0,0,5,5,5,5,0,-5,-10,5,5,5,5,5,0,-10,-10,0,5,0,0,0,0,-10,-20,-10,-10,-5,-5,-10,-10,-20],
-  k:[-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-30,-40,-40,-50,-50,-40,-40,-30,-20,-30,-30,-40,-40,-30,-30,-20,-10,-20,-20,-20,-20,-20,-20,-10,20,20,0,0,0,0,20,20,20,30,10,0,0,10,30,20]
-};
-
-function evalBoard(fen){
-  var g=new Chess(fen);
-  if(g.in_checkmate())return g.turn()==='w'?-9000:9000;
-  if(g.in_stalemate()||g.in_draw())return 0;
-  var board=g.board(),score=0;
-  for(var r=0;r<8;r++)for(var c=0;c<8;c++){
-    var p=board[r][c];if(!p)continue;
-    var idx=p.color==='w'?r*8+c:(7-r)*8+c;
-    var pst=PST[p.type]?PST[p.type][idx]:0;
-    score+=p.color==='w'?(PV[p.type]+pst):-(PV[p.type]+pst);
-  }
-  return score;
-}
-
-function localBestMove(fen){
-  var g=new Chess(fen),isW=g.turn()==='w',mvs=g.moves({verbose:true});
-  if(!mvs.length)return{uci:'',cp:evalBoard(fen),san:''};
-  var best=mvs[0],bestScore=isW?-Infinity:Infinity;
-  for(var i=0;i<mvs.length;i++){
-    g.move(mvs[i]);
-    var g2=new Chess(g.fen()),opp=g2.moves({verbose:true}),sc;
-    if(!opp.length){sc=evalBoard(g.fen());}
-    else{
-      sc=isW?Infinity:-Infinity;
-      for(var j=0;j<opp.length;j++){
-        g2.move(opp[j]);var s2=evalBoard(g2.fen());
-        if(isW&&s2<sc)sc=s2;if(!isW&&s2>sc)sc=s2;g2.undo();
-      }
-    }
-    if(isW&&sc>bestScore){bestScore=sc;best=mvs[i];}
-    if(!isW&&sc<bestScore){bestScore=sc;best=mvs[i];}
-    g.undo();
-  }
-  return{uci:best.from+best.to+(best.promotion||''),cp:bestScore,san:best.san};
-}
-
-function ownMaterial(fen,color){
-  var g=new Chess(fen),b=g.board(),t=0;
-  for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.color===color)t+=PV[p.type];}
-  return t;
-}
-
-function cpToWinPct(cp){return 50+50*(2/(1+Math.exp(-0.00368208*cp))-1);}
-function cpToQuality(loss,sac,prevCp,newCp,color){
-  var sign=color==='w'?1:-1;
-  var winBefore=cpToWinPct(prevCp*sign),winAfter=cpToWinPct(newCp*sign),winLoss=winBefore-winAfter;
-  // Brilliant: must be a real piece sacrifice (300cp+) AND win% improves or stays same
-  if(sac && loss>=300 && winLoss<=0) return'brilliant';
-  // Chess.com exact thresholds
-  if(winLoss<=2)return'best';
-  if(winLoss<=5)return'excellent';
-  if(winLoss<=10)return'good';
-  if(winLoss<=20)return'inaccuracy';
-  if(winLoss<=35)return'mistake';
-  return'blunder';
-}
-function calcAccuracy(colorMoves){
-  if(!colorMoves.length)return'100.0';
-  var sum=0;
-  colorMoves.forEach(function(m){
-    var sign=m.color==='w'?1:-1;
-    var winBefore=cpToWinPct(m.prevCp*sign),winAfter=cpToWinPct(m.newCp*sign);
-    var winLoss=Math.max(0,winBefore-winAfter);
-    var moveAcc=Math.max(0,103.1668*Math.exp(-0.04354*winLoss)-3.1669);
-    sum+=moveAcc;
-  });
-  return Math.min(100,sum/colorMoves.length).toFixed(1);
-}
-
-var sf=null,sfReady=false,sfCurrent=null,sfLines={};
-function startStockfish(){
-  try{
-    sf=new Worker('stockfish.js');
-    sf.onerror=function(){sf=null;sfReady=false;};
-    sf.onmessage=function(e){
-      var msg=e.data||'';
-      if(msg==='readyok'){sfReady=true;return;}
-      if(!sfCurrent)return;
-      if(msg.indexOf('info')===0&&msg.indexOf('score')>0&&msg.indexOf(' pv ')>0){
-        var cpM=msg.match(/score cp (-?\d+)/),mateM=msg.match(/score mate (-?\d+)/);
-        var pvM=msg.match(/ pv ([a-h][1-8][a-h][1-8][qrbn]?(?:\s[a-h][1-8][a-h][1-8][qrbn]?)*)/);
-        var mpvM=msg.match(/multipv (\d+)/),dM=msg.match(/\bdepth (\d+)\b/);
-        if(!dM||parseInt(dM[1])<3)return;
-        var cp=cpM?parseInt(cpM[1]):(mateM?(parseInt(mateM[1])>0?9000:-9000):0);
-        var mpv=mpvM?parseInt(mpvM[1]):1;
-        var pv=pvM?pvM[1].split(' ').slice(0,5).join(' '):'';
-        sfLines[mpv]={cp:cp,pv:pv};
-      }
-      if(msg.indexOf('bestmove')===0){
-        var bm=msg.split(' ')[1]||'';
-        if(!sfLines[1])sfLines[1]={cp:0,pv:bm};
-        var cur=sfCurrent;sfCurrent=null;
-        if(cur)cur({bestMove:bm,cp:sfLines[1].cp,lines:[1,2,3].map(function(n){return sfLines[n]||null;}).filter(Boolean)});
+      if (d.startsWith('bestmove')) {
+        bestMove = d.split(' ')[1];
+        clearTimeout(timeout);
+        resolve({bestMove, score, lines:[...new Set(lines)]});
       }
     };
-    sf.postMessage('uci');sf.postMessage('isready');
-  }catch(e){sf=null;}
-}
-
-function sfAnalyzePos(fen,d){
-  return new Promise(function(resolve){
-    if(!sf||!sfReady){resolve(null);return;}
-    sfLines={};sfCurrent=resolve;
-    sf.postMessage('setoption name MultiPV value 3');
-    sf.postMessage('ucinewgame');
-    sf.postMessage('position fen '+fen);
-    sf.postMessage('go depth '+d+' movetime '+moveTime);
+    sfWorker.postMessage('position fen ' + fen);
+    sfWorker.postMessage('go depth ' + depth);
   });
 }
 
-async function analyze(){
-  var pgn=document.getElementById('pgninput').value.trim();
-  if(!pgn){toast('Paste a PGN first','err');return;}
-  var tg=new Chess();if(!tg.load_pgn(pgn)){toast('Invalid PGN','err');return;}
-  var th=new Chess();th.load_pgn(pgn);
-  var hist=th.history({verbose:true});if(!hist.length){toast('No moves found','err');return;}
-  moves=hist;results=new Array(hist.length+1).fill(null);
-  curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();analyzing=true;curGameId=null;
-  var fens=[],tg3=new Chess();fens.push(tg3.fen());
-  hist.forEach(function(m){tg3.move(m);fens.push(tg3.fen());});
-  document.getElementById('emptystate').style.display='none';
-  var sdot=document.getElementById('sdot'),stxt=document.getElementById('stxt'),po=document.getElementById('prog-out'),pi=document.getElementById('prog-in');
-  sdot.className='sdot spin-mode';po.style.display='block';
-  showPage('analysis');renderBoard();
-  document.getElementById('mcount').textContent='0 / '+hist.length;
-  for(var i=0;i<fens.length;i++){
-    await new Promise(function(res){setTimeout(res,0);});
-    pi.style.width=Math.round(i/fens.length*100)+'%';
-    stxt.innerHTML='<span class="spin"></span><strong>'+(sf&&sfReady?'Stockfish':'Local engine')+'</strong> - move '+i+' / '+(fens.length-1);
-    var r,sfResult=await sfAnalyzePos(fens[i],depth);
-    if(sfResult){
-      r={evalCP:sfResult.cp,eval:sfResult.cp/100,bestMove:sfResult.bestMove,bestEval:sfResult.cp,
-         lines:sfResult.lines.map(function(l){return{eval:l.cp/100,moves:l.pv||''};})};
-    }else{
-      var loc=localBestMove(fens[i]),ev=evalBoard(fens[i]);
-      r={evalCP:ev,eval:ev/100,bestMove:loc.uci,bestEval:loc.cp,lines:[{eval:loc.cp/100,moves:loc.san||''}]};
+// ── KEY ──
+function saveKey() {
+  const v = document.getElementById('api-key-input').value.trim();
+  if (!v) { showNotif('Please enter your Groq API key', 'err'); return; }
+  API_KEY = v;
+  localStorage.setItem('aria_groq_key', v);
+  document.getElementById('key-modal').classList.add('hidden');
+  showNotif('Aria is awake! 🤖', 'ok');
+}
+function changeKey() {
+  document.getElementById('api-key-input').value = API_KEY;
+  document.getElementById('key-modal').classList.remove('hidden');
+}
+
+// ── PANEL ──
+function togglePanel() {
+  panelOpen = !panelOpen;
+  document.getElementById('pgn-panel').classList.toggle('open', panelOpen);
+}
+function switchPTab(tab) {
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('ptab-'+tab).classList.add('active');
+}
+
+// ── PGN ──
+async function loadPGN() {
+  const pgn = document.getElementById('pgn-input').value.trim();
+  if (!pgn) { showNotif('Paste a PGN first', 'err'); return; }
+  const btn = document.getElementById('analyze-btn');
+  btn.disabled=true; btn.textContent='⏳ Loading…';
+  try {
+    const chess = new Chess();
+    if (!chess.load_pgn(pgn)) throw new Error('Invalid PGN');
+    const history = chess.history({verbose:true});
+    const headers = chess.header();
+    const moves = [];
+    const replay = new Chess();
+    for (const move of history) {
+      replay.move(move.san);
+      moves.push({san:move.san, fen:replay.fen()});
     }
-    results[i]=r;
-    if(i>0&&results[i-1]){
-      var color=hist[i-1].color,sign=color==='w'?1:-1;
-      var prevCp=results[i-1].evalCP,newCp=results[i].evalCP;
-      var cpLoss=Math.round(results[i-1].bestEval*sign-newCp*sign);
-      var sac=(ownMaterial(fens[i-1],color)-ownMaterial(fens[i],color))>=300;
-      r.cpLoss=Math.max(0,cpLoss);
-      // Only check book for first 10 moves (20 ply)
-      var mv=hist[i-1];
-      if(i<=20 && isBookMove(mv.from,mv.to)){
-        r.quality='book';r.cpLoss=0;
-      } else {
-        r.quality=cpToQuality(cpLoss,sac,prevCp,newCp,color);
+    gameData = {pgn, headers, moves, totalMoves:moves.length};
+    const white=headers.White||'White', black=headers.Black||'Black', result=headers.Result||'?';
+    const badge = document.getElementById('game-badge');
+    document.getElementById('game-badge-txt').textContent = `${white} vs ${black} · ${moves.length} moves`;
+    badge.style.display='flex';
+    const summary = `[Game loaded] White:${white} Black:${black} Result:${result} Moves:${moves.length}\n${moves.map((m,i)=>i%2===0?Math.floor(i/2+1)+'.'+m.san:m.san).join(' ')}`;
+    chatHistory.push({role:'system', content:summary});
+    showUserCloud(`Game loaded! ${white} vs ${black}`);
+    setStatus('Game loaded — ask me anything', 'ok');
+    togglePanel();
+    showNotif('Game loaded ✓', 'ok');
+  } catch(e) { showNotif('Invalid PGN — check it again', 'err'); }
+  btn.disabled=false; btn.textContent='▶ Load Game';
+}
+
+function clearGame() {
+  gameData=null;
+  document.getElementById('game-badge').style.display='none';
+  document.getElementById('pgn-input').value='';
+  chatHistory = chatHistory.filter(m=>m.role!=='system');
+  showNotif('Game cleared','info');
+}
+
+// ── PHOTO ──
+function handlePhoto(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const url=ev.target.result;
+    pendingPhoto={b64:url.split(',')[1], type:file.type||'image/jpeg', url};
+    document.getElementById('photo-preview').src=url;
+    document.getElementById('photo-preview-wrap').style.display='block';
+  };
+  reader.readAsDataURL(file);
+  e.target.value='';
+}
+function removePhoto() {
+  pendingPhoto=null;
+  document.getElementById('photo-preview-wrap').style.display='none';
+}
+async function sendPhoto() {
+  if(!pendingPhoto) return;
+  if(!API_KEY){ document.getElementById('key-modal').classList.remove('hidden'); return; }
+  const btn=document.getElementById('photo-send-btn');
+  btn.disabled=true; btn.textContent='⏳ Analyzing…';
+  showUserCloud('📷 Sending board photo…');
+  setStatus('Aria is reading the board…','thinking');
+  togglePanel();
+  try {
+    const messages=buildMessages([{
+      role:'user',
+      content:[
+        {type:'image_url', image_url:{url:`data:${pendingPhoto.type};base64,${pendingPhoto.b64}`}},
+        {type:'text', text:'This is a chess board position. Analyze it — identify all pieces, evaluate the position, give the best move and explain why.'}
+      ]
+    }]);
+    const res=await fetch(GROQ_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+API_KEY},
+      body:JSON.stringify({model:'llama-3.2-11b-vision-preview', messages, max_tokens:1024, temperature:0.7})
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error.message);
+    const reply=data.choices[0].message.content;
+    chatHistory.push({role:'assistant', content:reply});
+    setStatus('Aria is ready','ok');
+    if(voiceOn) speak(reply);
+  } catch(e) {
+    setStatus('Something went wrong','err');
+    speak("I had trouble reading that image. Try describing the position to me instead.");
+  }
+  btn.disabled=false; btn.textContent='Send to Aria →';
+  removePhoto();
+}
+
+// ── CHAT ──
+function handleKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} }
+function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,80)+'px'; }
+
+let audioUnlocked=false;
+function unlockAudio() {
+  if(audioUnlocked) return;
+  const u=new SpeechSynthesisUtterance('');
+  window.speechSynthesis.speak(u);
+  audioUnlocked=true;
+}
+
+async function sendMessage() {
+  unlockAudio();
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim();
+  if(!text) return;
+  if(!API_KEY){ document.getElementById('key-modal').classList.remove('hidden'); return; }
+  document.getElementById('send-btn').disabled=true;
+  input.value=''; input.style.height='auto';
+
+  // Show user's message as floating cloud
+  showUserCloud(text);
+  chatHistory.push({role:'user', content:text});
+  setStatus('Aria is thinking…','thinking');
+
+  // Stockfish eval
+  let sfContext='';
+  if(gameData && sfReady) {
+    const dot=document.getElementById('status-dot');
+    dot.classList.add('thinking');
+    const moveNumMatch=text.match(/move\s*(\d+)|(\d+)(?:th|st|nd|rd)/i);
+    let targetIdx=gameData.moves.length-1;
+    if(moveNumMatch){
+      const num=parseInt(moveNumMatch[1]||moveNumMatch[2]);
+      targetIdx=(num-1)*2+(text.toLowerCase().includes('black')?1:0);
+      targetIdx=Math.min(Math.max(targetIdx,0),gameData.moves.length-1);
+    }
+    if(gameData.moves[targetIdx]){
+      const sf=await sfEval(gameData.moves[targetIdx].fen,15);
+      if(sf){
+        const ref=moveNumMatch?`move ${Math.floor(targetIdx/2)+1}`:'current position';
+        sfContext=`\n[Stockfish for ${ref}: eval=${sf.score}, best=${sf.bestMove}, lines: ${sf.lines.slice(0,2).join(' | ')}]`;
       }
-      r.loss=cpLoss/100;r.prevCp=prevCp;r.newCp=newCp;
-    }else{r.cpLoss=0;r.quality='good';r.loss=0;}
+    }
   }
-  pi.style.width='100%';sdot.className='sdot done';
-  stxt.innerHTML='<strong>Done!</strong> '+hist.length+' moves analyzed.';
-  po.style.display='none';analyzing=false;
-  renderMoveList();renderSummary();renderGraph();updateEval();
-  saveGame();toast('Analysis complete!','ok');sPTab('moves');
-}
 
-function renderMoveList(){
-  var h='<div class="move-grid">';
-  for(var i=0;i<moves.length;i+=2){
-    var n=Math.floor(i/2)+1;
-    h+='<div class="mrow"><div class="mnum">'+n+'.</div>';
-    var wi=i+1,wr=results[wi],wq=(wr&&wr.quality)||'good';
-    h+='<div class="mcell '+(curIdx===wi?'active':'')+'" id="mc-'+wi+'" onclick="goTo('+wi+');showPage(\'board\')">'
-      +'<span class="msan">'+moves[i].san+'</span>'
-      +'<span class="mann '+QCLS[wq]+'">'+(QEMOJI[wq]!==undefined?QEMOJI[wq]:wq)+(wr&&wr.cpLoss>0?' ('+wr.cpLoss+'cp)':'')+'</span></div>';
-    if(i+1<moves.length){
-      var bi=i+2,br=results[bi],bq=(br&&br.quality)||'good';
-      h+='<div class="mcell '+(curIdx===bi?'active':'')+'" id="mc-'+bi+'" onclick="goTo('+bi+');showPage(\'board\')">'
-        +'<span class="msan">'+moves[i+1].san+'</span>'
-        +'<span class="mann '+QCLS[bq]+'">'+(QEMOJI[bq]!==undefined?QEMOJI[bq]:bq)+(br&&br.cpLoss>0?' ('+br.cpLoss+'cp)':'')+'</span></div>';
-    }else h+='<div class="mcell" style="opacity:.1;cursor:default"></div>';
-    h+='</div>';
+  // Trim history
+  if(chatHistory.filter(m=>m.role!=='system').length>20){
+    const sys=chatHistory.filter(m=>m.role==='system');
+    const convo=chatHistory.filter(m=>m.role!=='system');
+    chatHistory=[...sys,...convo.slice(-15)];
   }
-  document.getElementById('movelist-wrap').innerHTML=h+'</div>';
-}
 
-function updActMove(){
-  document.querySelectorAll('.mcell').forEach(function(c){c.classList.remove('active');});
-  var el=document.getElementById('mc-'+curIdx);
-  if(el){el.classList.add('active');el.scrollIntoView({block:'nearest',behavior:'smooth'});}
-}
+  const userWithCtx=sfContext?text+sfContext:text;
+  const msgs=buildMessages(null,userWithCtx);
 
-function renderSummary(){
-  var s={w:{br:0,be:0,go:0,in:0,mi:0,bl:0},b:{br:0,be:0,go:0,in:0,mi:0,bl:0}};
-  var map={brilliant:'br',best:'be',excellent:'ex',good:'go',inaccuracy:'in',mistake:'mi',blunder:'bl',book:'bk'};
-  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';s[m.color][map[q]]=(s[m.color][map[q]]||0)+1;});
-  function getAcc(color){
-    var ms=[];
-    moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.prevCp!=null)ms.push({prevCp:r.prevCp,newCp:r.newCp,color:color});});
-    return calcAccuracy(ms);
+  try {
+    const res=await fetch(GROQ_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+API_KEY},
+      body:JSON.stringify({model:GROQ_MODEL, messages:msgs, max_tokens:1024, temperature:0.75})
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error.message);
+    const reply=data.choices[0].message.content;
+    chatHistory.push({role:'assistant', content:reply});
+    setStatus('Aria is ready','ok');
+    if(voiceOn) speak(reply);
+    else setStatus('Tap 🔊 to hear Aria','info');
+  } catch(e) {
+    setStatus('Something went wrong','err');
+    speak("Something went wrong. Please check your connection and try again.");
   }
-  var wa=getAcc('w'),ba=getAcc('b');
-  function col(v){return parseFloat(v)>=80?'var(--green)':parseFloat(v)>=60?'var(--yellow)':'var(--red)';}
-  document.getElementById('summary-wrap').innerHTML=
-    '<div class="sum-grid">'
-    +'<div class="scard"><div class="scard-title"><div class="cdot" style="background:#eee"></div>White</div>'
-    +'<div class="acc-big" style="color:'+col(wa)+'">'+wa+'%</div>'
-    +'<div class="acc-bar"><div class="acc-fill" style="width:'+wa+'%"></div></div>'
-    +'<div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">'+s.w.br+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">'+s.w.be+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Excellent !</span><span class="qval" style="color:#00e5ff">'+(s.w.ex||0)+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">'+s.w.go+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">'+s.w.in+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">'+s.w.mi+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">'+s.w.bl+'</span></div></div>'
-    +'<div class="scard"><div class="scard-title"><div class="cdot" style="background:#444"></div>Black</div>'
-    +'<div class="acc-big" style="color:'+col(ba)+'">'+ba+'%</div>'
-    +'<div class="acc-bar"><div class="acc-fill" style="width:'+ba+'%"></div></div>'
-    +'<div class="qrow"><span class="qlbl">Brilliant !!</span><span class="qval" style="color:var(--accent)">'+s.b.br+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Best !</span><span class="qval" style="color:var(--green)">'+s.b.be+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Excellent !</span><span class="qval" style="color:#00e5ff">'+(s.b.ex||0)+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Good</span><span class="qval" style="color:var(--blue)">'+s.b.go+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Inaccuracy ?!</span><span class="qval" style="color:var(--yellow)">'+s.b.in+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Mistake ?</span><span class="qval" style="color:var(--orange)">'+s.b.mi+'</span></div>'
-    +'<div class="qrow"><span class="qlbl">Blunder ??</span><span class="qval" style="color:var(--red)">'+s.b.bl+'</span></div></div></div>'
-    +'<div class="scard"><div class="scard-title">Game Info</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">'
-    +'<span style="color:var(--text2)">Total Moves</span><span style="font-family:\'IBM Plex Mono\',monospace">'+moves.length+'</span>'
-    +'<span style="color:var(--text2)">White Blunders</span><span style="font-family:\'IBM Plex Mono\',monospace;color:var(--red)">'+s.w.bl+'</span>'
-    +'<span style="color:var(--text2)">Black Blunders</span><span style="font-family:\'IBM Plex Mono\',monospace;color:var(--red)">'+s.b.bl+'</span>'
-    +'<span style="color:var(--text2)">Depth</span><span style="font-family:\'IBM Plex Mono\',monospace;color:var(--accent)">'+depth+'</span>'
-    +'</div></div>';
+  document.getElementById('send-btn').disabled=false;
 }
 
-function renderGraph(){
-  var labels=['Start'],data=[0],pts=['rgba(124,111,255,.8)'];
-  var qc={brilliant:'rgba(124,111,255,.9)',best:'rgba(79,255,176,.9)',good:'rgba(72,219,251,.8)',inaccuracy:'rgba(255,224,102,.9)',mistake:'rgba(255,154,60,.9)',blunder:'rgba(255,71,87,.9)'};
-  moves.forEach(function(m,i){
-    labels.push((Math.floor(i/2)+1)+(m.color==='w'?'':'.. ')+m.san);
-    data.push(Math.max(-10,Math.min(10,(results[i+1]&&results[i+1].eval)||0)));
-    pts.push(qc[(results[i+1]&&results[i+1].quality)||'good']||'rgba(100,100,150,.8)');
-  });
-  var ctx=document.getElementById('evalChart').getContext('2d');
-  if(evalChartObj)evalChartObj.destroy();
-  evalChartObj=new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{data:data,borderColor:'rgba(124,111,255,.6)',borderWidth:2,pointBackgroundColor:pts,pointRadius:4,pointHoverRadius:6,fill:{target:'origin',above:'rgba(124,111,255,.05)',below:'rgba(255,107,53,.05)'},tension:.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return(c.raw>=0?'+':'')+Number(c.raw).toFixed(2);}}}},scales:{x:{ticks:{color:'#555',maxTicksLimit:8,font:{size:9}},grid:{color:'rgba(255,255,255,.03)'}},y:{min:-10,max:10,ticks:{color:'#555',callback:function(v){return v>0?'+'+v:v;},font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}}},onClick:function(e,els){if(els.length){goTo(els[0].index);showPage('board');}}}});
+function buildMessages(extra, latestText) {
+  const sys={role:'system',content:`You are Aria, a warm and deeply knowledgeable chess companion. Grandmaster-level knowledge, calm sensei patience.
+
+Personality: warm, wise, encouraging. Explain WHY behind every move. Talk about plans, patterns, ideas. Conversational like a brilliant friend.
+
+CRITICAL: Always use standard algebraic notation: e4, Nf3, Rxd5, O-O. NEVER "Knight to f3". Keep responses concise and conversational — you are speaking out loud, not writing an essay. 2-4 sentences max per point. Reference Stockfish data in [brackets] when provided.`};
+  const msgs=[sys];
+  const gameSys=chatHistory.find(m=>m.role==='system');
+  if(gameSys) msgs.push({role:'user',content:gameSys.content});
+  const convo=chatHistory.filter(m=>m.role!=='system');
+  if(extra){ msgs.push(...convo,...extra); }
+  else if(latestText){ msgs.push(...convo.slice(0,-1),{role:'user',content:latestText}); }
+  return msgs;
 }
 
-function renderEngineLines(){
-  var r=results[curIdx];
-  if(!r||!r.lines){document.getElementById('engine-wrap').innerHTML='<div class="empty"><div class="empty-ico">&#129302;</div><h3>Engine Lines</h3><p>Tap a move to see engine lines.</p></div>';return;}
-  var h='<div class="elines"><div class="sec-title" style="margin-bottom:8px">Top Lines - Move '+curIdx+'</div>';
-  r.lines.forEach(function(l,i){if(!l)return;var ev=l.eval,evs=Math.abs(ev)>=99?(ev>0?'Mate':'-Mate'):(ev>=0?'+':'')+Number(ev).toFixed(2);h+='<div class="eline"><span class="erank">'+(i+1)+'.</span><span class="eeval '+(ev>0.1?'pos':ev<-0.1?'neg':'eq')+'">'+evs+'</span><span class="emoves">'+(l.moves||'--')+'</span></div>';});
-  h+='</div><div class="statusbar"><span class="mann '+QCLS[r.quality||'good']+'" style="font-size:14px;padding:4px 10px">'+(QEMOJI[r.quality||'good']||'')+' '+(r.quality||'good').toUpperCase()+'</span><span style="font-size:12px;color:var(--text2);margin-left:10px">CP loss: <strong style="color:var(--text)">'+(r.cpLoss||0)+'</strong></span></div>';
-  document.getElementById('engine-wrap').innerHTML=h;
+// ── MESSAGE CLOUD ──
+function showUserCloud(text) {
+  const cloud=document.getElementById('msg-cloud');
+  clearTimeout(msgCloudTimer);
+  cloud.classList.remove('fade','show');
+  cloud.textContent=text;
+  void cloud.offsetWidth;
+  cloud.classList.add('show');
+  // Auto-fade after reading time
+  const readTime=Math.max(3000, text.length*60);
+  msgCloudTimer=setTimeout(()=>{
+    cloud.classList.add('fade');
+    setTimeout(()=>cloud.classList.remove('show','fade'),400);
+  }, readTime);
 }
 
-function getGames(){try{return JSON.parse(localStorage.getItem('ciq_final')||'[]');}catch(e){return[];}}
-function setGames(g){localStorage.setItem('ciq_final',JSON.stringify(g));}
-
-function saveGame(){
-  if(!moves.length)return;
-  var id=curGameId||Date.now().toString();curGameId=id;
-  var g={id:id,name:'Game '+new Date().toLocaleDateString(),pgn:document.getElementById('pgninput').value.trim(),opening:detectOpening(),date:new Date().toISOString(),stats:computeStats(),results:results,moveCount:moves.length};
-  var gs=getGames(),ei=gs.findIndex(function(x){return x.id===id;});
-  if(ei>=0)gs[ei]=g;else gs.unshift(g);
-  setGames(gs);renderLibrary();
+// ── STATUS ──
+function setStatus(txt, type='ok') {
+  document.getElementById('status-txt').textContent=txt;
+  const dot=document.getElementById('status-dot');
+  dot.className='';
+  if(type==='thinking') dot.classList.add('thinking');
+  else if(type==='listening') dot.classList.add('listening');
 }
 
-function computeStats(){
-  function getAcc(color){
-    var ms=[];
-    moves.forEach(function(m,i){if(m.color!==color)return;var r=results[i+1];if(r&&r.prevCp!=null)ms.push({prevCp:r.prevCp,newCp:r.newCp,color:color});});
-    return calcAccuracy(ms);
+// ── EYE BLINK LOOP ──
+function startBlinkLoop() {
+  function blink() {
+    const lidL=document.getElementById('lid-left');
+    const lidR=document.getElementById('lid-right');
+    if(!lidL||!lidR) return;
+    // Close
+    lidL.setAttribute('ry','13');
+    lidR.setAttribute('ry','13');
+    setTimeout(()=>{
+      lidL.setAttribute('ry','0');
+      lidR.setAttribute('ry','0');
+    },120);
+    // Schedule next blink
+    setTimeout(blink, 2500+Math.random()*3000);
   }
-  var s={w:{bl:0,mi:0,in:0},b:{bl:0,mi:0,in:0}};
-  moves.forEach(function(m,i){var r=results[i+1];if(!r)return;var q=r.quality||'good';if(q==='blunder')s[m.color].bl++;else if(q==='mistake')s[m.color].mi++;else if(q==='inaccuracy')s[m.color].in++;});
-  return{wBl:s.w.bl,wMi:s.w.mi,wIn:s.w.in,bBl:s.b.bl,bMi:s.b.mi,bIn:s.b.in,wAcc:getAcc('w'),bAcc:getAcc('b')};
+  setTimeout(blink, 1500);
 }
 
-// ── OPENING BOOK ─────────────────────────────────────────────
-// Common opening moves — these should never be flagged as mistakes
-var OPENING_BOOK = [
-  // e4 openings
-  'e2e4','e7e5','d2d4','d7d5','g1f3','g8f6','f1c4','f1b5',
-  'b1c3','b8c6','c2c3','c7c5','d2d3','d7d6','e2e3','e7e6',
-  'c1f4','c1e3','c1g5','f1e2','d1d4','a2a3','a7a6','h2h3',
-  'g2g3','g7g6','f1g2','f8g7','e1g1','e8g8',// castling
-  'b2b4','b7b5','c2c4','c7c4','f2f4','f7f5','g2g4','g7g4',
-  'd2d5','d7d5','e4d5','e5d4','f3e5','f6e4','c4d5','c5d4',
-  // Common responses
-  'c6d4','c3d5','f6d5','f6g4','d8d4','d1d4','b8d7','g8e7',
-  'f8e7','f8c5','f8b4','f8d6','c8e6','c8g4','c8f5','c8d7',
-  'a7a5','a2a4','h7h6','h2h6','b7b6','b2b6','c7c6','c2c6',
-  'e8f8','e1f1','d7d6','d2d6','f7f6','f2f6','g6g5','g2g5'
-];
-
-function isBookMove(from, to) {
-  return OPENING_BOOK.indexOf(from+to) >= 0;
+// ── MOUTH ANIMATION ──
+function startMouthAnim() {
+  isSpeaking=true;
+  animMouth();
+}
+function stopMouthAnim() {
+  isSpeaking=false;
+  const mc=document.getElementById('mouth-closed');
+  const mot=document.getElementById('mouth-open-top');
+  const mob=document.getElementById('mouth-open-bottom');
+  if(mc) mc.setAttribute('opacity','1');
+  if(mot) mot.setAttribute('opacity','0');
+  if(mob){ mob.setAttribute('ry','0'); mob.setAttribute('opacity','0'); }
+}
+function animMouth() {
+  if(!isSpeaking) return;
+  const mob=document.getElementById('mouth-open-bottom');
+  const mc=document.getElementById('mouth-closed');
+  const mot=document.getElementById('mouth-open-top');
+  if(!mob) return;
+  const open=Math.random()>0.4;
+  const ry=open?(3+Math.random()*5):0;
+  mob.setAttribute('ry',ry.toFixed(1));
+  mob.setAttribute('opacity',open?'1':'0');
+  if(mc) mc.setAttribute('opacity',open?'0':'1');
+  if(mot) mot.setAttribute('opacity',open?'1':'0');
+  setTimeout(animMouth, 80+Math.random()*120);
 }
 
-function detectOpening(){
-  if(!moves.length)return'Unknown Opening';
-  var line=moves.slice(0,6).map(function(m){return m.san;}).join(' ');
-  var ops=[['e4 e5 Nf3 Nc6 Bb5','Ruy Lopez'],['e4 e5 Nf3 Nc6 Bc4','Italian Game'],['e4 e5 Nf3',"King's Knight"],['e4 c5','Sicilian Defense'],['e4 e6','French Defense'],['e4 c6','Caro-Kann'],['d4 d5 c4',"Queen's Gambit"],['d4 Nf6',"King's Indian"],['e4 e5',"King's Pawn"],['d4',"Queen's Pawn"],['c4','English Opening']];
-  for(var i=0;i<ops.length;i++){if(line.indexOf(ops[i][0])===0)return ops[i][1];}
-  return'Unknown Opening';
+// ── VOICE ──
+let voices=[];
+let voiceLoopActive=false;
+function loadVoices(){
+  voices=speechSynthesis.getVoices();
+  if(!voices.length) speechSynthesis.onvoiceschanged=()=>{voices=speechSynthesis.getVoices();};
 }
 
-function renderLibrary(){
-  var gs=getGames();document.getElementById('gcnt').textContent=gs.length;
-  if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">&#128193;<br>No saved games yet</div>';return;}
-  document.getElementById('glist').innerHTML=gs.map(function(g){
-    return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'
-      +'<div class="gc-top"><span class="gc-name">'+g.name+'</span>'
-      +'<div class="gc-btns"><button class="gc-btn" onclick="event.stopPropagation();openRename(\''+g.id+'\')">&#9999;&#65039;</button>'
-      +'<button class="gc-btn gc-del" onclick="event.stopPropagation();delGame(\''+g.id+'\')">&#10005;</button></div></div>'
-      +'<div class="gc-opening">'+g.opening+'</div>'
-      +'<div class="gc-pills">'
-      +'<span class="pill p-r">??'+((g.stats&&g.stats.wBl)||0)+'+'+((g.stats&&g.stats.bBl)||0)+'</span>'
-      +'<span class="pill p-o">?'+((g.stats&&g.stats.wMi)||0)+'+'+((g.stats&&g.stats.bMi)||0)+'</span>'
-      +'<span class="pill p-g">W:'+((g.stats&&g.stats.wAcc)||'?')+'% B:'+((g.stats&&g.stats.bAcc)||'?')+'%</span>'
-      +'</div><div class="gc-date">'+new Date(g.date).toLocaleDateString()+' - '+g.moveCount+'mv</div></div>';
-  }).join('');
+function speak(text) {
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const clean=text.replace(/<[^>]+>/g,'').replace(/\*\*/g,'').replace(/\s+/g,' ').trim();
+  const snippet=clean.length>600?clean.slice(0,600)+'...':clean;
+  const u=new SpeechSynthesisUtterance(snippet);
+  u.rate=0.93; u.pitch=1.1; u.volume=1;
+  const best=voices.find(v=>/samantha|karen|victoria|fiona|moira|ava|zoe/i.test(v.name))
+    ||voices.find(v=>v.lang.startsWith('en')&&/female|woman/i.test(v.name))
+    ||voices.find(v=>v.lang.startsWith('en'))||voices[0];
+  if(best) u.voice=best;
+  u.onstart=()=>{ startMouthAnim(); setStatus('Aria is speaking…','ok'); };
+  u.onend=()=>{
+    stopMouthAnim();
+    setStatus('Aria is ready','ok');
+    if(voiceLoopActive&&voiceOn) setTimeout(()=>startMic(),600);
+  };
+  speechSynthesis.speak(u);
 }
 
-function loadGame(id){
-  var g=getGames().find(function(x){return x.id===id;});if(!g)return;
-  document.getElementById('pgninput').value=g.pgn;
-  var th=new Chess();th.load_pgn(g.pgn);
-  moves=th.history({verbose:true});results=g.results||[];curGameId=g.id;curIdx=0;lastSqs=[];bestArrow=null;game=new Chess();
-  renderBoard();document.getElementById('mcount').textContent='0/'+moves.length;
-  renderMoveList();renderSummary();renderGraph();updateEval();renderLibrary();
-  document.getElementById('sdot').className='sdot done';
-  document.getElementById('stxt').innerHTML='<strong>Loaded.</strong> '+moves.length+' moves.';
-  document.getElementById('emptystate').style.display='none';
-  showPage('analysis');sPTab('moves');toast('Game loaded!','info');
+function toggleVoice(){
+  voiceOn=!voiceOn;
+  voiceLoopActive=voiceOn;
+  updateVoiceBtn();
+  if(!voiceOn){ speechSynthesis.cancel(); stopMouthAnim(); stopMic(); }
+  else{ unlockAudio(); setTimeout(()=>startMic(),400); showNotif('🎤 Voice loop on!','ok'); }
+}
+function updateVoiceBtn(){
+  const btn=document.getElementById('voice-btn');
+  btn.textContent=voiceOn?'🔊':'🔇';
+  btn.classList.toggle('active',voiceOn);
 }
 
-function delGame(id){if(!confirm('Delete?'))return;var gs=getGames().filter(function(g){return g.id!==id;});setGames(gs);if(curGameId===id)curGameId=null;renderLibrary();toast('Deleted','info');}
-function filterGames(q){var gs=getGames().filter(function(g){return g.name.toLowerCase().indexOf(q.toLowerCase())>=0||g.opening.toLowerCase().indexOf(q.toLowerCase())>=0;});if(!gs.length){document.getElementById('glist').innerHTML='<div class="lib-empty">No results</div>';return;}document.getElementById('glist').innerHTML=gs.map(function(g){return'<div class="gc '+(g.id===curGameId?'cur':'')+'" onclick="loadGame(\''+g.id+'\')">'+'<span class="gc-name">'+g.name+'</span><div class="gc-opening">'+g.opening+'</div></div>';}).join('');}
-function openRename(id){renamingId=id;var g=getGames().find(function(x){return x.id===id;});document.getElementById('renameInp').value=(g&&g.name)||'';document.getElementById('renameModal').style.display='flex';setTimeout(function(){document.getElementById('renameInp').focus();},100);}
-function closeRename(){document.getElementById('renameModal').style.display='none';renamingId=null;}
-function doRename(){var n=document.getElementById('renameInp').value.trim();if(!n||!renamingId)return closeRename();var gs=getGames();var idx=gs.findIndex(function(g){return g.id===renamingId;});if(idx>=0){gs[idx].name=n;setGames(gs);renderLibrary();toast('Renamed!','ok');}closeRename();}
+// ── SPEECH RECOGNITION ──
+let recognition=null, isListening=false;
+function toggleMic(){
+  unlockAudio();
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+    showNotif('Voice input not supported','err'); return;
+  }
+  if(isListening){ stopMic(true); return; }
+  voiceLoopActive=voiceOn;
+  startMic();
+}
+function startMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();
+  recognition.lang='en-US'; recognition.interimResults=true; recognition.continuous=false;
+  recognition.onstart=()=>{
+    isListening=true;
+    document.getElementById('mic-btn').classList.add('mic-active');
+    document.getElementById('mic-btn').textContent='⏹️';
+    document.getElementById('wave-bars').classList.add('show');
+    setStatus('Listening…','listening');
+  };
+  recognition.onresult=e=>{
+    const t=Array.from(e.results).map(r=>r[0].transcript).join('');
+    document.getElementById('chat-input').value=t;
+    autoResize(document.getElementById('chat-input'));
+    if(e.results[e.results.length-1].isFinal){
+      stopMic();
+      setTimeout(()=>sendMessage(),300);
+    }
+  };
+  recognition.onerror=()=>stopMic();
+  recognition.onend=()=>{ if(isListening) stopMic(); };
+  recognition.start();
+}
+function stopMic(manual=false){
+  isListening=false;
+  if(manual) voiceLoopActive=false;
+  if(recognition){ try{recognition.stop();}catch(e){} }
+  document.getElementById('mic-btn').classList.remove('mic-active');
+  document.getElementById('mic-btn').textContent='🎤';
+  document.getElementById('wave-bars').classList.remove('show');
+  if(!isSpeaking) setStatus('Aria is ready','ok');
+}
 
-function exportJSON(){
-  if(!moves.length){toast('No game loaded','err');return;}
-  var d={pgn:document.getElementById('pgninput').value,opening:detectOpening(),moves:moves.map(function(m,i){return{n:Math.floor(i/2)+1,color:m.color==='w'?'White':'Black',san:m.san,quality:(results[i+1]&&results[i+1].quality)||'good',eval:results[i+1]&&results[i+1].eval,bestMove:results[i+1]&&results[i+1].bestMove};}),stats:computeStats(),date:new Date().toISOString(),depth:depth};
-  var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='chessiq-'+Date.now()+'.json';a.click();toast('JSON exported!','ok');
-}
-function exportPDF(){
-  if(!moves.length){toast('No game loaded','err');return;}
-  var st=computeStats(),op=detectOpening();
-  var w=window.open('','_blank');
-  w.document.write('<html><head><title>ChessIQ</title><style>body{font-family:Arial,sans-serif;margin:30px}table{border-collapse:collapse;width:100%;margin-top:20px}th,td{border:1px solid #ddd;padding:6px 9px;font-size:12px}th{background:#f5f5f5}.bl{background:#fff0f0}.mi{background:#fff8f0}.be{background:#f0fff0}</style></head><body><h1>ChessIQ Analysis</h1><p><b>Opening:</b> '+op+' | <b>Moves:</b> '+moves.length+'</p><p>White: <b>'+st.wAcc+'%</b> ('+st.wBl+' blunders) | Black: <b>'+st.bAcc+'%</b> ('+st.bBl+' blunders)</p><tr><th>#</th><th>Color</th><th>Move</th><th>Quality</th><th>Eval</th><th>CP Loss</th>'+moves.map(function(m,i){var r=results[i+1];var q=(r&&r.quality)||'good';return'<tr class="'+(q==='blunder'?'bl':q==='mistake'?'mi':q==='best'||q==='brilliant'?'be':'')+'"> <td>'+(Math.floor(i/2)+1)+'</td> <td>'+(m.color==='w'?'W':'B')+'</td> <td><b>'+m.san+'</b></td> <td>'+q+' '+(QEMOJI[q]||'')+'</td> <td>'+(r&&r.eval!=null?(r.eval>=0?'+':'')+Number(r.eval).toFixed(2):'--')+'</td> <td>'+(r&&r.cpLoss||0)+'</td> </tr>';}).join('')+'</table></body></html>');
-  w.document.close();w.print();toast('PDF ready!','ok');
+// ── NOTIF ──
+let notifTimer;
+function showNotif(msg,type='info'){
+  const el=document.getElementById('notif');
+  el.textContent=msg; el.className='notif show '+type;
+  clearTimeout(notifTimer);
+  notifTimer=setTimeout(()=>el.classList.remove('show'),2800);
 }
 
-function setDepth(v){depth=parseInt(v);document.getElementById('dval').textContent=v;}
-function showPage(p){
-  document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
-  document.querySelectorAll('.tnav').forEach(function(el,i){el.classList.toggle('active',['board','analysis','library'][i]===p);});
-  document.getElementById('page-'+p).classList.add('active');
-  if(p==='library')renderLibrary();
-  if(p==='board')renderBoard();
+// ── CLEAR ──
+function clearChat(){
+  if(!confirm('Clear conversation with Aria?')) return;
+  chatHistory=[];gameData=null;
+  document.getElementById('game-badge').style.display='none';
+  document.getElementById('msg-cloud').classList.remove('show');
+  showNotif('Conversation cleared','info');
 }
-function sPTab(t){
-  var tabs=['input','moves','summary','graph','engine'];
-  document.querySelectorAll('.ptab').forEach(function(el,i){el.classList.toggle('active',tabs[i]===t);});
-  document.querySelectorAll('.pview').forEach(function(v){v.classList.remove('active');});
-  document.getElementById('pt-'+t).classList.add('active');
-  if(t==='engine')renderEngineLines();
-}
-function newGame(){
-  curGameId=null;moves=[];results=[];game=new Chess();curIdx=0;lastSqs=[];selSq=null;legalSqs=[];bestArrow=null;
-  document.getElementById('pgninput').value='';
-  document.getElementById('sdot').className='sdot';
-  document.getElementById('stxt').textContent='Ready. Paste a PGN and tap Analyze.';
-  document.getElementById('emptystate').style.display='';
-  document.getElementById('evalnum').textContent='0.00';
-  document.getElementById('bestmv').textContent='--';
-  document.getElementById('mcount').textContent='0 / 0';
-  document.getElementById('movelist-wrap').innerHTML='<div class="empty"><div class="empty-ico">&#128203;</div><h3>No moves yet</h3></div>';
-  document.getElementById('summary-wrap').innerHTML='<div class="empty"><div class="empty-ico">&#128202;</div><h3>No summary yet</h3></div>';
-  if(evalChartObj){evalChartObj.destroy();evalChartObj=null;}
-  renderBoard();renderLibrary();showPage('analysis');sPTab('input');
-}
-function loadSample(){document.getElementById('pgninput').value='1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. c4 c6 12. cxb5 axb5 13. Nc3 Bb7 14. Bg5 b4 15. Nb1 h6 16. Bh4 c5 17. dxe5 Nxe4 18. Bxe7 Qxe7 19. exd6 Qf6 20. Nbd2 Nxd6 1-0';toast('Sample loaded!','info');}
-function toast(msg,type){var n=document.getElementById('notif');n.textContent=msg;n.className='notif show '+(type==='ok'?'ok':type==='err'?'err':'info');setTimeout(function(){n.classList.remove('show');},2800);}
 
-document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if(e.key==='ArrowLeft')g2b();if(e.key==='ArrowRight')g2f();});
-window.addEventListener('resize',renderBoard);
-startStockfish();
-renderBoard();
-renderLibrary();
+// Close panel on outside tap
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('pgn-panel');
+  const topBtn=document.querySelector('[title="Load PGN / Photo"]');
+  if(panelOpen&&!panel.contains(e.target)&&e.target!==topBtn){
+    panelOpen=false;
+    panel.classList.remove('open');
+  }
+});
 </script>
 </body>
 </html>
