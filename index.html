@@ -29,11 +29,11 @@ body{
 /* ── ARIA SCENE ── */
 #scene{
   position:fixed;
-  top:55px;left:0;right:0;bottom:80px;
+  top:55px;left:0;right:0;bottom:60px;
   z-index:1;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:flex-end;justify-content:center;
   pointer-events:none;
-  overflow:hidden;
+  overflow:visible;
 }
 
 #aria-body{
@@ -340,12 +340,11 @@ textarea::placeholder{color:rgba(255,255,255,0.2)}
         #aria-module{position:relative;width:100%;height:100%;display:flex;justify-content:center;align-items:center;pointer-events:none;}
         #aria-container{position:relative;display:flex;justify-content:center;align-items:center;width:100%;height:100%;animation:ariaBreathe 4s ease-in-out infinite;pointer-events:none;}
         #aria-sway-wrapper{position:relative;display:flex;justify-content:center;align-items:center;width:100%;height:100%;animation:ariaSway 6s ease-in-out infinite alternate;pointer-events:none;}
-        #aria-img{max-width:min(75vw,320px);max-height:100%;width:auto;height:auto;object-fit:contain;display:block;pointer-events:none;}
+        #aria-img{max-width:min(82vw,360px);max-height:92%;width:auto;height:auto;object-fit:contain;object-position:bottom;display:block;pointer-events:none;}
         @keyframes ariaBreathe{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(1.015) translateY(-1%)}}
         @keyframes ariaSway{0%{transform:rotate(-0.5deg)}100%{transform:rotate(0.5deg)}}
-        #aria-eyes{position:absolute;top:24.5%;left:41%;width:18%;height:3%;background-color:#e8c4a0;border-radius:50%;opacity:0;z-index:10;animation:ariaBlink 4.5s infinite;pointer-events:none;}
-        @keyframes ariaBlink{0%,94%,100%{opacity:0;transform:scaleY(0)}96%{opacity:1;transform:scaleY(1.2)}98%{opacity:1;transform:scaleY(1.2)}}
-        #aria-mouth{position:absolute;top:31.5%;left:48.5%;width:3%;height:1.5%;background-color:#3b1b1b;border-radius:50%;opacity:0;z-index:10;transition:opacity 0.1s;pointer-events:none;}
+        #aria-eyes{display:none;}
+        #aria-mouth{position:absolute;top:36.8%;left:47.2%;width:5.2%;height:3.1%;background-color:#3b1b1b;border-radius:50% 50% 40% 40%;opacity:0;z-index:10;transition:opacity 0.1s;pointer-events:none;}
         .aria-speaking{opacity:1!important;animation:ariaTalk 0.15s infinite alternate;}
         @keyframes ariaTalk{0%{transform:scaleY(0.4) scaleX(0.8)}100%{transform:scaleY(1.2) scaleX(1.1)}}
       </style>
@@ -699,11 +698,16 @@ async function sendMessage() {
 }
 
 function buildMessages(extra, latestText) {
-  const sys={role:'system',content:`You are Aria, a warm and deeply knowledgeable chess companion. Grandmaster-level knowledge, calm sensei patience.
+  const sys={role:'system',content:`You are Aria — a warm, relaxed, witty friend who happens to be really good at chess. You're like a supportive, chill big-sister type who enjoys chatting about literally anything: life, feelings, memes, random nonsense, whatever the other person wants to talk about.
 
-Personality: warm, wise, encouraging. Explain WHY behind every move. Talk about plans, patterns, ideas. Conversational like a brilliant friend.
-
-CRITICAL: Always use standard algebraic notation: e4, Nf3, Rxd5, O-O. NEVER "Knight to f3". Keep responses concise and conversational — you are speaking out loud, not writing an essay. 2-4 sentences max per point. Reference Stockfish data in [brackets] when provided.`};
+Core rules:
+- Always respond naturally and casually first — match the user's tone and energy.
+- Be genuinely warm, human, and fun in every reply. Use emojis occasionally when it feels right.
+- NEVER force chess into the conversation. Only talk about chess when the user explicitly mentions it, asks a chess question, loads a PGN/photo, or the context clearly calls for it.
+- If the user says hi, how are you, what's up — just have a normal friendly chat. No chess unless they bring it up.
+- When chess does come up: be helpful, encouraging, explain plans/ideas clearly, use proper notation (e4, Nf3, etc.), keep replies concise and spoken-style (2-4 sentences max).
+- Feel like a real friend first, chess expert second. Never robotic or lecture-y.
+- Talk like you're speaking out loud to someone you like.`};
   const msgs=[sys];
   const gameSys=chatHistory.find(m=>m.role==='system' && m.content.includes('[Game loaded]'));
   if(gameSys) msgs.push({role:'user',content:gameSys.content});
@@ -754,12 +758,14 @@ function speak(text) {
   const clean=text.replace(/<[^>]+>/g,'').replace(/\*\*/g,'').replace(/\s+/g,' ').trim();
   const snippet=clean.length>600?clean.slice(0,600)+'...':clean;
   const u=new SpeechSynthesisUtterance(snippet);
-  u.rate=0.93; u.pitch=1.1; u.volume=1;
-  const best=voices.find(v=>/samantha|karen|victoria|fiona|moira|ava|zoe/i.test(v.name))
-    ||voices.find(v=>v.lang.startsWith('en')&&/female|woman/i.test(v.name))
-    ||voices.find(v=>v.lang.startsWith('en'))||voices[0];
+  u.rate=0.88; u.pitch=1.18; u.volume=1;
+  const allVoices=speechSynthesis.getVoices();
+  const best=allVoices.find(v=>v.lang.startsWith('en')&&/samantha|ava|victoria|fiona|moira|karen|siri|enhanced/i.test((v.name||'').toLowerCase()))
+    ||allVoices.find(v=>v.lang.startsWith('en')&&/(female|woman)/i.test(v.name||''))
+    ||allVoices.find(v=>v.lang.startsWith('en-US'))
+    ||allVoices[0];
   if(best) u.voice=best;
-  u.onstart=()=>{ 
+  u.onstart=()=>{
     setStatus('Aria is speaking…','ok');
     if(typeof speakAnim==='function') speakAnim(true);
   };
