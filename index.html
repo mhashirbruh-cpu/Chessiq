@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Aria — Chess Companion</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script>
+// Inline minimal Chess.js fallback — loads before anything else
+window._chessJsLoaded = false;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" onerror="console.warn('Chess.js CDN failed, PGN loading disabled')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -647,7 +651,37 @@ let panelOpen = false;
 let msgCloudTimer = null;
 let isSpeaking = false;
 
+// ── SAVE KEY — must be defined immediately, before anything else ──
+function saveKey() {
+  try {
+    const input = document.getElementById('api-key-input');
+    const v = input ? input.value.trim() : '';
+    if (!v) { alert('Please enter your Groq API key (starts with gsk_)'); return; }
+    API_KEY = v;
+    localStorage.setItem('aria_groq_key', v);
+    const modal = document.getElementById('key-modal');
+    if (modal) modal.classList.add('hidden');
+    setTimeout(() => showNotif('Aria is awake! 🤖', 'ok'), 100);
+  } catch(err) {
+    alert('Error saving key: ' + err.message);
+  }
+}
+
+function changeKey() {
+  const input = document.getElementById('api-key-input');
+  if (input) input.value = API_KEY;
+  const modal = document.getElementById('key-modal');
+  if (modal) modal.classList.remove('hidden');
+}
+
 // ── INIT ──
+window.addEventListener('load', () => {
+  if (API_KEY) document.getElementById('key-modal').classList.add('hidden');
+  initStockfish();
+  loadVoices();
+  startBlinkLoop();
+  updateVoiceBtn();
+});
 window.addEventListener('load', () => {
   if (API_KEY) document.getElementById('key-modal').classList.add('hidden');
   initStockfish();
@@ -690,20 +724,6 @@ function sfEval(fen, depth=15) {
     sfWorker.postMessage('position fen ' + fen);
     sfWorker.postMessage('go depth ' + depth);
   });
-}
-
-// ── KEY ──
-function saveKey() {
-  const v = document.getElementById('api-key-input').value.trim();
-  if (!v) { showNotif('Please enter your Groq API key', 'err'); return; }
-  API_KEY = v;
-  localStorage.setItem('aria_groq_key', v);
-  document.getElementById('key-modal').classList.add('hidden');
-  showNotif('Aria is awake! 🤖', 'ok');
-}
-function changeKey() {
-  document.getElementById('api-key-input').value = API_KEY;
-  document.getElementById('key-modal').classList.remove('hidden');
 }
 
 // ── PANEL ──
