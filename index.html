@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aria Engine</title>
+<title>Aria Engine v2</title>
 
 <style>
   body {
@@ -22,151 +22,188 @@
     position: fixed;
     top: 10px;
     left: 10px;
-    color: #00ff88;
-    background: rgba(0,0,0,0.6);
+    color: #00ff00;
+    background: rgba(0,0,0,0.7);
     padding: 6px 10px;
     font-size: 12px;
-    border-radius: 6px;
-    z-index: 10;
+    z-index: 100;
+    border-radius: 4px;
   }
 </style>
 </head>
 
 <body>
 
-<div id="status">Starting...</div>
+<div id="status">System: Booting...</div>
 <div id="puppet-3d"></div>
 
-<!-- ✅ FIX 1: Use module imports (THIS IS THE REAL FIX) -->
 <script type="module">
 import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
 
-const status = document.getElementById("status");
+const status = document.getElementById('status');
 
-let model, headBoneRef, leftEyeRef, rightEyeRef;
-let gazeTarget = new THREE.Vector3(0, 1.5, 2);
+let model;
+let headBoneRef;
+let leftEyeRef;
+let rightEyeRef;
 
-// Scene
+let gazeTarget = new THREE.Vector3(0, 1.5, 5);
+
+status.innerText = "System: Three.js Loaded ✅";
+
+// SCENE
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0b0e17);
 
-// Camera (closer = IMPORTANT FIX)
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
-camera.position.set(0, 1.3, 2);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(0, 1.2, 3);
 
-// Renderer
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias:true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(1);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
 document.getElementById('puppet-3d').appendChild(renderer.domElement);
 
-// Lights
-scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(3,5,3);
+// LIGHT
+scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+
+const light = new THREE.DirectionalLight(0xffffff, 1.2);
+light.position.set(5,5,5);
 scene.add(light);
 
-// Eye Generator
+// EYE CREATOR
 function createEye() {
   const group = new THREE.Group();
 
   const white = new THREE.Mesh(
-    new THREE.SphereGeometry(0.03, 16, 16),
+    new THREE.SphereGeometry(0.03, 24, 24),
     new THREE.MeshBasicMaterial({ color: 0xffffff })
   );
-  white.scale.set(1,1.2,0.5);
+  white.scale.set(1,1.2,0.4);
   group.add(white);
 
   const iris = new THREE.Mesh(
-    new THREE.CircleGeometry(0.018, 16),
+    new THREE.CircleGeometry(0.022, 32),
     new THREE.MeshBasicMaterial({ color: 0x3366ff })
   );
-  iris.position.z = 0.02;
+  iris.position.z = 0.015;
   group.add(iris);
+
+  const glint = new THREE.Mesh(
+    new THREE.CircleGeometry(0.007, 16),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  glint.position.set(0.008,0.008,0.016);
+  group.add(glint);
 
   return group;
 }
 
-// Loader
+// LOAD MODEL
 const loader = new GLTFLoader();
 
-status.innerText = "Loading aria.glb...";
+status.innerText = "System: Loading aria.glb...";
 
 loader.load(
-  './aria.glb',
+  './aria.glb', // IMPORTANT: must match EXACT filename
   (gltf) => {
+    console.log("MODEL LOADED");
+    status.innerText = "System: Model Loaded ✅";
+
     model = gltf.scene;
     scene.add(model);
 
-    status.innerText = "Aria Loaded ✅";
-
-    // Find head bone
+    // FIND HEAD
     let headBone = null;
-    model.traverse(n => {
-      if (n.isBone && !headBone) {
-        const name = n.name.toLowerCase();
-        if (name.includes("head") || name.includes("neck")) {
-          headBone = n;
+
+    model.traverse(node => {
+      if (node.isBone && !headBone) {
+        const n = node.name.toLowerCase();
+        if (n.includes('head') || n.includes('neck') || n.includes('face')) {
+          headBone = node;
         }
       }
     });
 
-    // Create eyes
+    // CREATE EYES
     leftEyeRef = createEye();
     rightEyeRef = createEye();
 
     if (headBone) {
+      status.innerText = "System: Head Bone Found ✅";
+
       headBone.add(leftEyeRef);
       headBone.add(rightEyeRef);
 
-      leftEyeRef.position.set(-0.06, 0.1, 0.08);
-      rightEyeRef.position.set(0.06, 0.1, 0.08);
+      leftEyeRef.position.set(-0.065, 0.1, 0.08);
+      rightEyeRef.position.set(0.065, 0.1, 0.08);
 
       headBoneRef = headBone;
     } else {
+      status.innerText = "WARNING: No head bone";
       model.add(leftEyeRef);
       model.add(rightEyeRef);
     }
+
+    // CENTER MODEL
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    model.position.set(-center.x, 0, 0);
+    model.scale.setScalar(1.2);
   },
-  undefined,
+
+  (xhr) => {
+    if (xhr.total) {
+      const p = Math.round(xhr.loaded / xhr.total * 100);
+      status.innerText = "Loading: " + p + "%";
+    }
+  },
+
   (err) => {
-    status.style.color = "red";
-    status.innerText = "LOAD ERROR ❌";
     console.error(err);
+    status.style.color = "red";
+    status.innerText = "ERROR: aria.glb not found ❌";
   }
 );
 
-// Animation
+// ANIMATION
 function animate() {
   requestAnimationFrame(animate);
 
+  const t = Date.now();
+
   if (model) {
-    model.rotation.y = Math.sin(Date.now() * 0.001) * 0.03;
+    model.rotation.y = Math.sin(t * 0.001) * 0.03;
   }
 
   if (leftEyeRef && rightEyeRef) {
     leftEyeRef.lookAt(gazeTarget);
     rightEyeRef.lookAt(gazeTarget);
+
+    // blink
+    const blink = Math.abs(Math.sin(t * 0.002)) > 0.98 ? 0.1 : 1;
+    leftEyeRef.scale.y = THREE.MathUtils.lerp(leftEyeRef.scale.y, blink, 0.2);
+    rightEyeRef.scale.y = THREE.MathUtils.lerp(rightEyeRef.scale.y, blink, 0.2);
   }
 
   renderer.render(scene, camera);
 }
 animate();
 
-// Resize fix
+// MOUSE TRACK
+window.addEventListener('mousemove', e => {
+  gazeTarget.x = (e.clientX / window.innerWidth - 0.5) * 3;
+  gazeTarget.y = 1.5 - (e.clientY / window.innerHeight - 0.5) * 3;
+});
+
+// RESIZE
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Touch interaction
-window.addEventListener('touchmove', e => {
-  const t = e.touches[0];
-  gazeTarget.x = (t.clientX / window.innerWidth - 0.5) * 2;
-  gazeTarget.y = 1.5 - (t.clientY / window.innerHeight - 0.5) * 2;
-});
 </script>
 
 </body>
