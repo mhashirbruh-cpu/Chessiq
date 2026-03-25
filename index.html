@@ -1,178 +1,195 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChessIQ — ARIA v1.0 (Final)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aria</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+<style>
+  body {
+    margin: 0;
+    background: #0b0e17;
+    overflow: hidden;
+  }
 
-  <style>
-    body { margin:0; overflow:hidden; background:#0b0e17; display:grid; grid-template-columns:1fr 500px; height:100vh; }
-    #game-container { padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    #board { width:100%; max-width:520px; box-shadow:0 0 60px rgba(0,0,0,0.8); border:4px solid #1a1f2e; border-radius:8px; }
-    #status { margin-top:20px; font-size:1.3rem; color:#ff9999; font-style:italic; }
-    #puppet-3d { position:relative; overflow:hidden; }
-    #expr-debug { position:absolute; top:10px; left:10px; background:rgba(0,0,0,0.7); color:#ff9999; padding:12px; border-radius:8px; font-size:13px; z-index:10; }
-  </style>
+  #puppet-3d {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  canvas {
+    display: block;
+  }
+</style>
 </head>
+
 <body>
+<div id="puppet-3d"></div>
 
-<div id="game-container">
-  <div id="board"></div>
-  <div id="status">Your move...</div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158/examples/js/loaders/GLTFLoader.js"></script>
 
-<div id="puppet-3d">
-  <div id="expr-debug">ARIA v1.0 — ElevenLabs + iPad Ready</div>
-</div>
+<script>
+let model;
+let headBoneRef = null;
+let leftEyeRef = null;
+let rightEyeRef = null;
 
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
+let gazeTarget = new THREE.Vector3(0, 1.5, 5);
 
-// ——————————————— 3D ARIA ———————————————
+// SCENE
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0b0e17);
-const camera = new THREE.PerspectiveCamera(45, 500 / window.innerHeight, 0.1, 100);
-camera.position.set(0, 1.5, 3.8);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
+camera.position.set(0, 1.5, 3.5);
 
 const renderer = new THREE.WebGLRenderer({ antialias:true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(500, window.innerHeight);
-renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(1);
 document.getElementById('puppet-3d').appendChild(renderer.domElement);
 
+// LIGHTS
 scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-const keyLight = new THREE.DirectionalLight(0xfffaf0, 1.6);
-keyLight.position.set(4, 6, 5);
-scene.add(keyLight);
+const light = new THREE.DirectionalLight(0xffffff, 1.5);
+light.position.set(4,5,4);
+scene.add(light);
 
-let model;
-const loader = new GLTFLoader();
+// 🎨 ANIME EYE CREATOR
+function createAnimeEye() {
+  const eyeGroup = new THREE.Group();
+
+  const white = new THREE.Mesh(
+    new THREE.SphereGeometry(0.03, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  white.scale.set(1,1.2,0.5);
+  eyeGroup.add(white);
+
+  const iris = new THREE.Mesh(
+    new THREE.CircleGeometry(0.02, 32),
+    new THREE.MeshBasicMaterial({ color: 0x3366ff })
+  );
+  iris.position.z = 0.016;
+  eyeGroup.add(iris);
+
+  const glint = new THREE.Mesh(
+    new THREE.CircleGeometry(0.007, 16),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  glint.position.set(0.008,0.008,0.017);
+  eyeGroup.add(glint);
+
+  return eyeGroup;
+}
+
+// 📦 LOAD MODEL
+const loader = new THREE.GLTFLoader();
 loader.load('aria.glb', gltf => {
   model = gltf.scene;
   scene.add(model);
-  const box = new THREE.Box3().setFromObject(model);
-  const center = box.getCenter(new THREE.Vector3());
-  const size = box.getSize(new THREE.Vector3());
-  model.position.set(-center.x, -center.y + size.y * 0.5 + 0.1, 0);
-  model.scale.setScalar(1.15);
-});
 
-function ariaSetExpression(name, intensity = 1.0) {
-  if (!model) return;
-  model.traverse(child => {
-    if (child.isMesh && child.morphTargetDictionary) {
-      const i = child.morphTargetDictionary[name];
-      if (i !== undefined) {
-        child.morphTargetInfluences[i] = THREE.MathUtils.lerp(child.morphTargetInfluences[i] || 0, intensity, 0.3);
+  // REMOVE OLD EYES
+  model.traverse(node => {
+    if (node.name && node.name.includes('ariaEye')) {
+      if (node.parent) node.parent.remove(node);
+    }
+  });
+
+  // CREATE EYES
+  const leftEye = createAnimeEye();
+  const rightEye = createAnimeEye();
+
+  leftEye.name = "ariaEye_left";
+  rightEye.name = "ariaEye_right";
+
+  // FIND HEAD BONE
+  let headBone = null;
+  model.traverse(node => {
+    if (node.isBone && !headBone) {
+      const n = node.name.toLowerCase();
+      if (n.includes('head') || n.includes('neck') || n.includes('face')) {
+        headBone = node;
       }
     }
   });
-}
-window.ariaSetExpression = ariaSetExpression;
 
+  if (headBone) {
+    headBone.add(leftEye);
+    headBone.add(rightEye);
+
+    leftEye.position.set(-0.062, 0.105, 0.082);
+    rightEye.position.set(0.062, 0.105, 0.082);
+
+    leftEye.scale.set(0.8,0.8,0.8);
+    rightEye.scale.set(0.8,0.8,0.8);
+
+    headBoneRef = headBone;
+    leftEyeRef = leftEye;
+    rightEyeRef = rightEye;
+  } else {
+    model.add(leftEye);
+    model.add(rightEye);
+  }
+
+  // CENTER MODEL
+  const box = new THREE.Box3().setFromObject(model);
+  const center = box.getCenter(new THREE.Vector3());
+  model.position.set(-center.x, 0, 0);
+  model.scale.setScalar(1.2);
+});
+
+// 🎯 GAZE SYSTEM
+function updateGaze() {
+  if (leftEyeRef && rightEyeRef) {
+    leftEyeRef.lookAt(gazeTarget);
+    rightEyeRef.lookAt(gazeTarget);
+  }
+}
+
+// 🧠 MOUSE TRACK (Simulates user focus)
+window.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 2;
+  const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+  gazeTarget.set(x, 1.5 - y, 5);
+});
+
+// 🎬 ANIMATION LOOP
 function animate() {
   requestAnimationFrame(animate);
+
+  const t = Date.now();
+
   if (model) {
-    model.rotation.y = Math.sin(Date.now() * 0.0008) * 0.04;
-    model.position.y += Math.sin(Date.now() * 0.0012) * 0.0006;
+    model.rotation.y = Math.sin(t * 0.0008) * 0.04;
   }
+
+  if (headBoneRef && leftEyeRef && rightEyeRef) {
+    // HEAD SYNC
+    leftEyeRef.rotation.x = headBoneRef.rotation.x * 0.2;
+    rightEyeRef.rotation.x = headBoneRef.rotation.x * 0.2;
+
+    // MICRO BLINK
+    const pulse = Math.abs(Math.sin(t * 0.003));
+    const scaleY = 0.8 * (1 - pulse * 0.05);
+    leftEyeRef.scale.y = scaleY;
+    rightEyeRef.scale.y = scaleY;
+
+    updateGaze();
+  }
+
   renderer.render(scene, camera);
 }
 animate();
 
+// 📱 RESIZE FIX
 window.addEventListener('resize', () => {
-  const w = document.getElementById('puppet-3d').clientWidth;
-  const h = window.innerHeight;
-  camera.aspect = w / h;
+  camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
-// ——————————————— ELEVENLABS (iPad Safari fixed) ———————————————
-const ELEVENLABS_KEY = "sk_9f8f33511a1acacb32bcd1a81436342ba41252153ddb48d6"; // ← PASTE YOUR KEY HERE
-const VOICE_ID = "Icov0pR6jgWuaZhmlmtO";
-
-let audioUnlocked = false;
-function unlockAudio() {
-  if (audioUnlocked) return;
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  ctx.resume().then(() => audioUnlocked = true);
-}
-document.body.addEventListener('touchstart', unlockAudio, { once: true });
-document.body.addEventListener('click', unlockAudio, { once: true });
-
-async function ariaSpeak(text) {
-  if (!text.trim()) return;
-  const clean = text.replace(/\[.*?\]/g, "").trim();
-  const emotion = text.match(/\[(.*?)\]/)?.[1] || 'Calm';
-  
-  ariaSetExpression('Speaking', 1.0); // Mouth starts instantly
-
-  try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}/stream`, {
-      method: 'POST',
-      headers: {
-        'xi-api-key': ELEVENLABS_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        text: clean,
-        model_id: "eleven_flash_v2_5",
-        voice_settings: { stability: 0.75, similarity_boost: 0.9 }
-      })
-    });
-
-    const arrayBuffer = await res.arrayBuffer();
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    const source = audioContext.createBufferSource();
-    source.buffer = audioBuffer;
-    source.connect(audioContext.destination);
-    source.onended = () => ariaSetExpression(emotion === 'Speaking' ? 'Calm' : emotion, 1.0);
-    source.start(0);
-  } catch (e) {
-    console.error("ElevenLabs error:", e);
-    ariaSetExpression('Calm', 1.0);
-  }
-}
-
-// ——————————————— STOCKFISH BRAIN ———————————————
-let game = new Chess();
-let board;
-const brain = new Worker('stockfish.js');
-brain.postMessage("uci"); brain.postMessage("isready");
-
-brain.onmessage = e => {
-  if (e.data.includes('score cp')) {
-    const score = parseInt(e.data.match(/score cp (-?\d+)/)[1]) / 100;
-    const response = score > 1.5 ? "Impressive [happy]"
-                   : score < -1.5 ? "You're in trouble [playful]"
-                   : "Interesting [calm]";
-    ariaSpeak(response);
-  }
-};
-
-function onDrop(source, target) {
-  const move = game.move({from: source, to: target, promotion: 'q'});
-  if (!move) return 'snapback';
-  board.position(game.fen());
-  ariaSetExpression('Thinking', 1.0);
-  brain.postMessage(`position fen ${game.fen()}`);
-  brain.postMessage("go depth 16");
-}
-
-// Init
-board = Chessboard('board', { draggable:true, position:'start', onDrop });
-function newGame() { game.reset(); board.start(); ariaSpeak("New game. Let’s go [calm]"); }
-newGame();
-ariaSpeak("Hey cutie. I’m Aria. Your move.");
 </script>
+
 </body>
 </html>
-```
